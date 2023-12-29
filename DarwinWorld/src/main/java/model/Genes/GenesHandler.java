@@ -13,16 +13,16 @@ public interface GenesHandler {
 
 
     /**
-     * Sets new genes of a child after reproduction of its parents.
-     * @param animalA First animal
-     * @param animalB Second animal
-     */
-    public void createGenes(Animal animalA, Animal animalB);
-
-    /**
      * Changes one random gene to different one
      * @param animal The animal
      */
     public void mutation(Animal animal);
 
+
+    /**
+     * Sets new genes of a child after reproduction of its parents.
+     * @param animalA First animal
+     * @param animalB Second animal
+     */
+    public void createGenes(Animal animalA, Animal animalB);
 }
