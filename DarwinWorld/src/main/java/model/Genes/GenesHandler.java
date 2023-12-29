@@ -20,7 +20,7 @@ public interface GenesHandler {
     public void createGenes(Animal animalA, Animal animalB);
 
     /**
-     *
+     * Changes one random gene to different one
      * @param animal The animal
      */
     public void mutation(Animal animal);
