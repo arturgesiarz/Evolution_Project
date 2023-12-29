@@ -20,4 +20,6 @@ public class Animal {
     void eat(Food food) {
         //todo uzupelnic ile zwierzak regeneruje energii po zjedzeniu
     }
+
+
 }
