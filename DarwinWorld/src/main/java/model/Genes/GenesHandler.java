@@ -11,7 +11,6 @@ public interface GenesHandler {
      */
     public int getNextMove(Animal animal);
 
-
     /**
      * Changes one random gene to different one
      * @param animal The animal
