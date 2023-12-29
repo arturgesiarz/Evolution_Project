@@ -1,6 +1,9 @@
 package oop.model.genes;
 import oop.model.Animal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface GenesHandler {
     //
 
@@ -20,8 +23,12 @@ public interface GenesHandler {
 
     /**
      * Sets new genes of a child after reproduction of its parents.
-     * @param animalA First animal
-     * @param animalB Second animal
+     * @param genesA Genes of an animalA
+     * @param genesB Genes of an animalB
      */
-    public void createGenes(Animal animalA, Animal animalB);
+    public void createGenes(GenesHandler genesA, GenesHandler genesB, int genomeLength);
+
+
+    public Animal getAnimal();
+    public List<Integer> getGenes();
 }

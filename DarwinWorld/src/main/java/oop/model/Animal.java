@@ -21,4 +21,6 @@ public class Animal implements WorldElement{
     void eat(Food food) {
         //todo uzupelnic ile zwierzak regeneruje energii po zjedzeniu
     }
+
+
 }
