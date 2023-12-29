@@ -1,4 +1,4 @@
-package model;
+package oop.model;
 
 public interface WorldMap {
     void place(Animal animal);

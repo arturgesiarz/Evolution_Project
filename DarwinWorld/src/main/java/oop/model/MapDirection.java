@@ -1,4 +1,4 @@
-package model;
+package oop.model;
 
 public enum MapDirection {
     //

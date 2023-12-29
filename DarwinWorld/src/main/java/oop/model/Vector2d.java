@@ -1,4 +1,4 @@
-package model;
+package oop.model;
 
 public class Vector2d {
     private final int x;

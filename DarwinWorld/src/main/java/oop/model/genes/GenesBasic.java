@@ -1,6 +1,6 @@
-package model.Genes;
+package oop.model.genes;
 
-import model.Animal;
+import oop.model.Animal;
 
 public class GenesBasic extends AbstractGenesHandler {
     //

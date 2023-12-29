@@ -1,6 +1,6 @@
-package model.Genes;
+package oop.model.genes;
 
-import model.Animal;
+import oop.model.Animal;
 
 import java.util.ArrayList;
 import java.util.List;

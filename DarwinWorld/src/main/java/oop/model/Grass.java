@@ -1,4 +1,4 @@
-package model;
+package oop.model;
 
 public class Grass implements Food{
     private static final String GRASS_SYMBOL = "*";
@@ -9,11 +9,11 @@ public class Grass implements Food{
         this.foodName = foodName;
     }
     @Override
-    public String getFoodName(){
+    public String getName(){
         return foodName;
     }
     @Override
-    public Vector2d getFoodPosition() {
+    public Vector2d getPosition() {
         return position;
     }
     @Override
