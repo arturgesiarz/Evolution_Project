@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation{
+    //TASK:
+    //TODO DODAC KONKRETNE ZWIERZETA NA MAPIE
+    //TODO DLA KAZDEGO ZWIERZACIA MA BYC ODPOWIEDNIO ZAKODOWANY GENOTYP
+    //TODO SPRAWIC ABY SYMULACJA DZIALALA POPRAWNIE -> NAPRAWIC MOVE I PLACE + DODAC LOSOWANIE TRAWY ORAZ JEDZENIE (PRZYJAC ZE ZWIERZECIU ODNAWIAMY 5 ENERGI)
+    //TODO PRZYJAC PODSTAWOWE PARAMTERY ABY WSZYSTKO PRZETESTOWAC
     private final List<Animal> animalsList;
     private final List<MapDirection> movesList;
     private final WorldMap worldMap;
