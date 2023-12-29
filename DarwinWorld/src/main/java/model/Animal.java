@@ -1,3 +1,5 @@
+package model;
+
 public class Animal {
     private MapDirection directionFaced;
     private Vector2d position;

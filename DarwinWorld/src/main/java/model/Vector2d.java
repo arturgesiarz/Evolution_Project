@@ -1,3 +1,5 @@
+package model;
+
 public class Vector2d {
     private final int x;
     private final int y;

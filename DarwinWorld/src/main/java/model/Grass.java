@@ -1,3 +1,5 @@
+package model;
+
 public class Grass implements Food{
     private static final String GRASS_SYMBOL = "*";
     private final String foodName;
