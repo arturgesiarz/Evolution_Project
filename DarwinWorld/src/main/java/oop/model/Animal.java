@@ -1,13 +1,14 @@
-package model;
+package oop.model;
+import oop.model.genes.GenesHandler;
 
-import model.Genes.GenesHandler;
-
-public class Animal {
+public class Animal implements WorldElement{
     private MapDirection directionFaced;
     private Vector2d position;
     private int energyAmount; //todo dodac paramtery startowe
     private GenesHandler genes;
-
+    public Animal(Vector2d position){
+        this.position = position;
+    }
     public Vector2d getPosition() {
         return position;
     }

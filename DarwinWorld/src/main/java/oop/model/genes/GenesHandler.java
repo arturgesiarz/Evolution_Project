@@ -1,5 +1,5 @@
-package model.Genes;
-import model.Animal;
+package oop.model.genes;
+import oop.model.Animal;
 
 public interface GenesHandler {
     //
