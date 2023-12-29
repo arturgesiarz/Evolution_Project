@@ -10,7 +10,7 @@ public class Simulation{
     private final List<Animal> animalsList;
     private final List<MapDirection> movesList;
     private final WorldMap worldMap;
-    public Simulation(List<Vector2d> positionsList, List<MapDirection> movesList, WorldMap worldMap){
+    public Simulation(List<Vector2d> positionsList, List<MapDirection> movesList, WorldMap worldMap){ //stawianie zwierzat na mapie
         List<Animal> animalsList = new ArrayList<>();
 
         for(Vector2d position : positionsList){
@@ -22,15 +22,5 @@ public class Simulation{
         this.movesList = movesList;
         this.worldMap = worldMap;
     }
-    public void run(){
-        int pointerToAnimal = 0;
-        for(MapDirection moveAnimal : movesList){
-            Animal animalActual = animalsList.get(pointerToAnimal % animalsList.size());
-            // worldMap.move(animalActual,moveAnimal);
-            pointerToAnimal += 1;
-        }
-    }
-
-
 
 }
