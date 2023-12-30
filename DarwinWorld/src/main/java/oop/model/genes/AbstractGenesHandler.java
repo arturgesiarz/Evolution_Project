@@ -9,71 +9,76 @@ import java.util.stream.Stream;
 
 public abstract class AbstractGenesHandler implements GenesHandler {
     //
-    private final Animal animal;
-
     private List <Integer> genes;
+    private Animal animal;
 
-    public AbstractGenesHandler(Animal animal) {
-        this.animal = animal;
+    public AbstractGenesHandler(List <Integer> genes) {
+        //
+        this.genes  = genes;
+    }
+
+    public AbstractGenesHandler() {
+
     }
 
     @Override
-    public void createGenes(GenesHandler genesA, GenesHandler genesB, int genomeLength) {
+    public void createGenes(Animal animalA, Animal animalB) {
         //
-        Animal animalA = genesA.getAnimal();
-        Animal animalB = genesB.getAnimal();
-
+        int genomeLength = 6;
         int totalEnergy = animalA.getEnergyAmount() + animalB.getEnergyAmount();
         int whichSideStart = (int) Math.round( Math.random() ); // 0 - prawa strona, 1 - lewa strona genotypu silniejszego
 
-        int numberAnimalA = (int) animalA.getEnergyAmount() / totalEnergy * genomeLength;
+        int numberAnimalA = (int) ( (double)  animalA.getEnergyAmount() / totalEnergy  * genomeLength );
         int numberAnimalB = genomeLength - numberAnimalA;
+
+        int numberToSkip;
+
+        GenesHandler genesHandlerA = animalA.getGenesHandler();
+        GenesHandler genesHandlerB = animalB.getGenesHandler();
+
+        List <Integer> firstGenome;
+        List <Integer> secondGenome;
+
+        if ( numberAnimalA > numberAnimalB ) {
+            firstGenome  = genesHandlerA.getGenes();
+            secondGenome = genesHandlerB.getGenes();
+            numberToSkip = numberAnimalB;
+        }
+        else {
+            firstGenome  = genesHandlerB.getGenes();
+            secondGenome = genesHandlerA.getGenes();
+            numberToSkip = numberAnimalA;
+        }
 
         Stream <Integer> genesChildStream;
 
-        if (numberAnimalA > numberAnimalB) {
-            //
-            if (whichSideStart == 0) {
-                Stream <Integer> genesStreamB = genesB.getGenes().stream().limit(numberAnimalB);
-                Stream <Integer> genesStreamA = genesA.getGenes().stream().skip(numberAnimalB);
-                genesChildStream = Stream.concat(genesStreamB, genesStreamA);
-            }
-            else {
-                Stream <Integer> genesStreamB = genesB.getGenes().stream().skip(numberAnimalA);
-                Stream <Integer> genesStreamA = genesA.getGenes().stream().limit(numberAnimalA);
-                genesChildStream = Stream.concat(genesStreamA, genesStreamB);
-            }
+        if (whichSideStart == 0) {
+            Stream <Integer> genesStreamSecond = secondGenome.stream().limit(numberToSkip);
+            Stream <Integer> genesStreamFirst  = firstGenome.stream().skip(numberToSkip);
+            genesChildStream = Stream.concat(genesStreamSecond, genesStreamFirst);
+        }
+        else {
+            Stream <Integer> genesStreamSecond  = secondGenome.stream().skip(numberToSkip);
+            Stream <Integer> genesStreamFirst   = firstGenome.stream().limit(numberToSkip);
+            genesChildStream = Stream.concat(genesStreamFirst, genesStreamSecond);
         }
 
-        else {
-            //
-            if (whichSideStart == 0) {
-                Stream <Integer> genesStreamA = genesA.getGenes().stream().limit(numberAnimalA);
-                Stream <Integer> genesStreamB = genesB.getGenes().stream().skip(numberAnimalA);
-                genesChildStream = Stream.concat(genesStreamA, genesStreamB);
-            }
-            else {
-                Stream <Integer> genesStreamB = genesB.getGenes().stream().limit(numberAnimalA);
-                Stream <Integer> genesStreamA = genesA.getGenes().stream().skip(numberAnimalA);
-                genesChildStream = Stream.concat(genesStreamB, genesStreamA);
-            }
-        } // end 'if' clauses
-
         this.genes = genesChildStream.collect( Collectors.toList() );
+
     } // end method createGenes()
 
     @Override
-    public void mutation(Animal animal) {
+    public void mutation() {
 
     }
 
-    public Animal getAnimal() {
-        return this.animal;
-    }
-
-    public List<Integer> getGenes() {
+    public List <Integer> getGenes() {
         return this.genes;
     }
 
+    @Override
+    public Animal getAnimal() {
+        return animal;
+    }
 
 }

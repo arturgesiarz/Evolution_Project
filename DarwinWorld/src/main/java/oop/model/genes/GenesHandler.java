@@ -18,7 +18,7 @@ public interface GenesHandler {
      * Changes one random gene to different one
      * @param animal The animal
      */
-    public void mutation(Animal animal);
+    public void mutation();
 
 
     /**
@@ -26,9 +26,10 @@ public interface GenesHandler {
      * @param genesA Genes of an animalA
      * @param genesB Genes of an animalB
      */
-    public void createGenes(GenesHandler genesA, GenesHandler genesB, int genomeLength);
+    public void createGenes(Animal animalA, Animal animalB);
 
 
     public Animal getAnimal();
+
     public List<Integer> getGenes();
 }

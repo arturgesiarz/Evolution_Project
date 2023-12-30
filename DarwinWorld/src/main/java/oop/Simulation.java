@@ -18,11 +18,11 @@ public class Simulation{
     public Simulation(List<Vector2d> positionsList, List<MapDirection> movesList, WorldMap worldMap){ //stawianie zwierzat na mapie
         List<Animal> animalsList = new ArrayList<>();
 
-        for(Vector2d position : positionsList){
-            Animal newAnimal = new Animal(position);
-            worldMap.place(newAnimal);
-            animalsList.add(newAnimal);
-        }
+//        for(Vector2d position : positionsList){
+//            Animal newAnimal = new Animal(position);
+//            worldMap.place(newAnimal);
+//            animalsList.add(newAnimal);
+//        }
         this.animalsList = animalsList;
         this.movesList = movesList;
         this.worldMap = worldMap;

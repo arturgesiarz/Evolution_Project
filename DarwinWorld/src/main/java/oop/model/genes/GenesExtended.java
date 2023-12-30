@@ -2,10 +2,12 @@ package oop.model.genes;
 
 import oop.model.Animal;
 
+import java.util.List;
+
 public class GenesExtended extends AbstractGenesHandler {
     //
-    public GenesExtended(Animal animal) {
-        super(animal);
+    public GenesExtended(List<Integer> genes) {
+        super(genes);
     }
 
     @Override
