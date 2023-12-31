@@ -5,6 +5,7 @@ import oop.model.genes.GenesHandler;
 import java.util.List;
 
 public class Animal implements WorldElement{
+    //
     private MapDirection directionFaced;
     private Vector2d position;
     private int energyAmount; //todo dodac paramtery startowe
@@ -21,15 +22,19 @@ public class Animal implements WorldElement{
 //    public Animal(Vector2d position){
 //        this.position = position;
 //    }
+
     public Vector2d getPosition() {
         return position;
     }
+
     public int getEnergyAmount(){
         return energyAmount;
     }
+
     public MapDirection getDirectionFaced(){
         return directionFaced;
     }
+
     void eat(Food food) {
         //todo uzupelnic ile zwierzak regeneruje energii po zjedzeniu
     }

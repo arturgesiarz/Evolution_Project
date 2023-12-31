@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GenesBasic extends AbstractGenesHandler {
     //
-    private int iteration;
+    private int iteration = -1;
 
     public GenesBasic(List <Integer> genes) {
         super(genes);
@@ -18,7 +18,9 @@ public class GenesBasic extends AbstractGenesHandler {
 
     @Override
     public int getNextMove(Animal animal) {
-        return 0;
+        //
+        iteration++;
+        return genes.get( iteration % genes.size() );
     }
 
 

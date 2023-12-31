@@ -2,7 +2,7 @@ package oop;
 import oop.model.Animal;
 import oop.model.MapDirection;
 import oop.model.Vector2d;
-import oop.model.WorldMap;
+import oop.model.maps.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
 

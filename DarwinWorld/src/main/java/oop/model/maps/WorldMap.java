@@ -1,4 +1,7 @@
-package oop.model;
+package oop.model.maps;
+
+import oop.model.Animal;
+import oop.model.MapDirection;
 
 public interface WorldMap {
     void place(Animal animal);

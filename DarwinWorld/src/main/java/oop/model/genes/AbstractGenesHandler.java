@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public abstract class AbstractGenesHandler implements GenesHandler {
     //
-    private List <Integer> genes;
+    protected List <Integer> genes;
     private Animal animal;
 
     public AbstractGenesHandler(List <Integer> genes) {

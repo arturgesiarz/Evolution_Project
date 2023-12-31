@@ -6,12 +6,33 @@ import java.util.List;
 
 public class GenesExtended extends AbstractGenesHandler {
     //
+    private int iteration;
+    private int operation = 1;
+
+
     public GenesExtended(List<Integer> genes) {
         super(genes);
     }
 
     @Override
     public int getNextMove(Animal animal) {
-        return 0;
+        //
+        int moveValue = genes.get(iteration + operation);
+        iteration++;
+        operation(iteration);
+
+        return moveValue;
+    }
+
+    private void operation(int iteration) {
+        //
+        int genesSize = genes.size();
+
+        if (iteration == genesSize) {
+            this.operation = -1;
+        }
+        if (iteration == -1) {
+            this.operation = 1;
+        }
     }
 }
