@@ -21,6 +21,6 @@ public interface MoveValidator {
      *            The position checked for the movement possibility.
      * @return Vector of new position
      */
-    Vector2d teleporation(Vector2d position);
+    Vector2d teleportation(Vector2d position);
 
 }

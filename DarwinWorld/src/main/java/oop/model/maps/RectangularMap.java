@@ -1,6 +1,7 @@
 package oop.model.maps;
 
 import oop.model.Animal;
+import oop.model.Vector2d;
 
 public class RectangularMap extends AbstractWorldMap {
 
@@ -8,4 +9,8 @@ public class RectangularMap extends AbstractWorldMap {
         super(width, height);
     }
 
+    @Override
+    public Vector2d teleportation(Vector2d position) {
+        return null;
+    }
 }

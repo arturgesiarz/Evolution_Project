@@ -47,7 +47,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public void move(Animal animal) {
         //TODO ZAKTUALIZOWAC MAPE PO RUCHU DANEGO ZWIERZECIA
-        animal.move();
+        animal.move(this);
     }
     @Override
     public void removeDeadAnimal(Animal animal) { //TODO

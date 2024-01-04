@@ -10,5 +10,10 @@ public class MapWithHoles extends AbstractWorldMap {
     public MapWithHoles(int width, int height) {
         super(width, height);
     }
+
+    @Override
+    public Vector2d teleportation(Vector2d position) {
+        return null;
+    }
 }
 

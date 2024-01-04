@@ -1,5 +1,6 @@
 package oop.model;
 import oop.model.genes.GenesHandler;
+import oop.model.maps.MoveValidator;
 
 public class Animal implements WorldElement{
     private MapDirection directionFaced;
@@ -24,11 +25,17 @@ public class Animal implements WorldElement{
     public MapDirection getDirectionFaced(){
         return directionFaced;
     }
+    public GenesHandler getGenesHandler() {
+        return this.genesHandler;
+    }
+    public void setEnergyAmount(int energyAmount) {
+        this.energyAmount = energyAmount;
+    }
 
     public void eat(Food food) {
         this.energyAmount = this.energyAmount + food.getEnergyRegeneratedByEat();
     }
-    public void move(){
+    public void move(MoveValidator validator){
         // najpiew nastepuje obrot o dany nastepny gen
         int nextGene = this.genesHandler.getNextMove();
         this.directionFaced = MapDirection.values()[nextGene];
@@ -36,16 +43,13 @@ public class Animal implements WorldElement{
         // teraz nastepuje pojscie w danym kierunku
         Vector2d newPosition = this.position.addVector(this.directionFaced.toUnitVector());  // zapisuje nowa pozycje, bo jeszcze musze ja sprawdzic
 
+        if(validator.isPole(newPosition)){  // znaczy ze chcemy wejsc na biegun - czyli musimy zamienic directionFaced
+            this.directionFaced = this.directionFaced.getOpositeDirection();
+        }
+        else{  // znaczy ze nie chcemy wejsc na biegun - tylko albo weszlismy do dziury albo przez lewy/prawy koniec albo po prostu poruszamy sie po mapie
+            this.position = validator.teleportation(newPosition);  // teleportuje lub ide normlanie kiedy nie nastepuje podane wyzej zjawiska
+        }
+
     }
-
-    public void setEnergyAmount(int energyAmount) {
-        this.energyAmount = energyAmount;
-    }
-
-    public GenesHandler getGenesHandler() {
-        return this.genesHandler;
-    }
-
-
 
 }
