@@ -6,11 +6,11 @@ import oop.model.WorldElement;
 
 public interface WorldMap extends MoveValidator {
     /**
-     * Place something on the map.
+     * Place animal on the map.
      *
      * @param worldElement The element to place on the map.
      */
-    void place(WorldElement worldElement);
+    void place(Animal animal);
 
     /**
      * Move an animal

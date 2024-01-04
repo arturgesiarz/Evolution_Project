@@ -51,8 +51,18 @@ public abstract class AbstractWorldMap implements WorldMap {
         return position;  // nie chce wyjsc poza mape wiec jest ok
     }
     @Override
-    public void place(WorldElement animal){
-        wordMap.put( animal.getPosition(), animal );  // moge polozyc gdzie chce dane zwierze
+    public void place(Animal animal){  // moge polozyc dane zwierze na mapie - inne obiekty bede osobno dodawal w innych metodach
+        Vector2d animalPosition = animal.getPosition();
+
+        if(animals.containsKey(animalPosition)){
+            List<Animal> preAnimalsList = animals.get(animalPosition);
+            preAnimalsList.add(animal);
+        }
+        else{
+            List<Animal> newAnimalsList = new ArrayList<>();
+            newAnimalsList.add(animal);
+            animals.put(animalPosition, newAnimalsList);
+        }
     }
     @Override
     public void move(Animal animal) {
