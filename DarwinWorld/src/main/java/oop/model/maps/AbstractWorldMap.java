@@ -35,10 +35,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         int northPole = this.upperRight.getY();
         int southPole = this.lowerLeft.getY();
 
-        if(position.getY() > northPole || position.getY() < southPole){  // chcemy wejsc na biegun
-            return true;
-        }
-        return false;  // jestesmy ciagle na normlanej mapie
+        return position.getY() > northPole || position.getY() < southPole;
     }
     @Override
     public void place(WorldElement animal){
