@@ -1,7 +1,5 @@
 package oop.model.genes;
-
 import oop.model.Animal;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,19 +8,16 @@ import java.util.stream.Stream;
 public abstract class AbstractGenesHandler implements GenesHandler {
     //
     protected List <Integer> genes;
-    private Animal animal;
 
     public AbstractGenesHandler(List <Integer> genes) {
-        //
         this.genes  = genes;
     }
-
-    public AbstractGenesHandler() {
-
+    public AbstractGenesHandler(Animal animalA, Animal animalB){  // konstruktor umozliwiajacy odrazu stworzenie genow
+        this.genes = createGenes(animalA, animalB);
     }
 
     @Override
-    public void createGenes(Animal animalA, Animal animalB) {
+    public List <Integer> createGenes(Animal animalA, Animal animalB) {
         //
         int genomeLength = 6;
         int totalEnergy = animalA.getEnergyAmount() + animalB.getEnergyAmount();
@@ -63,12 +58,13 @@ public abstract class AbstractGenesHandler implements GenesHandler {
             genesChildStream = Stream.concat(genesStreamFirst, genesStreamSecond);
         }
 
-        this.genes = genesChildStream.collect( Collectors.toList() );
+
+        return genesChildStream.collect( Collectors.toList() );
 
     } // end method createGenes()
 
     @Override
-    public void mutation() {
+    public void mutation() { //TODO
 
     }
 
@@ -76,9 +72,5 @@ public abstract class AbstractGenesHandler implements GenesHandler {
         return this.genes;
     }
 
-    @Override
-    public Animal getAnimal() {
-        return animal;
-    }
 
 }

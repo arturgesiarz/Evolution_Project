@@ -5,13 +5,14 @@ import oop.model.Animal;
 import java.util.List;
 
 public class GenesExtended extends AbstractGenesHandler {
-    //
     private int iteration;
     private int operation = 1;
 
-
     public GenesExtended(List<Integer> genes) {
         super(genes);
+    }
+    public GenesExtended(Animal animalA, Animal animalB){
+        super(animalA, animalB);
     }
 
     @Override

@@ -26,10 +26,7 @@ public interface GenesHandler {
      * @param genesA Genes of an animalA
      * @param genesB Genes of an animalB
      */
-    public void createGenes(Animal animalA, Animal animalB);
-
-
-    public Animal getAnimal();
+    public List<Integer> createGenes(Animal animalA, Animal animalB);
 
     public List<Integer> getGenes();
 }
