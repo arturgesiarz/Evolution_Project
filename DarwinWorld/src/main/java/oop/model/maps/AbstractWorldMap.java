@@ -38,6 +38,20 @@ public abstract class AbstractWorldMap implements WorldMap {
         return position.getY() > northPole || position.getY() < southPole;
     }
     @Override
+    public Vector2d teleportation(Vector2d position) {
+        // najpiew musimy sprawdzic czy nie chcemy wyjsc poza lewy/prawy koniec
+        int leftCorner = this.lowerLeft.getX();
+        int rightCorner = this.upperRight.getX();
+
+        if(position.getX() < leftCorner){  // znaczy ze chce wyjsc poza mape z lewej strony
+            return new Vector2d(rightCorner, position.getY());
+        }
+        if(position.getX() > rightCorner){  // znaczy ze chce wyjsc poza mape z prawej strony
+            return new Vector2d(leftCorner, position.getY());
+        }
+        return position;  // nie chce wyjsc poza mape wiec jest ok
+    }
+    @Override
     public void place(WorldElement animal){
         wordMap.put( animal.getPosition(), animal );  // moge polozyc gdzie chce dane zwierze
     }

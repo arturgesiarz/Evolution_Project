@@ -1,21 +1,20 @@
 package oop.model.maps;
 
 import oop.model.Vector2d;
-import oop.model.WorldElement;
 
 public class Hole {
-    private Vector2d firstPosition;
-    private Vector2d secondPosition;
+    private Vector2d entrance;
+    private Vector2d exit;
 
-    public Hole(Vector2d firstPosition, Vector2d secondPosition) {
-        this.firstPosition = firstPosition;
-        this.secondPosition = secondPosition;
+    public Hole(Vector2d entrance, Vector2d exit) {
+        this.entrance = entrance;
+        this.exit = exit;
     }
-    public Vector2d getFirstPosition() {
-        return firstPosition;
+    public Vector2d getEntrance() {
+        return entrance;
     }
-    public Vector2d getSecondPosition() {
-        return secondPosition;
+    public Vector2d getExit() {
+        return exit;
     }
 
 }
