@@ -13,6 +13,9 @@ public class Vector2d {
     public int getY() {
         return y;
     }
+    public Vector2d addVector(Vector2d other){  // funkcja dodaje wektory do siebie
+        return new Vector2d(this.x + other.x, this.y + other.y);
+    }
     @Override
     public String toString(){
         return "(%d,%d)".formatted(this.x,this.y);

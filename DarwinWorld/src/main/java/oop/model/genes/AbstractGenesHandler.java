@@ -6,20 +6,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractGenesHandler implements GenesHandler {
-    //
+    protected final int lengthOfTheAnimalGenome;  // dlugosc geomu danego zwierzaka
     protected List <Integer> genes;
 
-    public AbstractGenesHandler(List <Integer> genes) {
+    public AbstractGenesHandler(List <Integer> genes) {  // mam taki rozmiar genow jakiej dlugosci wprowadze ale to bedzie kontolowane w klasie Simulation, wiec ttuaj moge to przyjac :)
         this.genes  = genes;
+        this.lengthOfTheAnimalGenome = genes.size();
     }
     public AbstractGenesHandler(Animal animalA, Animal animalB){  // konstruktor umozliwiajacy odrazu stworzenie genow
         this.genes = createGenes(animalA, animalB);
+        this.lengthOfTheAnimalGenome = animalA.getGenesHandler().getGenes().size();  // ponieaz dlugosc genomu sie nie zmieni :)
     }
 
     @Override
     public List <Integer> createGenes(Animal animalA, Animal animalB) {
         //
-        int genomeLength = 6;
+        int genomeLength = this.lengthOfTheAnimalGenome;
         int totalEnergy = animalA.getEnergyAmount() + animalB.getEnergyAmount();
         int whichSideStart = (int) Math.round( Math.random() ); // 0 - prawa strona, 1 - lewa strona genotypu silniejszego
 

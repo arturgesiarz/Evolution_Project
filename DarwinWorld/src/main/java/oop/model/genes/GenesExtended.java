@@ -14,15 +14,18 @@ public class GenesExtended extends AbstractGenesHandler {
     public GenesExtended(Animal animalA, Animal animalB){
         super(animalA, animalB);
     }
-
     @Override
-    public int getNextMove(Animal animal) {
+    public int getNextMove() {
         //
         int moveValue = genes.get(iteration + operation);
         iteration++;
         operation(iteration);
 
         return moveValue;
+    }
+    @Override
+    public int getActGene() {
+        return iteration;
     }
 
     private void operation(int iteration) {

@@ -1,8 +1,5 @@
 package oop.model;
-import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesHandler;
-
-import java.util.List;
 
 public class Animal implements WorldElement{
     private MapDirection directionFaced;
@@ -13,6 +10,7 @@ public class Animal implements WorldElement{
     public Animal(Vector2d position, GenesHandler genesHandler) {
         this.position = position;
         this.genesHandler = genesHandler;
+        this.directionFaced = MapDirection.NORTH;  // zakladam ze kazde zwierze poczatkowo patrzy na polnoc
     }
 
     public Vector2d getPosition() {
@@ -27,8 +25,17 @@ public class Animal implements WorldElement{
         return directionFaced;
     }
 
-    void eat(Food food) {
+    public void eat(Food food) {
         this.energyAmount = this.energyAmount + food.getEnergyRegeneratedByEat();
+    }
+    public void move(){
+        // najpiew nastepuje obrot o dany nastepny gen
+        int nextGene = this.genesHandler.getNextMove();
+        this.directionFaced = MapDirection.values()[nextGene];
+
+        // teraz nastepuje pojscie w danym kierunku
+        Vector2d newPosition = this.position.addVector(this.directionFaced.toUnitVector());  // zapisuje nowa pozycje, bo jeszcze musze ja sprawdzic
+
     }
 
     public void setEnergyAmount(int energyAmount) {

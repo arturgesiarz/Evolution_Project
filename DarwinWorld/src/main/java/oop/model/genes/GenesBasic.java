@@ -13,8 +13,12 @@ public class GenesBasic extends AbstractGenesHandler {
     }
 
     @Override
-    public int getNextMove(Animal animal) {
+    public int getNextMove() {
         iteration++;
         return genes.get( iteration % genes.size() );
+    }
+    @Override
+    public int getActGene() {
+        return iteration;
     }
 }

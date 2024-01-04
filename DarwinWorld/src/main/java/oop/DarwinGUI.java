@@ -1,6 +1,7 @@
 package oop;
 import javafx.application.Application;
 import oop.model.Animal;
+import oop.model.MapDirection;
 import oop.model.Vector2d;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesHandler;

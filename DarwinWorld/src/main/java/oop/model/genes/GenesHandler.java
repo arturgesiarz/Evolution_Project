@@ -5,14 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface GenesHandler {
-    //
-
     /**
      * Get the next move of the animal according to its gene.
      * @param animal The animal
      * @return int Next move number
      */
-    public int getNextMove(Animal animal);
+    public int getNextMove();
+
+    /**
+     * Get the actual gene indicated
+     * @param animal The animal
+     * @return int act gene
+     */
+    public int getActGene();
 
     /**
      * Changes one random gene to different one

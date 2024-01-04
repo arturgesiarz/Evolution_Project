@@ -1,11 +1,28 @@
 package oop.model.maps;
-
 import oop.model.Animal;
 import oop.model.MapDirection;
+import oop.model.Vector2d;
+import oop.model.WorldElement;
 
-public interface WorldMap {
+public interface WorldMap extends MoveValidator {
+    /**
+     * Place something on the map.
+     *
+     * @param worldElement The element to place on the map.
+     */
+    void place(WorldElement worldElement);
 
-    void place(Animal animal);
-    void move(Animal animal, MapDirection direction);
+    /**
+     * Move an animal
+     * If the move is not possible, this method has no effect.
+     *
+     */
+    void move(Animal animal);
+
+    /**
+     * Remove dead an animal
+     * If the move is not possible, this method has no effect.
+     *
+     */
     void removeDeadAnimal(Animal animal);
 }
