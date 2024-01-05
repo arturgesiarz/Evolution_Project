@@ -24,9 +24,13 @@ public class Animal implements WorldElement{
 
         leftParent.getAnimalStats().updateAncestorsAmount();
         rightParent.getAnimalStats().updateAncestorsAmount();
+
+
         // TODO nie wiem jeszcze, gdzie będziemy aktualizować te informacje.
         // albo w miejscu, gdzie tworzymy nowego zwierzaka, albo tutaj.
         // trzeba jeszcze dodać aktualizacje ilości dzieci rodziców, wywołując np. leftParent.getAnimalStats().updateChildAmount();
+        // dodatkowo ZMNIEJSZ ENERGIĘ RODZICÓW, np. leftParent.getAnimalsStats().decreaseEnergyAmount(amount);
+        // TODO !!!!!!!!!!!!!!!
 
     }
 
