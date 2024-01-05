@@ -4,6 +4,7 @@ import oop.model.genes.GenesHandler;
 import oop.model.genes.Reproduce;
 
 import java.util.List;
+import java.util.Random;
 
 public class Main {
     //
@@ -20,7 +21,11 @@ public class Main {
         Animal animalB = new Animal(new Vector2d(5,3),genesHandlerB);
         animalB.setEnergyAmount(10);
 
-        Animal animalChild = Reproduce.reproduction(animalA, animalB);
-        System.out.println( animalChild.getGenesHandler().getGenes() );
+        GenesHandler childGenesHandler = new GenesBasic(animalA, animalB);
+        Animal childAnimal = new Animal( animalB.getPosition(), childGenesHandler );
+
+        System.out.println( childAnimal.getGenesHandler().getGenes() );
+
+
     }
 }

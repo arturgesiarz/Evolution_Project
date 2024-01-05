@@ -25,4 +25,6 @@ public interface WorldMap extends MoveValidator {
      *
      */
     void removeDeadAnimal(Animal animal);
+
+    void growNewGrass();
 }

@@ -2,16 +2,39 @@ package oop.model;
 import oop.model.genes.GenesHandler;
 import oop.model.maps.MoveValidator;
 
+import java.util.Optional;
+
 public class Animal implements WorldElement{
     private MapDirection directionFaced;
     private Vector2d position;
     private int energyAmount;
-    private GenesHandler genesHandler;
+    private final GenesHandler genesHandler;
+
+    private final AnimalStats animalStats;
+
+    private Animal leftParent  = null;
+    private Animal rightParent = null;
+
+    // Gdy dziecko się rodzi, wykorzystujemy ten konstruktor. Musimy znać rodziców, by później móc aktualizować
+    // ilość potomków (nie tylko dzieci) danego zwierzaka
+    public Animal(Animal leftParent, Animal rightParent, GenesHandler genesHandler) {
+        this( leftParent.getPosition(), genesHandler );
+        this.leftParent  = leftParent;
+        this.rightParent = rightParent;
+
+        leftParent.getAnimalStats().updateAncestorsAmount();
+        rightParent.getAnimalStats().updateAncestorsAmount();
+        // TODO nie wiem jeszcze, gdzie będziemy aktualizować te informacje.
+        // albo w miejscu, gdzie tworzymy nowego zwierzaka, albo tutaj.
+        // trzeba jeszcze dodać aktualizacje ilości dzieci rodziców, wywołując np. leftParent.getAnimalStats().updateChildAmount();
+
+    }
 
     public Animal(Vector2d position, GenesHandler genesHandler) {
         this.position = position;
         this.genesHandler = genesHandler;
         this.directionFaced = MapDirection.NORTH;  // zakladam ze kazde zwierze poczatkowo patrzy na polnoc
+        this.animalStats = new AnimalStats(this);
     }
 
     public Vector2d getPosition() {
@@ -25,9 +48,11 @@ public class Animal implements WorldElement{
     public MapDirection getDirectionFaced(){
         return directionFaced;
     }
+
     public GenesHandler getGenesHandler() {
         return this.genesHandler;
     }
+
     public void setEnergyAmount(int energyAmount) {
         this.energyAmount = energyAmount;
     }
@@ -52,4 +77,15 @@ public class Animal implements WorldElement{
 
     }
 
+    public AnimalStats getAnimalStats() {
+        return animalStats;
+    }
+
+    public Optional <Animal> getLeftParent() {
+        return Optional.ofNullable( leftParent );
+    }
+
+    public Optional <Animal> getRightParent() {
+        return Optional.ofNullable( rightParent );
+    }
 }

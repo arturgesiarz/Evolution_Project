@@ -1,10 +1,8 @@
 package oop.model.maps;
 import oop.model.*;
+import oop.model.util.MapParameters;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected final int minimumEnergyRequiredForCopulation;   // minimalna liczba energi potrzebna do tego aby zwierzaki mogly ze soba kopulowac
@@ -14,15 +12,20 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected Vector2d lowerLeft;  // lewy dolny rog mapy
     protected Vector2d upperRight;  // prawy gorny rog mapy
 
-    public AbstractWorldMap(int width, int height){
-        this(width,height, 10, 5);  // ustawiam domysla energie, kiedy uzytkownik jej nie poda
+    protected MapParameters mapParameters;
+
+    public AbstractWorldMap(int width, int height, MapParameters mapParameters){
+        this(width, height, 10, 5, mapParameters);  // ustawiam domysla energie, kiedy uzytkownik jej nie poda
     }
-    public AbstractWorldMap(int width, int height, int minimumEnergyRequiredForCopulation, int energyLostInCopulation){
+
+    public AbstractWorldMap(int width, int height, int minimumEnergyRequiredForCopulation, int energyLostInCopulation, MapParameters mapParameters){
         lowerLeft = new Vector2d(0,0);
         upperRight = new Vector2d(width - 1,height - 1);
         this.minimumEnergyRequiredForCopulation = minimumEnergyRequiredForCopulation;
         this.energyLostInCopulation = energyLostInCopulation;
+
     }
+
     public int getMinimumEnergyRequiredForCopulation() {
         return minimumEnergyRequiredForCopulation;
     }
@@ -103,4 +106,31 @@ public abstract class AbstractWorldMap implements WorldMap {
     public void removeDeadAnimal(Animal animal) { //TODO
 
     }
+
+    @Override
+    public void growNewGrass() {
+        //
+        int numberOfCellsAvailable =  (int) ( (double) 0.8 * upperRight.getX() * upperRight.getY() );
+        List <Integer> probability = new ArrayList<>( Collections.nCopies( mapParameters.amountOfPlantsDaily(), -1) );
+        // tworzy listę długości n, wypełnionych daną liczbą
+
+        Random random = new Random();
+        long howManyPutOnEquator = probability.stream()
+                .map(number -> random.nextInt(5))
+                .filter(number -> number <= 3)
+                .count();
+        // Tworzymy listę o długości takiej, ile możemy mieć nowej trawy. Ona może wyrosnąć albo na równiku, albo gdzie indziej.
+        // Wyrośnie na równiku z pp. 80% - tj. 4/5. Zatem stwórzmy randomowo tablicę wypełnioną liczbami 0-4.
+        // Tyle ile w tablicy jest 0, 1, 2 lub 3-ójek to liczba traw na równiku.
+
+        howManyPutOnEquator = Math.min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
+        int rowsAmount = (int) Math.ceil( (double) howManyPutOnEquator / upperRight.getX() );
+        rowsAmount = Math.min( rowsAmount, upperRight.getY() );
+
+        // TODO DOKOŃCZYĆ GENEROWANIE TRAWY
+
+    }
+
+
+
 }

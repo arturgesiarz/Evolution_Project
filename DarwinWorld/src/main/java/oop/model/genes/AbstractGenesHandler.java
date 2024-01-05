@@ -2,11 +2,12 @@ package oop.model.genes;
 import oop.model.Animal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractGenesHandler implements GenesHandler {
-    protected final int lengthOfTheAnimalGenome;  // dlugosc geomu danego zwierzaka
+    protected final int lengthOfTheAnimalGenome;  // dlugosc genomu danego zwierzaka
     protected List <Integer> genes;
 
     public AbstractGenesHandler(List <Integer> genes) {  // mam taki rozmiar genow jakiej dlugosci wprowadze ale to bedzie kontolowane w klasie Simulation, wiec ttuaj moge to przyjac :)
@@ -14,8 +15,11 @@ public abstract class AbstractGenesHandler implements GenesHandler {
         this.lengthOfTheAnimalGenome = genes.size();
     }
     public AbstractGenesHandler(Animal animalA, Animal animalB){  // konstruktor umozliwiajacy odrazu stworzenie genow
-        this.genes = createGenes(animalA, animalB);
         this.lengthOfTheAnimalGenome = animalA.getGenesHandler().getGenes().size();  // ponieaz dlugosc genomu sie nie zmieni :)
+        this.genes = createGenes(animalA, animalB);
+        mutation();
+
+
     }
 
     @Override
@@ -60,14 +64,20 @@ public abstract class AbstractGenesHandler implements GenesHandler {
             genesChildStream = Stream.concat(genesStreamFirst, genesStreamSecond);
         }
 
-
         return genesChildStream.collect( Collectors.toList() );
-
     } // end method createGenes()
 
     @Override
-    public void mutation() { //TODO
+    public void mutation() {
+        //
 
+        Random random = new Random(); // równomiernie rozłożone losowe całkowitoliczbowe z zakresu [0, bound)
+        int whichGeneToChange = random.nextInt( lengthOfTheAnimalGenome );
+        int toWhichGeneChange = random.nextInt( 8 ); // przedział od 0 do 7 <- bo takie są możliwe ruchy
+
+        genes.set(whichGeneToChange, toWhichGeneChange);
+        System.out.println(whichGeneToChange);
+        System.out.println(toWhichGeneChange);
     }
 
     public List <Integer> getGenes() {
