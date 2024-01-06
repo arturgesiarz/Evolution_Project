@@ -3,14 +3,11 @@ package oop.model;
 import java.util.Optional;
 
 public class AnimalStats {
-    //
     Animal animal;
     private int childAmount;
     private int descendantsAmount;
-
     private int lifeTime;
     private int deathTime;
-
     private int energyAmount;
 
     public AnimalStats(Animal animal) {
@@ -22,7 +19,6 @@ public class AnimalStats {
     }
 
     public void updateAncestorsAmount() {
-        //
         descendantsAmount++; // jakiś zwierzak wywołał tę metodę, dla swoich rodziców, więc zwiększamy liczbę potomków rodzica
 
         // Chcemy też zwiększyć liczbę potomków rodziców rodzica naszego zwierzaka:

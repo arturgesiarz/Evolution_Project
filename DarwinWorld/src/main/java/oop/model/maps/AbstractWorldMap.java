@@ -16,6 +16,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     public AbstractWorldMap(int width, int height, MapParameters mapParameters){
         this(width, height, 10, 5, mapParameters);  // ustawiam domysla energie, kiedy uzytkownik jej nie poda
+        //TODO DODAC INICIALIZOWANIE FOODMAP !!
     }
 
     public AbstractWorldMap(int width, int height, int minimumEnergyRequiredForCopulation, int energyLostInCopulation, MapParameters mapParameters){

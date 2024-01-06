@@ -18,8 +18,6 @@ public abstract class AbstractGenesHandler implements GenesHandler {
         this.lengthOfTheAnimalGenome = animalA.getGenesHandler().getGenes().size();  // ponieaz dlugosc genomu sie nie zmieni :)
         this.genes = createGenes(animalA, animalB);
         mutation();
-
-
     }
 
     @Override

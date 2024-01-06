@@ -9,9 +9,7 @@ public class Animal implements WorldElement{
     private Vector2d position;
     private int energyAmount;
     private final GenesHandler genesHandler;
-
     private final AnimalStats animalStats;
-
     private Animal leftParent  = null;
     private Animal rightParent = null;
 
@@ -24,6 +22,9 @@ public class Animal implements WorldElement{
 
         leftParent.getAnimalStats().updateAncestorsAmount();
         rightParent.getAnimalStats().updateAncestorsAmount();
+
+        leftParent.getAnimalStats().updateChildAmount();
+        rightParent.getAnimalStats().updateChildAmount();
 
 
         // TODO nie wiem jeszcze, gdzie będziemy aktualizować te informacje.
