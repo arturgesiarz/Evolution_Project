@@ -141,7 +141,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     private void fightForFood() {
         //
         for( List <Animal> animalsOnCell : animals.values() ) {
-            animalsOnCell.sort( AnimalsComparator.comparatorFood() );
+            animalsOnCell.sort( AnimalsComparator.comparator() );
             Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
 
             animal.getAnimalStats().increaseEnergyAmount( mapParameters.grassEnergy() );
