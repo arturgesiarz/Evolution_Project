@@ -1,5 +1,8 @@
 package oop.model.maps;
 import oop.model.*;
+import oop.model.genes.GenesBasic;
+import oop.model.genes.GenesHandler;
+import oop.model.util.AnimalsComparator;
 import oop.model.util.MapParameters;
 
 import java.util.*;
@@ -132,6 +135,52 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     }
 
+
+    // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
+    // to ten, który wygrał walkę - on je trawę.
+    private void fightForFood() {
+        //
+        for( List <Animal> animalsOnCell : animals.values() ) {
+            animalsOnCell.sort( AnimalsComparator.comparatorFood() );
+            Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
+
+            animal.getAnimalStats().increaseEnergyAmount( mapParameters.grassEnergy() );
+            removeEatenGrass( animal.getPosition() );
+        }
+    }
+
+    private void removeEatenGrass(Vector2d grassPosition) {
+        //
+        Grass eatenGrass = foodMap.remove(grassPosition);
+    }
+
+    private void fightForReproduction() {
+        //
+        for( List <Animal> animalsOnCell : animals.values() ) {
+            if ( animalsOnCell.size() < 2 ) { continue; }
+
+            List <Animal> animalsCompeting = animalsOnCell.stream()
+                    .filter( animal -> animal.getEnergyAmount() >= minimumEnergyRequiredForCopulation )
+                    .sorted( AnimalsComparator.comparator() )
+                    .toList();
+
+            if (animalsCompeting.size() < 2) { continue; }
+
+            Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
+            Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1);
+
+            // TODO DO ZMIANY! JAKI TYP GENÓW BĘDZIE MIEC DZIECKO?
+            GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
+            Animal childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+
+            animals.get(leftParent.getPosition()).add( childAnimal );
+
+            leftParent.getAnimalStats().decreaseEnergyAmount( energyLostInCopulation );
+            rightParent.getAnimalStats().decreaseEnergyAmount( energyLostInCopulation );
+            childAnimal.setEnergyAmount( energyLostInCopulation + energyLostInCopulation );  // TODO CZY DOBRZE Z.Z.E?
+
+        }
+    } // end method fightForReproduction()
 
 
 }
