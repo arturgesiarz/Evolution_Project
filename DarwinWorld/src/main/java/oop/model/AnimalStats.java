@@ -49,4 +49,6 @@ public class AnimalStats {
     public void increaseEnergyAmount(int amount) { this.energyAmount = energyAmount + amount; }
 
     public void decreaseEnergyAmount(int amount) {this.energyAmount =  energyAmount - amount; }
+
+    public int getEnergyAmount() { return this.energyAmount; }
 }

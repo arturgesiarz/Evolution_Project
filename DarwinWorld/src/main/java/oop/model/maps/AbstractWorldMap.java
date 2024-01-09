@@ -106,9 +106,21 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
+    // TODO SPRAWDŹ CZY TAK MOŻE BYC !!!!!
     @Override
-    public void removeDeadAnimal(Animal animal) { //TODO
+    public void removeDeadAnimals(int time) {
+        //
+        List <Animal> toRemove = new ArrayList<>();
 
+        for( List <Animal> animalsOnCell : animals.values() ) {
+            //
+            for( Animal animal : animalsOnCell ) {
+                if ( animal.getAnimalStats().getEnergyAmount() <= 0 ) { toRemove.add(animal); }
+            }
+
+            toRemove.forEach( animal -> {animals.remove(animal) ; animal.getAnimalStats().setDeathTime(time);} );
+            toRemove.clear();
+        }
     }
 
     @Override
@@ -137,7 +149,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
 
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
-    // to ten, który wygrał walkę - on je trawę.
+    // to ten, który wygrał walkę-on je trawę.
     private void fightForFood() {
         //
         for( List <Animal> animalsOnCell : animals.values() ) {
@@ -154,7 +166,10 @@ public abstract class AbstractWorldMap implements WorldMap {
         Grass eatenGrass = foodMap.remove(grassPosition);
     }
 
-    private void fightForReproduction() {
+    // Decyzja, które zwierzaki pokochają się, by urodzić swojego potomka, zależy od wyniku sortowania
+    // i komparatora, który został napisany, według zaleceń (klasa util/AnimalsComparator). Podobnie jest w przypadku
+    // krwawej walki o pożywienie.
+    public void fightForReproduction() {
         //
         for( List <Animal> animalsOnCell : animals.values() ) {
             if ( animalsOnCell.size() < 2 ) { continue; }
@@ -182,5 +197,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     } // end method fightForReproduction()
 
-
+    public Map <Vector2d, List <Animal>> getAnimals() {
+        return this.animals;
+    }
 }

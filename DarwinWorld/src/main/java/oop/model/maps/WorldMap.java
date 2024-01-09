@@ -4,11 +4,14 @@ import oop.model.MapDirection;
 import oop.model.Vector2d;
 import oop.model.WorldElement;
 
+import java.util.List;
+import java.util.Map;
+
 public interface WorldMap extends MoveValidator {
     /**
      * Place animal on the map.
      *
-     * @param worldElement The element to place on the map.
+     * @param animal The element to place on the map.
      */
     void place(Animal animal);
 
@@ -24,7 +27,11 @@ public interface WorldMap extends MoveValidator {
      * If the move is not possible, this method has no effect.
      *
      */
-    void removeDeadAnimal(Animal animal);
+    void removeDeadAnimals(int time);
 
     void growNewGrass();
+
+    Map <Vector2d, List<Animal>> getAnimals();
+
+    void fightForReproduction();
 }

@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation{
-    private final List<Animal> animalsList;
-    private final List<GenesHandler> genesList;
+    //
+    private int evolutionTime = 1;
+    private final List <Animal> animalsList;
+    private final List <GenesHandler> genesList;
     private final WorldMap worldMap;
     public Simulation(List <Vector2d> positionsList, List <GenesHandler> genesList, WorldMap worldMap){
         List <Animal> animalsList = new ArrayList<>();
@@ -24,8 +26,35 @@ public class Simulation{
         this.animalsList = animalsList;
         this.genesList = genesList;
         this.worldMap = worldMap;
-    } // end method Simulation()
+    } // end constructor Simulation()
 
+
+    // W poniższych metodach można dodać dodatkową logikę. Rozbiłem zgodnie z zasadą SRP oraz SLAP
+    public void run() {
+        //
+        removeDeadAnimals();
+        moveAllAnimals();
+        reproductionOfAnimals();
+        growNewFood();
+
+        evolutionTime++;
+    }
+
+    private void removeDeadAnimals() {
+        worldMap.removeDeadAnimals(evolutionTime);
+    }
+
+    private void moveAllAnimals() {
+        animalsList.forEach( worldMap :: move );
+    }
+
+    private void reproductionOfAnimals() {
+        worldMap.fightForReproduction();
+    }
+
+    private void growNewFood() {
+        worldMap.growNewGrass();
+    }
 
 
 }
