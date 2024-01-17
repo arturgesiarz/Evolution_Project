@@ -4,6 +4,11 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
+application {
+    getMainClass().set('oop.DarwinGUI')
+
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))

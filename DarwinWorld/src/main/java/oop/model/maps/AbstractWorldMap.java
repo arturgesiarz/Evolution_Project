@@ -35,13 +35,13 @@ public abstract class AbstractWorldMap implements WorldMap {
         int leftCorner = this.lowerLeft.getX();
         int rightCorner = this.upperRight.getX();
 
-        if(position.getX() < leftCorner){  // znaczy ze chce wyjsc poza mape z lewej strony
+        if(position.getX() < leftCorner){
             return new Vector2d(rightCorner, position.getY());
         }
-        if(position.getX() > rightCorner){  // znaczy ze chce wyjsc poza mape z prawej strony
+        if(position.getX() > rightCorner){
             return new Vector2d(leftCorner, position.getY());
         }
-        return position;  // nie chce wyjsc poza mape wiec jest ok
+        return position;
     }
 
     @Override

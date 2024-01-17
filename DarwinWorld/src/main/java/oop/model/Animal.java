@@ -12,8 +12,6 @@ public class Animal implements WorldElement{
     private Animal leftParent  = null;
     private Animal rightParent = null;
 
-    // Gdy dziecko się rodzi, wykorzystujemy ten konstruktor. Musimy znać rodziców, by później móc aktualizować
-    // ilość potomków (nie tylko dzieci) danego zwierzaka
     public Animal(Animal leftParent, Animal rightParent, GenesHandler genesHandler) {
         this( leftParent.getPosition(),leftParent.getAnimalStats().getEnergyAmount() + rightParent.getAnimalStats().getEnergyAmount() ,genesHandler );
         this.leftParent  = leftParent;
@@ -30,7 +28,7 @@ public class Animal implements WorldElement{
         this.position = position;
         this.genesHandler = genesHandler;
         this.directionFaced = MapDirection.NORTH;
-        this.animalStats = new AnimalStats(this);
+        this.animalStats = new AnimalStats(this, energyAmount);
     }
 
     public Vector2d getPosition() {

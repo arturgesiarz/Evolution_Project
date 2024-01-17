@@ -1,6 +1,5 @@
 package oop.model.genes;
 import oop.model.Animal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -24,10 +23,10 @@ public abstract class AbstractGenesHandler implements GenesHandler {
     public List <Integer> createGenes(Animal animalA, Animal animalB) {
         //
         int genomeLength = this.lengthOfTheAnimalGenome;
-        int totalEnergy = animalA.getEnergyAmount() + animalB.getEnergyAmount();
+        int totalEnergy = animalA.getAnimalStats().getEnergyAmount() + animalB.getAnimalStats().getEnergyAmount();
         int whichSideStart = (int) Math.round( Math.random() ); // 0 - prawa strona, 1 - lewa strona genotypu silniejszego
 
-        int numberAnimalA = (int) ( (double)  animalA.getEnergyAmount() / totalEnergy  * genomeLength );
+        int numberAnimalA = (int) ( (double)  animalA.getAnimalStats().getEnergyAmount() / totalEnergy  * genomeLength );
         int numberAnimalB = genomeLength - numberAnimalA;
 
         int numberToSkip;
@@ -67,8 +66,6 @@ public abstract class AbstractGenesHandler implements GenesHandler {
 
     @Override
     public void mutation() {
-        //
-
         Random random = new Random(); // równomiernie rozłożone losowe całkowitoliczbowe z zakresu [0, bound)
         int whichGeneToChange = random.nextInt( lengthOfTheAnimalGenome );
         int toWhichGeneChange = random.nextInt( 8 ); // przedział od 0 do 7 <- bo takie są możliwe ruchy
@@ -81,6 +78,4 @@ public abstract class AbstractGenesHandler implements GenesHandler {
     public List <Integer> getGenes() {
         return this.genes;
     }
-
-
 }

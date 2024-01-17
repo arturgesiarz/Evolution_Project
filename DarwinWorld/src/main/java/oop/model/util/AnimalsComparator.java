@@ -6,9 +6,9 @@ public class AnimalsComparator {
     //
     public static Comparator <Animal> comparator() {
         return Comparator
-                .comparing( Animal :: getEnergyAmount )
-                .thenComparing( animal -> animal.getAnimalStats().getLifeTime() )
-                .thenComparing( animal -> animal.getAnimalStats().getChildAmount() );
+                .comparing( (Animal animal) -> animal.getAnimalStats().getEnergyAmount())
+                .thenComparing( (Animal animal) -> animal.getAnimalStats().getLifeTime() )
+                .thenComparing( (Animal animal) -> animal.getAnimalStats().getChildAmount() );
     }
 
 }
