@@ -92,21 +92,25 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
-    // TODO SPRAWDŹ CZY TAK MOŻE BYC !!!!!
     @Override
     public void removeDeadAnimals(int time) {
-        //
-        List <Animal> toRemove = new ArrayList<>();
+        animals.forEach((key, value) -> {
+            // wybieram zwierzeta do usuniecia
+            List<Animal> toRemove = value.stream()
+                    .filter(animal -> animal.getAnimalStats().getEnergyAmount() <= 0)
+                    .toList();
 
-        for( List <Animal> animalsOnCell : animals.values() ) {
-            //
-            for( Animal animal : animalsOnCell ) {
-                if ( animal.getAnimalStats().getEnergyAmount() <= 0 ) { toRemove.add(animal); }
+            // usuwam z danych pol zwierzeta
+            toRemove.forEach(animal -> {
+                value.remove(animal);
+                animal.getAnimalStats().setDeathTime(time);
+            });
+
+            // usuwam cale pole, jesli nie ma na nim juz zandych zwierzat
+            if (value.size() == 0) {
+                animals.remove(key);
             }
-
-            toRemove.forEach( animal -> {animals.remove(animal) ; animal.getAnimalStats().setDeathTime(time);} );
-            toRemove.clear();
-        }
+        });
     }
 
     @Override
