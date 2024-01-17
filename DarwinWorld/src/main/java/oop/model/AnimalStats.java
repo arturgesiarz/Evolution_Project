@@ -3,7 +3,7 @@ package oop.model;
 import java.util.Optional;
 
 public class AnimalStats {
-    Animal animal;
+    private final Animal animal;
     private int childAmount;
     private int descendantsAmount;
     private int lifeTime;

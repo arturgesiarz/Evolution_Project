@@ -10,8 +10,7 @@ public class AnimalsComparator {
                 .comparing( (Animal animal) -> animal.getAnimalStats().getEnergyAmount())
                 .thenComparing( (Animal animal) -> animal.getAnimalStats().getLifeTime() )
                 .thenComparing( (Animal animal) -> animal.getAnimalStats().getChildAmount() )
-                .thenComparingInt( (Animal animal) -> (new Random()).nextInt() );
-
+                .thenComparingInt( (Animal animal) -> (new Random()).nextInt());
     }
-
 }
+
