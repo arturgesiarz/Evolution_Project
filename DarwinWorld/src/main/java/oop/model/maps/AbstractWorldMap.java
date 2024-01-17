@@ -135,14 +135,14 @@ public abstract class AbstractWorldMap implements WorldMap {
         int rowsAmount = (int) Math.ceil( (double) howManyPutOnEquator / upperRight.getX() );
         rowsAmount = Math.min( rowsAmount, upperRight.getY() );
 
-        // TODO DOKOŃCZYĆ GENEROWANIE TRAWY
+        // TODO DOKONCZYĆ GENEROWANIE TRAWY
 
     }
 
 
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
     // to ten, który wygrał walkę-on je trawę.
-    private void fightForFood() {
+    public void fightForFood() {
         for( List <Animal> animalsOnCell : animals.values() ) {
             animalsOnCell.sort( AnimalsComparator.comparator() );
             Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
