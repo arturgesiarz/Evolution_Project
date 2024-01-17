@@ -17,14 +17,14 @@ public class Animal implements WorldElement{
         this.leftParent  = leftParent;
         this.rightParent = rightParent;
 
-        leftParent.getAnimalStats().updateAncestorsAmount();
-        rightParent.getAnimalStats().updateAncestorsAmount();
+        leftParent.getAnimalStats().updateDescendantsAmount();
+        rightParent.getAnimalStats().updateDescendantsAmount();
 
         leftParent.getAnimalStats().updateChildAmount();
         rightParent.getAnimalStats().updateChildAmount();
     }
 
-    public Animal(Vector2d position, int energyAmount,GenesHandler genesHandler) {
+    public Animal(Vector2d position, int energyAmount, GenesHandler genesHandler) {
         this.position = position;
         this.genesHandler = genesHandler;
         this.directionFaced = MapDirection.NORTH;

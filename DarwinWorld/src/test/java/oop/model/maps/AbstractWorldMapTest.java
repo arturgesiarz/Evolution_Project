@@ -36,16 +36,13 @@ class AbstractWorldMapTest {
         animalsMap.move( animalA );
         animalsMap.move( animalB );
         animalsMap.move( animalC );
-        System.out.println( animalA.getAnimalStats().getEnergyAmount() );
-        System.out.println( animalB.getAnimalStats().getEnergyAmount() );
-        System.out.println( animalC.getAnimalStats().getEnergyAmount() );
+
+        animalsMap.fightForFood();
         assertEquals(14, animalA.getAnimalStats().getEnergyAmount() );
-
-
-
     }
 
     @Test
     void fightForReproduction() {
+
     }
 }

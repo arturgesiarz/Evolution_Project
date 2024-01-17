@@ -4,8 +4,8 @@ import java.util.Optional;
 
 public class AnimalStats {
     private final Animal animal;
-    private int childAmount;
-    private int descendantsAmount;
+    private int childAmount = 0;
+    private int descendantsAmount = 0;
     private int lifeTime;
     private int deathTime;
     private int energyAmount;
@@ -20,24 +20,20 @@ public class AnimalStats {
         this.deathTime = time;
     }
 
-    public void updateAncestorsAmount() {
+    public void updateDescendantsAmount() {
         descendantsAmount++; // jakiś zwierzak wywołał tę metodę, dla swoich rodziców, więc zwiększamy liczbę potomków rodzica
 
         // Chcemy też zwiększyć liczbę potomków rodziców rodzica naszego zwierzaka:
         Optional <Animal> leftParent  = animal.getLeftParent();
         Optional <Animal> rightParent = animal.getRightParent();
 
-        leftParent.ifPresent(  animal -> animal.getAnimalStats().updateAncestorsAmount() );
-        rightParent.ifPresent( animal -> animal.getAnimalStats().updateAncestorsAmount() );
+        leftParent.ifPresent(  animal -> animal.getAnimalStats().updateDescendantsAmount() );
+        rightParent.ifPresent( animal -> animal.getAnimalStats().updateDescendantsAmount() );
 
     }
 
     public void updateLifeTime() {
         this.lifeTime++;
-    }
-
-    public void updateDescendantsAmount() {
-        this.descendantsAmount++;
     }
 
     public void updateChildAmount() {
@@ -53,4 +49,7 @@ public class AnimalStats {
     public void decreaseEnergyAmount(int amount) {this.energyAmount =  energyAmount - amount; }
 
     public int getEnergyAmount() { return this.energyAmount; }
+
+    public int getDescendantsAmount() { return this.descendantsAmount; }
+
 }
