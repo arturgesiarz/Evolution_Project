@@ -8,8 +8,14 @@ import java.util.Map;
 public class MapWithHoles extends AbstractWorldMap {
     private Map <Vector2d, Hole> holes = new HashMap<>();  // trzeba tutaj podczas generowania dziur pamietac o dwoch stronach
 
-    public MapWithHoles(int width, int height, MapParameters mapParameters) {
+    public MapWithHoles(int width, int height, MapParameters mapParameters, int numberOfHoles) {
         super(width, height, mapParameters);
+        this.holes = generateHoles(numberOfHoles);
+    }
+
+    public Map <Vector2d, Hole> generateHoles(int numberOfHoles){
+        //todo zrobic dziury
+        return new HashMap<>();
     }
 
     @Override
