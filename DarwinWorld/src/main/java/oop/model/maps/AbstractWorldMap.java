@@ -8,33 +8,17 @@ import oop.model.util.MapParameters;
 import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
-    protected final int minimumEnergyRequiredForCopulation;   // minimalna liczba energi potrzebna do tego aby zwierzaki mogly ze soba kopulowac
-    protected final int energyLostInCopulation;  // energia tracona podczas kopulacji
-    protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();  // mapa zwierzat na mapie, ale w postaci listy
-    protected Map <Vector2d, Grass> foodMap = new HashMap<>();  // mapa trawy na mapie
-    protected Vector2d lowerLeft;  // lewy dolny rog mapy
-    protected Vector2d upperRight;  // prawy gorny rog mapy
-
-    protected MapParameters mapParameters;
+    protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
+    private final MapParameters mapParameters;
+    protected Map <Vector2d, Grass> foodMap = new HashMap<>();
+    protected Vector2d lowerLeft;
+    protected Vector2d upperRight;
 
     public AbstractWorldMap(int width, int height, MapParameters mapParameters){
-        this(width, height, 10, 5, mapParameters);  // ustawiam domysla energie, kiedy uzytkownik jej nie poda
-        //TODO DODAC INICIALIZOWANIE FOODMAP !!
-    }
-
-    public AbstractWorldMap(int width, int height, int minimumEnergyRequiredForCopulation, int energyLostInCopulation, MapParameters mapParameters){
         lowerLeft = new Vector2d(0,0);
         upperRight = new Vector2d(width - 1,height - 1);
-        this.minimumEnergyRequiredForCopulation = minimumEnergyRequiredForCopulation;
-        this.energyLostInCopulation = energyLostInCopulation;
+        this.mapParameters = mapParameters;
 
-    }
-
-    public int getMinimumEnergyRequiredForCopulation() {
-        return minimumEnergyRequiredForCopulation;
-    }
-    public int getEnergyLostInCopulation(){
-        return energyLostInCopulation;
     }
     @Override
     public boolean isPole(Vector2d position){
@@ -43,6 +27,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
         return position.getY() > northPole || position.getY() < southPole;
     }
+
     @Override
     public Vector2d teleportation(Vector2d position) {
         // najpiew musimy sprawdzic czy nie chcemy wyjsc poza lewy/prawy koniec
@@ -57,6 +42,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
         return position;  // nie chce wyjsc poza mape wiec jest ok
     }
+
     @Override
     public void place(Animal animal){  // moge polozyc dane zwierze na mapie - inne obiekty bede osobno dodawal w innych metodach
         Vector2d animalPosition = animal.getPosition();
@@ -162,27 +148,27 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     private void removeEatenGrass(Vector2d grassPosition) {
-        //
         Grass eatenGrass = foodMap.remove(grassPosition);
     }
 
-    // Decyzja, które zwierzaki pokochają się, by urodzić swojego potomka, zależy od wyniku sortowania
-    // i komparatora, który został napisany, według zaleceń (klasa util/AnimalsComparator). Podobnie jest w przypadku
-    // krwawej walki o pożywienie.
     public void fightForReproduction() {
-        //
+        // przegladanie listy zwierzat, ktore sa na danym polu
         for( List <Animal> animalsOnCell : animals.values() ) {
+
             if ( animalsOnCell.size() < 2 ) { continue; }
 
+            // sortowanie zwierzat oraz odfiltrowanie tych, ktore nie spelniaja warunkow rozmnazania
             List <Animal> animalsCompeting = animalsOnCell.stream()
-                    .filter( animal -> animal.getEnergyAmount() >= minimumEnergyRequiredForCopulation )
+                    .filter( animal -> animal.getEnergyAmount() >= mapParameters.minimumEnergyRequiredForCopulation() )
                     .sorted( AnimalsComparator.comparator() )
                     .toList();
 
+            // jesli jest mniej niz 2 zwierzat to znaczy ze nie mo kto zkim sie rozmnazac
             if (animalsCompeting.size() < 2) { continue; }
 
+            // wybieramy dwa zwierzeta
             Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
-            Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1);
+            Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1 );
 
             // TODO DO ZMIANY! JAKI TYP GENÓW BĘDZIE MIEC DZIECKO?
             GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
@@ -190,12 +176,12 @@ public abstract class AbstractWorldMap implements WorldMap {
 
             animals.get(leftParent.getPosition()).add( childAnimal );
 
-            leftParent.getAnimalStats().decreaseEnergyAmount( energyLostInCopulation );
-            rightParent.getAnimalStats().decreaseEnergyAmount( energyLostInCopulation );
-            childAnimal.setEnergyAmount( energyLostInCopulation + energyLostInCopulation );  // TODO CZY DOBRZE Z.Z.E?
+            leftParent.getAnimalStats().decreaseEnergyAmount( mapParameters.energyLostInCopulation() );
+            rightParent.getAnimalStats().decreaseEnergyAmount( mapParameters.energyLostInCopulation() );
+            childAnimal.setEnergyAmount( mapParameters.energyLostInCopulation() + mapParameters.energyLostInCopulation() );
 
         }
-    } // end method fightForReproduction()
+    }
 
     public Map <Vector2d, List <Animal>> getAnimals() {
         return this.animals;

@@ -71,13 +71,17 @@ public class Animal implements WorldElement{
         this.directionFaced = MapDirection.values()[nextGene];
 
         // teraz nastepuje pojscie w danym kierunku
-        Vector2d newPosition = this.position.addVector(this.directionFaced.toUnitVector());  // zapisuje nowa pozycje, bo jeszcze musze ja sprawdzic
+        Vector2d newPosition = this.position.addVector(this.directionFaced.toUnitVector());
 
-        if(validator.isPole(newPosition)){  // znaczy ze chcemy wejsc na biegun - czyli musimy zamienic directionFaced
+        if(validator.isPole(newPosition)){
+            // znaczy ze chcemy wejsc na biegun - czyli musimy zamienic directionFaced
             this.directionFaced = this.directionFaced.getOpositeDirection();
         }
-        else{  // znaczy ze nie chcemy wejsc na biegun - tylko albo weszlismy do dziury albo przez lewy/prawy koniec albo po prostu poruszamy sie po mapie
-            this.position = validator.teleportation(newPosition);  // teleportuje lub ide normlanie kiedy nie nastepuje podane wyzej zjawiska
+        else{
+            // znaczy ze nie chcemy wejsc na biegun - tylko albo weszlismy do dziury albo przez lewy/prawy koniec
+            // albo po prostu poruszamy sie po mapie
+            // teleportuje lub ide normlanie kiedy nie nastepuje podane wyzej zjawiska
+            this.position = validator.teleportation(newPosition);
         }
 
     }

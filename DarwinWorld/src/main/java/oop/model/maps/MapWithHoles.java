@@ -15,10 +15,13 @@ public class MapWithHoles extends AbstractWorldMap {
     @Override
     public Vector2d teleportation(Vector2d position) {  // chce rozszerzyc tą metode poniewaz moze byc tak ze jestem na dziurze
         Vector2d positionTest = super.teleportation(position);
-        if(positionTest == position && holes.containsKey(positionTest)){
+
+        // sprawdzam czy jest dziura na danym miejscu
+        if(holes.containsKey(positionTest)){
                 return holes.get(positionTest).getExit();
         }
-        return position;
+
+        return positionTest;
     }
 }
 
