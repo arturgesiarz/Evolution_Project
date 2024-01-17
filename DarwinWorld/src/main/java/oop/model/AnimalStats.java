@@ -12,6 +12,7 @@ public class AnimalStats {
 
     public AnimalStats(Animal animal) {
         this.animal = animal;
+        this.lifeTime = 0;  // przezylismy 0 dni na samym stracie
     }
 
     public void setDeathTime(int time) {
@@ -49,6 +50,7 @@ public class AnimalStats {
     public void increaseEnergyAmount(int amount) { this.energyAmount = energyAmount + amount; }
 
     public void decreaseEnergyAmount(int amount) {this.energyAmount =  energyAmount - amount; }
+    public void setEnergyAmount(int energyAmount) { this.energyAmount = energyAmount; }
 
     public int getEnergyAmount() { return this.energyAmount; }
 }

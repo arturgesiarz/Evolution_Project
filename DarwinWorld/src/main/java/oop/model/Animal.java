@@ -7,7 +7,6 @@ import java.util.Optional;
 public class Animal implements WorldElement{
     private MapDirection directionFaced;
     private Vector2d position;
-    private int energyAmount;
     private final GenesHandler genesHandler;
     private final AnimalStats animalStats;
     private Animal leftParent  = null;
@@ -16,7 +15,7 @@ public class Animal implements WorldElement{
     // Gdy dziecko się rodzi, wykorzystujemy ten konstruktor. Musimy znać rodziców, by później móc aktualizować
     // ilość potomków (nie tylko dzieci) danego zwierzaka
     public Animal(Animal leftParent, Animal rightParent, GenesHandler genesHandler) {
-        this( leftParent.getPosition(), genesHandler );
+        this( leftParent.getPosition(),leftParent.getAnimalStats().getEnergyAmount() + rightParent.getAnimalStats().getEnergyAmount() ,genesHandler );
         this.leftParent  = leftParent;
         this.rightParent = rightParent;
 
@@ -25,29 +24,17 @@ public class Animal implements WorldElement{
 
         leftParent.getAnimalStats().updateChildAmount();
         rightParent.getAnimalStats().updateChildAmount();
-
-
-        // TODO nie wiem jeszcze, gdzie będziemy aktualizować te informacje.
-        // albo w miejscu, gdzie tworzymy nowego zwierzaka, albo tutaj.
-        // trzeba jeszcze dodać aktualizacje ilości dzieci rodziców, wywołując np. leftParent.getAnimalStats().updateChildAmount();
-        // dodatkowo ZMNIEJSZ ENERGIĘ RODZICÓW, np. leftParent.getAnimalsStats().decreaseEnergyAmount(amount);
-        // TODO !!!!!!!!!!!!!!!
-
     }
 
-    public Animal(Vector2d position, GenesHandler genesHandler) {
+    public Animal(Vector2d position, int energyAmount,GenesHandler genesHandler) {
         this.position = position;
         this.genesHandler = genesHandler;
-        this.directionFaced = MapDirection.NORTH;  // zakladam ze kazde zwierze poczatkowo patrzy na polnoc
+        this.directionFaced = MapDirection.NORTH;
         this.animalStats = new AnimalStats(this);
     }
 
     public Vector2d getPosition() {
         return position;
-    }
-
-    public int getEnergyAmount(){
-        return energyAmount;
     }
 
     public MapDirection getDirectionFaced(){
@@ -58,12 +45,8 @@ public class Animal implements WorldElement{
         return this.genesHandler;
     }
 
-    public void setEnergyAmount(int energyAmount) {
-        this.energyAmount = energyAmount;
-    }
-
     public void eat(Food food) {
-        this.energyAmount = this.energyAmount + food.getEnergyRegeneratedByEat();
+        this.getAnimalStats().increaseEnergyAmount(food.getEnergyRegeneratedByEat());
     }
     public void move(MoveValidator validator){
         // najpiew nastepuje obrot o dany nastepny gen

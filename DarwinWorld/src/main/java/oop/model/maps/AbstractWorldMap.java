@@ -1,6 +1,7 @@
 package oop.model.maps;
 import oop.model.*;
 import oop.model.genes.GenesBasic;
+import oop.model.genes.GenesExtended;
 import oop.model.genes.GenesHandler;
 import oop.model.util.AnimalsComparator;
 import oop.model.util.MapParameters;
@@ -125,6 +126,7 @@ public abstract class AbstractWorldMap implements WorldMap {
                 .map(number -> random.nextInt(5))
                 .filter(number -> number <= 3)
                 .count();
+
         // Tworzymy listę o długości takiej, ile możemy mieć nowej trawy. Ona może wyrosnąć albo na równiku, albo gdzie indziej.
         // Wyrośnie na równiku z pp. 80% - tj. 4/5. Zatem stwórzmy randomowo tablicę wypełnioną liczbami 0-4.
         // Tyle ile w tablicy jest 0, 1, 2 lub 3-ójek to liczba traw na równiku.
@@ -141,7 +143,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
     // to ten, który wygrał walkę-on je trawę.
     private void fightForFood() {
-        //
         for( List <Animal> animalsOnCell : animals.values() ) {
             animalsOnCell.sort( AnimalsComparator.comparator() );
             Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
@@ -163,7 +164,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
             // sortowanie zwierzat oraz odfiltrowanie tych, ktore nie spelniaja warunkow rozmnazania
             List <Animal> animalsCompeting = animalsOnCell.stream()
-                    .filter( animal -> animal.getEnergyAmount() >= mapParameters.minimumEnergyRequiredForCopulation() )
+                    .filter( animal -> animal.getAnimalStats().getEnergyAmount() >= mapParameters.minimumEnergyRequiredForCopulation() )
                     .sorted( AnimalsComparator.comparator() )
                     .toList();
 
@@ -173,17 +174,25 @@ public abstract class AbstractWorldMap implements WorldMap {
             // wybieramy dwa zwierzeta
             Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
             Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1 );
+            Animal childAnimal = null;
 
-            // TODO DO ZMIANY! JAKI TYP GENÓW BĘDZIE MIEC DZIECKO?
-            GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
-            Animal childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+            // tryb: GenesBasic
+            if(mapParameters.genesMode() == 1){
+                GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
+                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+            }
+            // tryb: GenesExtended
+            else{
+                GenesHandler childGenesHandler = new GenesExtended(leftParent, rightParent);
+                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+            }
 
-            animals.get(leftParent.getPosition()).add( childAnimal );
+            // dodaje nowe zwierze na mape
+            this.place(childAnimal);
 
+            // zmienjaszam energie rodzicow
             leftParent.getAnimalStats().decreaseEnergyAmount( mapParameters.energyLostInCopulation() );
             rightParent.getAnimalStats().decreaseEnergyAmount( mapParameters.energyLostInCopulation() );
-            childAnimal.setEnergyAmount( mapParameters.energyLostInCopulation() + mapParameters.energyLostInCopulation() );
-
         }
     }
 
