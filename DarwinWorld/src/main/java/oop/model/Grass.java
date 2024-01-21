@@ -1,7 +1,6 @@
 package oop.model;
 
 public class Grass extends Food {
-    //
     private static final String GRASS_SYMBOL = "*";
     private final String foodName;
     private final Vector2d position;
@@ -14,11 +13,6 @@ public class Grass extends Food {
     @Override
     public String getName(){
         return foodName;
-    }
-
-    @Override
-    public void setTheAmountOfRegeneratedEnergy(int energyRegenerated) {
-        super.energyRegeneratedByEat = energyRegenerated;  // ustawiam ile regeneruje punktow jedzenie wlasnie jakies
     }
 
     @Override

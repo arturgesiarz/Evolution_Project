@@ -17,7 +17,6 @@ public class MapUtil {
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
     // to ten, który wygrał walkę-on je trawę.
     public static void fightForFood(WorldMap map) {
-        // TODO OPTYMALIZACJA
 
         for( List<Animal> animalsOnCell : map.getAnimals().values() ) {
             if ( animalsOnCell.size() < 1 ) { continue; }
@@ -25,7 +24,7 @@ public class MapUtil {
 
             animalsOnCell.sort( AnimalsComparator.comparator() );
             Animal animal = animalsOnCell.get( animalsOnCell.size() - 1);
-            animal.getAnimalStats().increaseEnergyAmount( map.getMapParameters().grassEnergy() );
+            animal.eat(map.getMapParameters().grassEnergy());
             removeEatenGrass( animal.getPosition(), map.getFoodMap() );
         }
     }

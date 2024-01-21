@@ -64,16 +64,16 @@ class SimulationTest {
                         (5,
                         5,
                         0,
-                        1,
+                        10,
                         0,
                         0,
                         4,
-                        50,
+                        5,
                         3,
                         3,
                         1,
                         2,
-                        1,
+                        0,
                         5);
 
         MapWithHoles map = new MapWithHoles(mapParameters, 3);

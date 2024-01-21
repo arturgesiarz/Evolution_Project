@@ -5,7 +5,6 @@ import oop.model.genes.GenesHandler;
 import oop.model.maps.MapUtil;
 import oop.model.maps.WorldMap;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation{
@@ -30,26 +29,16 @@ public class Simulation{
 
     public void run() {
         while(animalsMap.countAliveAnimals() > 0){
-
             removeDeadAnimals();
-            System.out.println(animalsMap.getAnimals());
-            System.out.println("NASTAPILO USUNIECIE MARTWYCH ZWIERZAT!");
-
             moveAllAnimals();
             eatAllAnimals();
             reproductionOfAnimals();
             growNewFood();
-
             evolutionTime++;
-            System.out.println(animalsMap.getAnimals());
-            System.out.println("NASTAPIL RUCH WSZYSTKICH ZWIERZAT!");
         }
     }
 
-    private void removeDeadAnimals() {
-        MapUtil.removeDeadAnimals( animalsMap, evolutionTime );
-
-    }
+    private void removeDeadAnimals() { MapUtil.removeDeadAnimals( animalsMap, evolutionTime ); }
 
     private void moveAllAnimals() {
         MapUtil.createListAnimalFromSet(animalsMap).forEach(animalsMap::move);

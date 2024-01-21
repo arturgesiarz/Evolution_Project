@@ -49,8 +49,8 @@ public class Animal implements WorldElement{
         return this.genesHandler;
     }
 
-    public void eat(Food food) {
-        this.getAnimalStats().increaseEnergyAmount(food.getEnergyRegeneratedByEat());
+    public void eat(int energy) {
+        this.getAnimalStats().increaseEnergyAmount(energy);
     }
 
     public void move(MoveValidator validator){

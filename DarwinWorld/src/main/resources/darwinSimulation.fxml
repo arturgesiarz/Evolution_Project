@@ -6,18 +6,45 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
 
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.TextField?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            minHeight="550.0" minWidth="850.0"
-            fx:controller="oop.presenter.DarwinPresenter">
+            minHeight="600" minWidth="800"
+            fx:controller="oop.presenter.DarwinPresenter"
+            stylesheets="@styles.css">
 <center>
     <VBox alignment="CENTER" spacing="10.0">
-        <Label fx:id="infoLabel" text="All animals will be living here!" textAlignment="CENTER"/>
+
+        <Label fx:id="mapPropertiesLabel" text="Map Properties" textAlignment="CENTER"/>
+
+        <VBox fx:id="mapProperties" spacing="5" alignment="CENTER">
+
+            <HBox styleClass="props">
+                <Label text="Map width: "/>
+                <TextField  fx:id="mapWidth"/>
+            </HBox>
+
+            <HBox styleClass="props" >
+                <Label text="Map height: "/>
+                <TextField  fx:id="mapHeight"/>
+            </HBox>
+
+            <HBox styleClass="props">
+                <Label text="Map mode: "/>
+                <HBox spacing="10.0">
+                    <ToggleButton fx:id="mapBasicToggleButton" text="Basic" onAction="#onMapBasic"/>
+                    <ToggleButton fx:id="mapExtendedToggleButton" text="Extended" onAction="#onMapExtended"/>
+                </HBox>
+            </HBox>
+
+        </VBox>
+
+
         <HBox alignment="CENTER" spacing="5.0">
             <Button text="Start" onAction="#onSimulationStartClicked"/>
-            <Button text="Stop" onAction="#onSimulationStopClicked"/>
         </HBox>
-        <GridPane fx:id="mapGrid" alignment="CENTER" gridLinesVisible="true"/>
+
     </VBox>
 </center>
 </BorderPane>
