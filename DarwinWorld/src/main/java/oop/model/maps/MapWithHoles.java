@@ -12,20 +12,23 @@ public class MapWithHoles extends AbstractWorldMap {
 
     public MapWithHoles(int width, int height, MapParameters mapParameters, int numberOfHoles) {
         super(width, height, mapParameters);
-        this.holes = generateHoles(numberOfHoles);
+        generateHoles(numberOfHoles);
     }
 
-    public Map <Vector2d, Hole> generateHoles(int numberOfHoles){
-        //todo zrobic dziury
-        return new HashMap<>();
+    public void generateHoles(int numberOfHoles){
+        Hole holeA = new Hole( new Vector2d(2, 2), new Vector2d(3, 3) );
+        Hole holeB = new Hole( new Vector2d(4, 4), new Vector2d(5, 2) );
+        holes.put(holeA.getEntrance(), holeA);
+        holes.put(holeA.getExit(), holeA);
+        holes.put(holeB.getEntrance(), holeB);
+        holes.put(holeB.getExit(), holeB);
     }
 
     @Override
     public Vector2d teleportation(Vector2d position) {  // chce rozszerzyc tą metode poniewaz moze byc tak ze jestem na dziurze
         Vector2d positionTest = super.teleportation(position);
 
-        // sprawdzam czy jest dziura na danym miejscu
-        if(holes.containsKey(positionTest)){
+        if( holes.containsKey(positionTest) ){
                 return holes.get(positionTest).getExit();
         }
 
@@ -34,8 +37,7 @@ public class MapWithHoles extends AbstractWorldMap {
 
     @Override
     public Optional <WorldElement> objectAt(Vector2d position) {
-
-        return Optional.ofNullable(null);
-    } // TODO do dokończenia!
+        return Optional.ofNullable( holes.get(position) );
+    }
 }
 

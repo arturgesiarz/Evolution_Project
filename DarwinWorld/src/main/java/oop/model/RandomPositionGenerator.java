@@ -70,6 +70,8 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         return generatedPoints;
     }
 
+
+
     @Override
     public Iterator<Vector2d> iterator() {
         return randomPoints.iterator();
