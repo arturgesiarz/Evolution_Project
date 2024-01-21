@@ -3,34 +3,36 @@ package oop.model.maps;
 import oop.model.Animal;
 import oop.model.Grass;
 import oop.model.Vector2d;
+import oop.model.genes.GenesBasic;
+import oop.model.genes.GenesExtended;
+import oop.model.genes.GenesHandler;
 import oop.model.util.AnimalsComparator;
 import oop.model.util.MapParameters;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapUtil {
 
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
     // to ten, który wygrał walkę-on je trawę.
-    public static void fightForFood(Map<Vector2d, List<Animal>> animals,
-                                    MapParameters mapParameters,
-                                    Map <Vector2d, Grass> foodMap) {
-        for( List<Animal> animalsOnCell : animals.values() ) {
+    public static void fightForFood(AbstractWorldMap map) {
+
+        for( List<Animal> animalsOnCell : map.getAnimals().values() ) {
             animalsOnCell.sort( AnimalsComparator.comparator() );
             Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
 
-            animal.getAnimalStats().increaseEnergyAmount( mapParameters.grassEnergy() );
-            removeEatenGrass( animal.getPosition(), foodMap);
+            animal.getAnimalStats().increaseEnergyAmount( map.getMapParameters().grassEnergy() );
+            removeEatenGrass( animal.getPosition(), map.getFoodMap());
         }
     }
 
-    private static void removeEatenGrass(Vector2d grassPosition, Map <Vector2d, Grass> foodMap) {
-        Grass eatenGrass = foodMap.remove(grassPosition);
+    private static void removeEatenGrass(Vector2d grassPosition,
+                                         Map <Vector2d, Grass> foodMap) {
+        foodMap.remove(grassPosition);
     }
 
-    public void removeDeadAnimals(Map<Vector2d, List<Animal>> animals, int time) {
-        animals.forEach((key, value) -> {
+    public static void removeDeadAnimals(AbstractWorldMap map, int time) {
+        map.getAnimals().forEach((key, value) -> {
             // wybieram zwierzeta do usuniecia
             List<Animal> toRemove = value.stream()
                     .filter(animal -> animal.getAnimalStats().getEnergyAmount() <= 0)
@@ -44,8 +46,70 @@ public class MapUtil {
 
             // usuwam cale pole, jesli nie ma na nim juz zandych zwierzat
             if (value.size() == 0) {
-                animals.remove(key);
+                map.getAnimals().remove(key);
             }
         });
+    }
+
+    public static void fightForReproduction(AbstractWorldMap map) {
+        // przegladanie listy zwierzat, ktore sa na danym polu
+        for( List <Animal> animalsOnCell : map.getAnimals().values() ) {
+
+            if ( animalsOnCell.size() < 2 ) { continue; }
+
+            // sortowanie zwierzat oraz odfiltrowanie tych, ktore nie spelniaja warunkow rozmnazania
+            List <Animal> animalsCompeting = animalsOnCell.stream()
+                    .filter( animal -> animal.getAnimalStats().getEnergyAmount() >= map.getMapParameters().minimumEnergyRequiredForCopulation() )
+                    .sorted( AnimalsComparator.comparator() )
+                    .toList();
+
+            // jesli jest mniej niz 2 zwierzat to znaczy ze nie mo kto zkim sie rozmnazac
+            if (animalsCompeting.size() < 2) { continue; }
+
+            // wybieramy dwa zwierzeta
+            Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
+            Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1 );
+            Animal childAnimal = null;
+
+            // tryb: GenesBasic
+            if(map.getMapParameters().genesMode() == 1){
+                GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
+                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+            }
+            // tryb: GenesExtended
+            else{
+                GenesHandler childGenesHandler = new GenesExtended(leftParent, rightParent);
+                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+            }
+
+            // dodaje nowe zwierze na mape
+            map.place(childAnimal);
+
+            // zmienjaszam energie rodzicow
+            leftParent.getAnimalStats().decreaseEnergyAmount( map.getMapParameters().energyLostInCopulation() );
+            rightParent.getAnimalStats().decreaseEnergyAmount( map.getMapParameters().energyLostInCopulation() );
+        }
+    }
+
+    public static void growNewGrass(AbstractWorldMap map) {
+        int numberOfCellsAvailable =  (int) ( (double) 0.8 * map.getUpperRight().getX() * map.getUpperRight().getY() );
+        List <Integer> probability = new ArrayList<>( Collections.nCopies( map.getMapParameters().amountOfPlantsDaily(), -1) );
+        // tworzy listę długości n, wypełnionych daną liczbą
+
+        Random random = new Random();
+        long howManyPutOnEquator = probability.stream()
+                .map(number -> random.nextInt(5))
+                .filter(number -> number <= 3)
+                .count();
+
+        // Tworzymy listę o długości takiej, ile możemy mieć nowej trawy. Ona może wyrosnąć albo na równiku, albo gdzie indziej.
+        // Wyrośnie na równiku z pp. 80% - tj. 4/5. Zatem stwórzmy randomowo tablicę wypełnioną liczbami 0-4.
+        // Tyle ile w tablicy jest 0, 1, 2 lub 3-ójek to liczba traw na równiku.
+
+        howManyPutOnEquator = Math.min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
+        int rowsAmount = (int) Math.ceil( (double) howManyPutOnEquator / map.getUpperRight().getX() );
+        rowsAmount = Math.min( rowsAmount, map.getUpperRight().getY() );
+
+        // TODO DOKONCZYĆ GENEROWANIE TRAWY
     }
 }

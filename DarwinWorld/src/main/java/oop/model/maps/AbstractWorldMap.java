@@ -93,72 +93,24 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
-    @Override
-    public void growNewGrass() {
-        //
-        int numberOfCellsAvailable =  (int) ( (double) 0.8 * upperRight.getX() * upperRight.getY() );
-        List <Integer> probability = new ArrayList<>( Collections.nCopies( mapParameters.amountOfPlantsDaily(), -1) );
-        // tworzy listę długości n, wypełnionych daną liczbą
-
-        Random random = new Random();
-        long howManyPutOnEquator = probability.stream()
-                .map(number -> random.nextInt(5))
-                .filter(number -> number <= 3)
-                .count();
-
-        // Tworzymy listę o długości takiej, ile możemy mieć nowej trawy. Ona może wyrosnąć albo na równiku, albo gdzie indziej.
-        // Wyrośnie na równiku z pp. 80% - tj. 4/5. Zatem stwórzmy randomowo tablicę wypełnioną liczbami 0-4.
-        // Tyle ile w tablicy jest 0, 1, 2 lub 3-ójek to liczba traw na równiku.
-
-        howManyPutOnEquator = Math.min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
-        int rowsAmount = (int) Math.ceil( (double) howManyPutOnEquator / upperRight.getX() );
-        rowsAmount = Math.min( rowsAmount, upperRight.getY() );
-
-        // TODO DOKONCZYĆ GENEROWANIE TRAWY
-
-    }
-
-    public void fightForReproduction() {
-        // przegladanie listy zwierzat, ktore sa na danym polu
-        for( List <Animal> animalsOnCell : animals.values() ) {
-
-            if ( animalsOnCell.size() < 2 ) { continue; }
-
-            // sortowanie zwierzat oraz odfiltrowanie tych, ktore nie spelniaja warunkow rozmnazania
-            List <Animal> animalsCompeting = animalsOnCell.stream()
-                    .filter( animal -> animal.getAnimalStats().getEnergyAmount() >= mapParameters.minimumEnergyRequiredForCopulation() )
-                    .sorted( AnimalsComparator.comparator() )
-                    .toList();
-
-            // jesli jest mniej niz 2 zwierzat to znaczy ze nie mo kto zkim sie rozmnazac
-            if (animalsCompeting.size() < 2) { continue; }
-
-            // wybieramy dwa zwierzeta
-            Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
-            Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1 );
-            Animal childAnimal = null;
-
-            // tryb: GenesBasic
-            if(mapParameters.genesMode() == 1){
-                GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
-                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
-            }
-            // tryb: GenesExtended
-            else{
-                GenesHandler childGenesHandler = new GenesExtended(leftParent, rightParent);
-                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
-            }
-
-            // dodaje nowe zwierze na mape
-            this.place(childAnimal);
-
-            // zmienjaszam energie rodzicow
-            leftParent.getAnimalStats().decreaseEnergyAmount( mapParameters.energyLostInCopulation() );
-            rightParent.getAnimalStats().decreaseEnergyAmount( mapParameters.energyLostInCopulation() );
-        }
-    }
 
     public Map <Vector2d, List <Animal>> getAnimals() {
         return this.animals;
+    }
+
+    public MapParameters getMapParameters() {
+        return mapParameters;
+    }
+
+    public Map<Vector2d, Grass> getFoodMap() {
+        return foodMap;
+    }
+
+    public Vector2d getLowerLeft() {
+        return lowerLeft;
+    }
+
+    public Vector2d getUpperRight() {
+        return upperRight;
     }
 }
