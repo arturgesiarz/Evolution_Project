@@ -7,18 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface WorldMap extends MoveValidator {
-    /**
-     * Place animal on the map.
-     *
-     * @param animal The element to place on the map.
-     */
     void place(Animal animal);
 
-    /**
-     * Move an animal
-     * If the move is not possible, this method has no effect.
-     *
-     */
     void move(Animal animal);
 
     Optional <WorldElement> objectAt(Vector2d position);
@@ -33,4 +23,5 @@ public interface WorldMap extends MoveValidator {
 
     Vector2d getUpperRight();
 
+    int countAliveAnimals();
 }

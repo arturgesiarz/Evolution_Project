@@ -1,7 +1,10 @@
 package oop.model.util;
 
 import oop.model.Vector2d;
+import oop.model.WorldElement;
 import oop.model.maps.WorldMap;
+
+import java.util.Optional;
 
 /**
  * The map visualizer converts the {@link WorldMap} map into a string
@@ -75,7 +78,7 @@ public class MapVisualizer {
 
     private String drawObject(Vector2d currentPosition) {
         //
-        Optional <Food> objectOpt = this.map.objectAt(currentPosition);
+        Optional <WorldElement> objectOpt = this.map.objectAt(currentPosition);
 
         return objectOpt
                 .map( Object::toString )

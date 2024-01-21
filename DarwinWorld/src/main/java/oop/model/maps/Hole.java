@@ -1,8 +1,9 @@
 package oop.model.maps;
 
 import oop.model.Vector2d;
+import oop.model.WorldElement;
 
-public class Hole {
+public class Hole implements WorldElement {
     private Vector2d entrance;
     private Vector2d exit;
 
@@ -16,5 +17,10 @@ public class Hole {
     public Vector2d getExit() {
         return exit;
     }
+
+    @Override
+    public Vector2d getPosition() {
+        return new Vector2d(0,0);
+    } // TODO DOKOŃCZYĆ TO
 
 }

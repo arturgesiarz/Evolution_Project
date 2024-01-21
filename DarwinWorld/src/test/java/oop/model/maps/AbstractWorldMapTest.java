@@ -25,7 +25,22 @@ class AbstractWorldMapTest {
         GenesHandler genesHandlerC = new GenesBasic( List.of(4, 5, 6, 7) );
         Animal animalC = new Animal( new Vector2d(1, 2), 10, genesHandlerC );
 
-        MapParameters mapParameters = new MapParameters(5,3, 3, 0, 5, 5);
+        MapParameters mapParameters = new MapParameters
+                (10,
+                10,
+                1,
+                6,
+                3,
+                1,
+                4,
+                5,
+                6,
+                3,
+                1,
+                2,
+                1,
+                5);
+
         RectangularMap animalsMap = new RectangularMap(10, 10, mapParameters );
         animalsMap.foodMap.put( new Vector2d(1,1), new Grass(new Vector2d(1,1), "Grass"));
 
@@ -37,7 +52,7 @@ class AbstractWorldMapTest {
         animalsMap.move( animalB );
         animalsMap.move( animalC );
 
-        animalsMap.fightForFood();
+        MapUtil.fightForFood(animalsMap);
         assertEquals(14, animalA.getAnimalStats().getEnergyAmount() );
     }
 

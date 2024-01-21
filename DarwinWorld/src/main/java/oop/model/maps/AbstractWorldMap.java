@@ -1,6 +1,7 @@
 package oop.model.maps;
 import oop.model.*;
 import oop.model.util.MapParameters;
+import oop.model.util.MapVisualizer;
 
 import java.util.*;
 
@@ -10,12 +11,22 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected Map <Vector2d, Grass> foodMap = new HashMap<>();
     protected Vector2d lowerLeft;
     protected Vector2d upperRight;
+    private final List<MapChangeListener> observers = new ArrayList<>();
 
     public AbstractWorldMap(int width, int height, MapParameters mapParameters){
         lowerLeft = new Vector2d(0,0);
         upperRight = new Vector2d(width - 1,height - 1);
         this.mapParameters = mapParameters;
 
+    }
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+    void mapChanged(String message){
+        observers.forEach((observer) -> observer.mapChanged(this,message));
     }
     @Override
     public boolean isPole(Vector2d position){
@@ -75,6 +86,17 @@ public abstract class AbstractWorldMap implements WorldMap {
             Vector2d newPosition = animal.getPosition();
             updateNewPositionList(animal, newPosition);
         }
+        mapChanged("Object in position " + oldPosition +
+                " moved to " + animal.getPosition());
+    }
+
+    public int countAliveAnimals(){
+        int aliveAnimal = 0;
+        for(Vector2d square : animals.keySet()){
+            List<Animal> animalList = animals.get(square);
+            aliveAnimal += animalList.size();
+        }
+        return aliveAnimal;
     }
 
     private void updateNewPositionList(Animal animal, Vector2d newPosition) {
@@ -88,6 +110,7 @@ public abstract class AbstractWorldMap implements WorldMap {
             animals.put(animal.getPosition(), newAnimalList);
         }
     }
+
 
     public boolean isOccupied(Vector2d position) { return this.animals.containsKey(position); }
 
@@ -116,5 +139,10 @@ public abstract class AbstractWorldMap implements WorldMap {
         return upperRight;
     }
 
+    @Override
+    public String toString() {
+        MapVisualizer visualizer = new MapVisualizer(this);
+        return visualizer.draw(lowerLeft,upperRight);
+    }
 
 }

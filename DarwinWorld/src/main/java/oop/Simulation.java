@@ -16,14 +16,15 @@ public class Simulation{
     private int evolutionTime = 1;
 
     public Simulation(List <Vector2d> positions, List <GenesHandler> animalsGenes, WorldMap animalsMap ){
-        //
         this.animalsMap = animalsMap;
         this.animalsGenes = animalsGenes;
+
+        // klade na mape zwierzeta oraz sadze trawe
         fillAnimalsList( positions );
+        growNewFood();
     }
 
     private void fillAnimalsList( List <Vector2d> positions ) {
-        //
         int counter = 0;
         for( Vector2d position : positions ) {
             Animal newAnimal = new Animal( position,  animalsMap.getMapParameters().startEnergy(), animalsGenes.get(counter) );
@@ -31,16 +32,17 @@ public class Simulation{
             animalsList.add(  newAnimal );
             counter++;
         }
-
     }
 
     public void run() {
-        removeDeadAnimals();
-        moveAllAnimals();
-        eatAllAnimals();
-        reproductionOfAnimals();
-        growNewFood();
-        evolutionTime++;
+        while(animalsMap.countAliveAnimals() > 0){
+            removeDeadAnimals();
+            moveAllAnimals();
+            eatAllAnimals();
+            reproductionOfAnimals();
+            growNewFood();
+            evolutionTime++;
+        }
     }
 
     private void removeDeadAnimals() {
@@ -62,6 +64,5 @@ public class Simulation{
     private void growNewFood() {
         MapUtil.growNewGrass( animalsMap );
     }
-
 
 }
