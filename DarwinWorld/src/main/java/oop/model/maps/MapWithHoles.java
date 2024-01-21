@@ -13,8 +13,8 @@ import java.util.Optional;
 public class MapWithHoles extends AbstractWorldMap {
     private Map <Vector2d, Hole> holes = new HashMap<>();
 
-    public MapWithHoles(int width, int height, MapParameters mapParameters, int numberOfHoles) {
-        super(width, height, mapParameters);
+    public MapWithHoles(MapParameters mapParameters, int numberOfHoles) {
+        super(mapParameters);
         generateHoles(numberOfHoles);
     }
 

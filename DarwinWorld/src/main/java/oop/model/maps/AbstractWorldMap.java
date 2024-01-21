@@ -5,7 +5,11 @@ import oop.model.util.MapVisualizer;
 
 import java.util.*;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public abstract class AbstractWorldMap implements WorldMap {
+    //
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected final MapParameters mapParameters;
     protected Map <Vector2d, Grass> foodMap = new HashMap<>();
@@ -14,9 +18,9 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final List<MapChangeListener> observers = new ArrayList<>();
     protected final UUID worldMapID;
 
-    public AbstractWorldMap(int width, int height, MapParameters mapParameters){
+    public AbstractWorldMap(MapParameters mapParameters){
         lowerLeft = new Vector2d(0,0);
-        upperRight = new Vector2d(width - 1,height - 1);
+        upperRight = new Vector2d(mapParameters.width() - 1,mapParameters.height() - 1);
         this.mapParameters = mapParameters;
         MapUtil.growNewGrass(this, mapParameters.amountOfPlantsBeginning());
         worldMapID = UUID.randomUUID();
@@ -36,8 +40,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
     @Override
     public boolean isPole(Vector2d position){
-        int northPole = this.upperRight.getY();
-        int southPole = this.lowerLeft.getY();
+        int northPole = max(this.upperRight.getY(),this.lowerLeft.getY());
+        int southPole = min(this.lowerLeft.getY(),this.lowerLeft.getY());
 
         return position.getY() > northPole || position.getY() < southPole;
     }

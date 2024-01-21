@@ -41,7 +41,7 @@ class AbstractWorldMapTest {
                 1,
                 5);
 
-        RectangularMap animalsMap = new RectangularMap(10, 10, mapParameters );
+        RectangularMap animalsMap = new RectangularMap(mapParameters);
         animalsMap.foodMap.put( new Vector2d(1,1), new Grass(new Vector2d(1,1), "Grass"));
 
         animalsMap.place(animalA);

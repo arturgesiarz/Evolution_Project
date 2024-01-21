@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public class RectangularMap extends AbstractWorldMap {
 
-    public RectangularMap(int width, int height, MapParameters mapParameters){
-        super(width, height, mapParameters);
+    public RectangularMap(MapParameters mapParameters){
+        super(mapParameters);
     }
 
     @Override

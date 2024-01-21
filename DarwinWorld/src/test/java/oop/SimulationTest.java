@@ -42,7 +42,7 @@ class SimulationTest {
                         1,
                         5);
 
-        RectangularMap map = new RectangularMap(15, 15, mapParameters);
+        RectangularMap map = new RectangularMap(mapParameters);
         map.addObserver(new ConsoleMapDisplay());
         map.addObserver(new FileMapDisplay());
 
@@ -55,30 +55,28 @@ class SimulationTest {
     void mapWithHolesTesting() {
         //
         List<Vector2d> animalPositions = List.of(
-                new Vector2d(0,0),
-                new Vector2d(7,2));
+                new Vector2d(0,0));
 
         List <GenesHandler> animalGenes = List.of(
-                new GenesBasic(List.of(0,1,2,3,4)),
-                new GenesBasic(List.of(6,6,3,2,1)));
+                new GenesBasic(List.of(0,1,3,5,2)));
 
         MapParameters mapParameters = new MapParameters
-                        (10,
-                        10,
-                        1,
-                        1,
-                        1,
+                        (5,
                         5,
+                        0,
+                        1,
+                        0,
+                        0,
                         4,
-                        10,
+                        50,
                         3,
-                        6,
+                        3,
                         1,
                         2,
                         1,
                         5);
 
-        MapWithHoles map = new MapWithHoles(15, 15, mapParameters, 3);
+        MapWithHoles map = new MapWithHoles(mapParameters, 3);
         map.addObserver(new ConsoleMapDisplay());
         map.addObserver(new FileMapDisplay());
 

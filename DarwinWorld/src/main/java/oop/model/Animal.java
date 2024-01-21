@@ -89,14 +89,14 @@ public class Animal implements WorldElement{
     @Override
     public String toString() {
         return switch(directionFaced) {
-            case NORTH       -> "N " + animalStats.getEnergyAmount();
-            case NORTH_EAST  -> "NE "+ animalStats.getEnergyAmount();
-            case EAST        -> "E "+ animalStats.getEnergyAmount();
-            case SOUTH_EAST  -> "SE "+ animalStats.getEnergyAmount();
-            case SOUTH       -> "S "+ animalStats.getEnergyAmount();
-            case SOUTH_WEST  -> "SW "+ animalStats.getEnergyAmount();
-            case WEST        -> "W "+ animalStats.getEnergyAmount();
-            case NORTH_WEST  -> "NW " + animalStats.getEnergyAmount();
+            case NORTH       -> "N";
+            case NORTH_EAST  -> "NE";
+            case EAST        -> "E";
+            case SOUTH_EAST  -> "SE";
+            case SOUTH       -> "S";
+            case SOUTH_WEST  -> "SW";
+            case WEST        -> "W";
+            case NORTH_WEST  -> "NW";
         };
     }
 }
