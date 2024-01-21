@@ -94,27 +94,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public void removeDeadAnimals(int time) {
-        animals.forEach((key, value) -> {
-            // wybieram zwierzeta do usuniecia
-            List<Animal> toRemove = value.stream()
-                    .filter(animal -> animal.getAnimalStats().getEnergyAmount() <= 0)
-                    .toList();
-
-            // usuwam z danych pol zwierzeta
-            toRemove.forEach(animal -> {
-                value.remove(animal);
-                animal.getAnimalStats().setDeathTime(time);
-            });
-
-            // usuwam cale pole, jesli nie ma na nim juz zandych zwierzat
-            if (value.size() == 0) {
-                animals.remove(key);
-            }
-        });
-    }
-
-    @Override
     public void growNewGrass() {
         //
         int numberOfCellsAvailable =  (int) ( (double) 0.8 * upperRight.getX() * upperRight.getY() );
@@ -137,23 +116,6 @@ public abstract class AbstractWorldMap implements WorldMap {
 
         // TODO DOKONCZYĆ GENEROWANIE TRAWY
 
-    }
-
-
-    // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
-    // to ten, który wygrał walkę-on je trawę.
-    public void fightForFood() {
-        for( List <Animal> animalsOnCell : animals.values() ) {
-            animalsOnCell.sort( AnimalsComparator.comparator() );
-            Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
-
-            animal.getAnimalStats().increaseEnergyAmount( mapParameters.grassEnergy() );
-            removeEatenGrass( animal.getPosition() );
-        }
-    }
-
-    private void removeEatenGrass(Vector2d grassPosition) {
-        Grass eatenGrass = foodMap.remove(grassPosition);
     }
 
     public void fightForReproduction() {
