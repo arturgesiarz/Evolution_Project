@@ -3,6 +3,7 @@ package oop.model;
 import java.util.Optional;
 
 public class AnimalStats {
+    //
     private final Animal animal;
     private int childAmount = 0;
     private int descendantsAmount = 0;

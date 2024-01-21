@@ -2,10 +2,7 @@ package oop.model;
 
 import oop.model.maps.WorldMap;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class RandomPositionGenerator implements Iterable<Vector2d> {
@@ -53,21 +50,26 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         List<Vector2d> generatedPoints = new ArrayList<>();
         int lastIndex = possiblePositions.size() - 1;
         int randomSelect;
-
         long puttedGrass = 0;
 
-        for(int i = 0; i < objectsNumber; i++){
-            randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
-            generatedPoints.add(possiblePositions.get(randomSelect));
-            possiblePositions.remove(randomSelect);
-            lastIndex--;
-            puttedGrass++;
+        if(lastIndex >= 0){
+            for(int i = 0; i < objectsNumber; i++){
+                if ( possiblePositions.size() == 0 ) {
+                    System.out.println("DUPA");
+                    break;
+                }
+                randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
+                generatedPoints.add(possiblePositions.get(randomSelect));
+                possiblePositions.remove(randomSelect);
+                lastIndex--;
+                puttedGrass++;
+            }
         }
 
         this.succeedGrassPlaced = puttedGrass;
-
         return generatedPoints;
     }
+
     @Override
     public Iterator<Vector2d> iterator() {
         return randomPoints.iterator();

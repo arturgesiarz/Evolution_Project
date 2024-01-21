@@ -12,12 +12,18 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected Vector2d lowerLeft;
     protected Vector2d upperRight;
     private final List<MapChangeListener> observers = new ArrayList<>();
+    private final UUID worldMapID;
 
     public AbstractWorldMap(int width, int height, MapParameters mapParameters){
         lowerLeft = new Vector2d(0,0);
         upperRight = new Vector2d(width - 1,height - 1);
         this.mapParameters = mapParameters;
         MapUtil.growNewGrass(this, mapParameters.amountOfPlantsBeginning());
+        worldMapID = UUID.randomUUID();
+    }
+    @Override
+    public UUID getWorldMapID() {
+        return worldMapID;
     }
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);
@@ -67,6 +73,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
     @Override
     public void move(Animal animal) {
+        animal.getAnimalStats().decreaseEnergyAmount(1);
         Vector2d oldPosition = animal.getPosition();
         List<Animal> oldAnimalsList = animals.get(oldPosition);  // pozyskuje liste zwierzat bedacych na tej samej pozycji
 
@@ -86,8 +93,11 @@ public abstract class AbstractWorldMap implements WorldMap {
             Vector2d newPosition = animal.getPosition();
             updateNewPositionList(animal, newPosition);
         }
+
+
         mapChanged("Object in position " + oldPosition +
                 " moved to " + animal.getPosition());
+
     }
 
     public int countAliveAnimals(){

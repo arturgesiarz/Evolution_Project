@@ -17,13 +17,16 @@ public class MapUtil {
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
     // to ten, który wygrał walkę-on je trawę.
     public static void fightForFood(WorldMap map) {
+        // TODO OPTYMALIZACJA
 
         for( List<Animal> animalsOnCell : map.getAnimals().values() ) {
-            animalsOnCell.sort( AnimalsComparator.comparator() );
-            Animal animal = animalsOnCell.get( animalsOnCell.size() - 1 );
+            if ( animalsOnCell.size() < 1 ) { continue; }
+            if ( !map.getFoodMap().containsKey( animalsOnCell.get(0).getPosition() ) ) { continue; }
 
+            animalsOnCell.sort( AnimalsComparator.comparator() );
+            Animal animal = animalsOnCell.get( animalsOnCell.size() - 1);
             animal.getAnimalStats().increaseEnergyAmount( map.getMapParameters().grassEnergy() );
-            removeEatenGrass( animal.getPosition(), map.getFoodMap());
+            removeEatenGrass( animal.getPosition(), map.getFoodMap() );
         }
     }
 
@@ -33,24 +36,23 @@ public class MapUtil {
     }
 
     public static void removeDeadAnimals(WorldMap map, int time) {
-        map.getAnimals().forEach((key, value) -> {
-            // wybieram zwierzeta do usuniecia
-            List<Animal> toRemove = value.stream()
-                    .filter(animal -> animal.getAnimalStats().getEnergyAmount() <= 0)
-                    .toList();
+        //
+        List<Animal> toRemove = map.getAnimals()
+                .values()
+                .stream()
+                .flatMap(List::stream)
+                .filter(animal -> animal.getAnimalStats().getEnergyAmount() <= 0)
+                .toList();
 
-            // usuwam z danych pol zwierzeta
-            toRemove.forEach(animal -> {
-                value.remove(animal);
-                animal.getAnimalStats().setDeathTime(time);
-            });
+        toRemove.forEach( animal -> {
+            map.getAnimals().get( animal.getPosition() ).remove(animal);
+            animal.getAnimalStats().setDeathTime(time);
 
-            // usuwam cale pole, jesli nie ma na nim juz zandych zwierzat
-            if (value.size() == 0) {
-                map.getAnimals().remove(key);
+            if (map.getAnimals().get( animal.getPosition() ).size() == 0) {
+                map.getAnimals().remove(animal.getPosition());
             }
         });
-    }
+    } // end procedure removeDeadAnimals()
 
     public static void fightForReproduction(WorldMap map) {
         // przegladanie listy zwierzat, ktore sa na danym polu
@@ -68,22 +70,20 @@ public class MapUtil {
             if (animalsCompeting.size() < 2) { continue; }
 
             // wybieramy dwa zwierzeta
-            System.out.println(animalsOnCell.size() - 2);
-            System.out.println(animalsOnCell.size() - 1);
-            
-            Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
-            Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1 );
+
+            Animal leftParent  = animalsCompeting.get( animalsCompeting.size() - 2 );
+            Animal rightParent = animalsCompeting.get( animalsCompeting.size() - 1 );
             Animal childAnimal = null;
 
             // tryb: GenesBasic
             if(map.getMapParameters().genesMode() == 1){
                 GenesHandler childGenesHandler = new GenesBasic(leftParent, rightParent);
-                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+                childAnimal = new Animal( leftParent, rightParent, childGenesHandler, map.getMapParameters().energyLostInCopulation() );
             }
             // tryb: GenesExtended
             else{
                 GenesHandler childGenesHandler = new GenesExtended(leftParent, rightParent);
-                childAnimal = new Animal(leftParent, rightParent, childGenesHandler);
+                childAnimal = new Animal( leftParent, rightParent, childGenesHandler, map.getMapParameters().energyLostInCopulation() );
             }
 
             // dodaje nowe zwierze na mape
@@ -154,7 +154,7 @@ public class MapUtil {
     }
 
     public static List <Animal> createListAnimalFromSet(WorldMap map){
-
+        //
         return map.getAnimals().values().stream()
                 .flatMap(List::stream)
                 .toList();

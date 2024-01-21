@@ -25,7 +25,7 @@ class AnimalStatsTest {
         Animal animalC = new Animal( new Vector2d(2, 1), 10, genesHandlerC );
 
         GenesHandler genesHandlerD = new GenesBasic(animalB, animalC);
-        Animal animalD = new Animal(animalB, animalC, genesHandlerD);
+        Animal animalD = new Animal(animalB, animalC, genesHandlerD, 6);
 
         assertEquals(1, animalB.getAnimalStats().getDescendantsAmount() );
         assertEquals(1, animalC.getAnimalStats().getDescendantsAmount() );

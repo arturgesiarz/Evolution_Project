@@ -1,6 +1,7 @@
 package oop.model;
 import oop.model.genes.GenesHandler;
 import oop.model.maps.MoveValidator;
+import oop.model.util.MapParameters;
 
 import java.util.Optional;
 import java.util.Random;
@@ -13,8 +14,8 @@ public class Animal implements WorldElement{
     private Animal leftParent  = null;
     private Animal rightParent = null;
 
-    public Animal(Animal leftParent, Animal rightParent, GenesHandler genesHandler) {
-        this( leftParent.getPosition(),leftParent.getAnimalStats().getEnergyAmount() + rightParent.getAnimalStats().getEnergyAmount() ,genesHandler );
+    public Animal(Animal leftParent, Animal rightParent, GenesHandler genesHandler, int energyLostInCopulation) {
+        this( leftParent.getPosition(), 2 * energyLostInCopulation ,genesHandler );
         this.leftParent  = leftParent;
         this.rightParent = rightParent;
 
@@ -51,6 +52,7 @@ public class Animal implements WorldElement{
     public void eat(Food food) {
         this.getAnimalStats().increaseEnergyAmount(food.getEnergyRegeneratedByEat());
     }
+
     public void move(MoveValidator validator){
         // najpiew nastepuje obrot o dany nastepny gen
         int nextGene = this.genesHandler.getNextMove();
@@ -87,14 +89,14 @@ public class Animal implements WorldElement{
     @Override
     public String toString() {
         return switch(directionFaced) {
-            case NORTH       -> "N";
-            case NORTH_EAST  -> "NE";
-            case EAST        -> "E";
-            case SOUTH_EAST  -> "SE";
-            case SOUTH       -> "S";
-            case SOUTH_WEST  -> "SW";
-            case WEST        -> "W";
-            case NORTH_WEST  -> "NW";
+            case NORTH       -> "N " + animalStats.getEnergyAmount();
+            case NORTH_EAST  -> "NE "+ animalStats.getEnergyAmount();
+            case EAST        -> "E "+ animalStats.getEnergyAmount();
+            case SOUTH_EAST  -> "SE "+ animalStats.getEnergyAmount();
+            case SOUTH       -> "S "+ animalStats.getEnergyAmount();
+            case SOUTH_WEST  -> "SW "+ animalStats.getEnergyAmount();
+            case WEST        -> "W "+ animalStats.getEnergyAmount();
+            case NORTH_WEST  -> "NW " + animalStats.getEnergyAmount();
         };
     }
 }

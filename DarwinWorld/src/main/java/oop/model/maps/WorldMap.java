@@ -5,6 +5,7 @@ import oop.model.util.MapParameters;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface WorldMap extends MoveValidator {
     void place(Animal animal);
@@ -22,6 +23,8 @@ public interface WorldMap extends MoveValidator {
     Vector2d getLowerLeft();
 
     Vector2d getUpperRight();
+
+    UUID getWorldMapID();
 
     int countAliveAnimals();
 }

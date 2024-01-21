@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation{
-    //
-    private List<Animal> animalsList = new ArrayList<>();
     private final WorldMap animalsMap;
     private final List<GenesHandler> animalsGenes;
     private int evolutionTime = 1;
@@ -32,14 +30,19 @@ public class Simulation{
 
     public void run() {
         while(animalsMap.countAliveAnimals() > 0){
+
             removeDeadAnimals();
+            System.out.println(animalsMap.getAnimals());
+            System.out.println("NASTAPILO USUNIECIE MARTWYCH ZWIERZAT!");
+
             moveAllAnimals();
             eatAllAnimals();
             reproductionOfAnimals();
             growNewFood();
+
             evolutionTime++;
             System.out.println(animalsMap.getAnimals());
-            System.out.println("NASTAPIL RUCH WSZYSTKICH ZWIERZAT");
+            System.out.println("NASTAPIL RUCH WSZYSTKICH ZWIERZAT!");
         }
     }
 
@@ -60,8 +63,7 @@ public class Simulation{
         MapUtil.fightForReproduction( animalsMap );
     }
 
-    private void growNewFood() {
-        MapUtil.growNewGrass( animalsMap, animalsMap.getMapParameters().amountOfPlantsDaily() );
+    private void growNewFood() { MapUtil.growNewGrass( animalsMap, animalsMap.getMapParameters().amountOfPlantsDaily() );
     }
 
 }
