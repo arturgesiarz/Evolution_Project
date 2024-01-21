@@ -1,5 +1,7 @@
 package oop.model;
 
+import oop.model.maps.WorldMap;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,23 +9,43 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class RandomPositionGenerator implements Iterable<Vector2d> {
-    private final int objectsNumber;
-    private final Vector2d upperRangeBladeOfGrass;
+    private final long objectsNumber;
+    private final Vector2d rightBorder;
+    private final Vector2d leftBorder;
     private final List<Vector2d> randomPoints;
+    private final WorldMap map;
+    private long succeedGrassPlaced = 0;
 
-    public RandomPositionGenerator(int objectsNumber, Vector2d upperRangeObject){
+    public long getSucceedGrassPlaced() {
+        return succeedGrassPlaced;
+    }
+
+    public List<Vector2d> getRandomPoints() {
+        return randomPoints;
+    }
+
+    public RandomPositionGenerator(long objectsNumber, Vector2d leftBorder, Vector2d rightBorder, WorldMap map){
         this.objectsNumber = objectsNumber;
-        this.upperRangeBladeOfGrass = upperRangeObject;
+        this.rightBorder = rightBorder;
+        this.leftBorder = leftBorder;
+        this.map = map;
         this.randomPoints = generateObjectsRandomPosition( createPossiblePositions() );
     }
 
     public List<Vector2d> createPossiblePositions(){
         List<Vector2d> possiblePositions = new ArrayList<>();
-        for(int i = 0; i <= upperRangeBladeOfGrass.getX(); i++){
-            for(int j = 0; j <= upperRangeBladeOfGrass.getY(); j++){
-                possiblePositions.add(new Vector2d(i,j));
+        for(int i = 0; i <= rightBorder.getX(); i++){
+            for(int j = leftBorder.getY(); j <= rightBorder.getY(); j++){
+                Vector2d newPosition = new Vector2d(i,j);
+
+                // okreslamy dostepne miejsca dla trawy tam gdzie jej nie ma
+                if(!map.getFoodMap().containsKey(newPosition)){
+                    possiblePositions.add(newPosition);
+                }
+
             }
         }
+
         return possiblePositions;
     }
 
@@ -32,12 +54,18 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         int lastIndex = possiblePositions.size() - 1;
         int randomSelect;
 
+        long puttedGrass = 0;
+
         for(int i = 0; i < objectsNumber; i++){
             randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
             generatedPoints.add(possiblePositions.get(randomSelect));
             possiblePositions.remove(randomSelect);
             lastIndex--;
+            puttedGrass++;
         }
+
+        this.succeedGrassPlaced = this.objectsNumber - puttedGrass;
+
         return generatedPoints;
     }
     @Override

@@ -78,4 +78,14 @@ public class Animal implements WorldElement{
     public Optional <Animal> getRightParent() {
         return Optional.ofNullable( rightParent );
     }
+
+    @Override
+    public String toString() {
+        return switch(directionFaced) {
+            case NORTH -> "N";
+            case EAST  -> "E";
+            case SOUTH -> "S";
+            case WEST  -> "W";
+        };
+    }
 }

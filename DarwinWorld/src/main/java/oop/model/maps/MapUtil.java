@@ -2,20 +2,23 @@ package oop.model.maps;
 
 import oop.model.Animal;
 import oop.model.Grass;
+import oop.model.RandomPositionGenerator;
 import oop.model.Vector2d;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesExtended;
 import oop.model.genes.GenesHandler;
 import oop.model.util.AnimalsComparator;
-import oop.model.util.MapParameters;
 
 import java.util.*;
+
+import static java.lang.Math.min;
+import static java.lang.Math.max;
 
 public class MapUtil {
 
     // Sortuje listę zwierzaków obecnych na danej pozycji, według kryteriów. Po posortowaniu ostatni zwierzak na liście
     // to ten, który wygrał walkę-on je trawę.
-    public static void fightForFood(AbstractWorldMap map) {
+    public static void fightForFood(WorldMap map) {
 
         for( List<Animal> animalsOnCell : map.getAnimals().values() ) {
             animalsOnCell.sort( AnimalsComparator.comparator() );
@@ -31,7 +34,7 @@ public class MapUtil {
         foodMap.remove(grassPosition);
     }
 
-    public static void removeDeadAnimals(AbstractWorldMap map, int time) {
+    public static void removeDeadAnimals(WorldMap map, int time) {
         map.getAnimals().forEach((key, value) -> {
             // wybieram zwierzeta do usuniecia
             List<Animal> toRemove = value.stream()
@@ -51,7 +54,7 @@ public class MapUtil {
         });
     }
 
-    public static void fightForReproduction(AbstractWorldMap map) {
+    public static void fightForReproduction(WorldMap map) {
         // przegladanie listy zwierzat, ktore sa na danym polu
         for( List <Animal> animalsOnCell : map.getAnimals().values() ) {
 
@@ -91,7 +94,7 @@ public class MapUtil {
         }
     }
 
-    public static void growNewGrass(AbstractWorldMap map) {
+    public static void growNewGrass(WorldMap map) {
         int numberOfCellsAvailable =  (int) ( (double) 0.8 * map.getUpperRight().getX() * map.getUpperRight().getY() );
         List <Integer> probability = new ArrayList<>( Collections.nCopies( map.getMapParameters().amountOfPlantsDaily(), -1) );
         // tworzy listę długości n, wypełnionych daną liczbą
@@ -106,10 +109,39 @@ public class MapUtil {
         // Wyrośnie na równiku z pp. 80% - tj. 4/5. Zatem stwórzmy randomowo tablicę wypełnioną liczbami 0-4.
         // Tyle ile w tablicy jest 0, 1, 2 lub 3-ójek to liczba traw na równiku.
 
-        howManyPutOnEquator = Math.min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
-        int rowsAmount = (int) Math.ceil( (double) howManyPutOnEquator / map.getUpperRight().getX() );
-        rowsAmount = Math.min( rowsAmount, map.getUpperRight().getY() );
+        howManyPutOnEquator = min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
+        int rowsAmountEquator = (int) Math.ceil( (double) howManyPutOnEquator / map.getUpperRight().getX() );
+        rowsAmountEquator = min(rowsAmountEquator, map.getUpperRight().getY() );
 
-        // TODO DOKONCZYĆ GENEROWANIE TRAWY
+        int heightEquator = rowsAmountEquator / 2;
+        int mapHeight = map.getMapParameters().height();
+        int mapWidth  = map.getMapParameters().width();
+
+        Vector2d leftBorder  = new Vector2d( 0, max(0, mapHeight / 2 - heightEquator ) ) ;
+        Vector2d rightBorder = new Vector2d( mapWidth, min( mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
+
+        // generowanie trawy na rowniku
+        RandomPositionGenerator generatorGrassOnEquator = new RandomPositionGenerator(howManyPutOnEquator, leftBorder, rightBorder, map);
+        List<Vector2d> generatedPointsOnEquator = generatorGrassOnEquator.getRandomPoints();
+
+        // klade nowa wygenerwana trawe na mape
+        putGrass(map, generatedPointsOnEquator);
+
+
+        // generowanie trawy na pozostalych polach
+        if(generatorGrassOnEquator.getSucceedGrassPlaced() < map.getMapParameters().amountOfPlantsDaily()){
+            long restGrassToGenerate = map.getMapParameters().amountOfPlantsDaily() - generatorGrassOnEquator.getSucceedGrassPlaced();
+
+            RandomPositionGenerator generatorPointsOutsideEquator = new RandomPositionGenerator(restGrassToGenerate, map.getLowerLeft(), map.getUpperRight(), map);
+            List<Vector2d> generedPointsOutsideEquator = generatorPointsOutsideEquator.getRandomPoints();
+
+            // klade nowa wygenerwana trawe na mape
+            putGrass(map, generedPointsOutsideEquator);
+        }
+
+    }
+    private static void putGrass(WorldMap map, List<Vector2d>  newGrassPositions) {
+        newGrassPositions.forEach(newGrassPosition -> map.getFoodMap()
+                .put(newGrassPosition, new Grass(newGrassPosition, "Lolium grass")));
     }
 }

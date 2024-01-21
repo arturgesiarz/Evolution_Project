@@ -78,4 +78,5 @@ public abstract class AbstractGenesHandler implements GenesHandler {
     public List <Integer> getGenes() {
         return this.genes;
     }
+
 }

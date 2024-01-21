@@ -1,11 +1,10 @@
 package oop.model.maps;
-import oop.model.Animal;
-import oop.model.MapDirection;
-import oop.model.Vector2d;
-import oop.model.WorldElement;
+import oop.model.*;
+import oop.model.util.MapParameters;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface WorldMap extends MoveValidator {
     /**
@@ -22,16 +21,16 @@ public interface WorldMap extends MoveValidator {
      */
     void move(Animal animal);
 
-    /**
-     * Remove dead an animal
-     * If the move is not possible, this method has no effect.
-     *
-     */
-    void removeDeadAnimals(int time);
-
-    void growNewGrass();
+    Optional <WorldElement> objectAt(Vector2d position);
 
     Map <Vector2d, List<Animal>> getAnimals();
 
-    void fightForReproduction();
+    MapParameters getMapParameters();
+
+    Map <Vector2d, Grass> getFoodMap();
+
+    Vector2d getLowerLeft();
+
+    Vector2d getUpperRight();
+
 }

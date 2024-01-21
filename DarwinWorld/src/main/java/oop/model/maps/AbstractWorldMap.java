@@ -1,9 +1,5 @@
 package oop.model.maps;
 import oop.model.*;
-import oop.model.genes.GenesBasic;
-import oop.model.genes.GenesExtended;
-import oop.model.genes.GenesHandler;
-import oop.model.util.AnimalsComparator;
 import oop.model.util.MapParameters;
 
 import java.util.*;
@@ -93,24 +89,32 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
+    public boolean isOccupied(Vector2d position) { return this.animals.containsKey(position); }
 
+    @Override
     public Map <Vector2d, List <Animal>> getAnimals() {
         return this.animals;
     }
 
+    @Override
     public MapParameters getMapParameters() {
         return mapParameters;
     }
 
+    @Override
     public Map<Vector2d, Grass> getFoodMap() {
         return foodMap;
     }
 
+    @Override
     public Vector2d getLowerLeft() {
         return lowerLeft;
     }
 
+    @Override
     public Vector2d getUpperRight() {
         return upperRight;
     }
+
+
 }
