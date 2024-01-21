@@ -7,12 +7,12 @@ import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
-    private final MapParameters mapParameters;
+    protected final MapParameters mapParameters;
     protected Map <Vector2d, Grass> foodMap = new HashMap<>();
     protected Vector2d lowerLeft;
     protected Vector2d upperRight;
-    private final List<MapChangeListener> observers = new ArrayList<>();
-    private final UUID worldMapID;
+    protected final List<MapChangeListener> observers = new ArrayList<>();
+    protected final UUID worldMapID;
 
     public AbstractWorldMap(int width, int height, MapParameters mapParameters){
         lowerLeft = new Vector2d(0,0);

@@ -4,6 +4,7 @@ import oop.model.Vector2d;
 import oop.model.WorldElement;
 
 public class Hole implements WorldElement {
+    //
     private final Vector2d entrance;
     private final Vector2d exit;
 
@@ -11,12 +12,12 @@ public class Hole implements WorldElement {
         this.entrance = entrance;
         this.exit = exit;
     }
+
     public Vector2d getEntrance() {
         return entrance;
     }
-    public Vector2d getExit() {
-        return exit;
-    }
+
+    public Vector2d getExit() { return exit; }
 
     @Override
     public Vector2d getPosition() {
@@ -27,7 +28,5 @@ public class Hole implements WorldElement {
     public String toString() {
         return "O";
     }
-
-
 
 }

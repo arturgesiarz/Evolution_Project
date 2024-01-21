@@ -111,7 +111,7 @@ public class MapUtil {
         // Tyle ile w tablicy jest 0, 1, 2 lub 3-ójek to liczba traw na równiku.
 
         howManyPutOnEquator = min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
-        int rowsAmountEquator = (int) Math.ceil( (double) howManyPutOnEquator / map.getUpperRight().getX() );
+        int rowsAmountEquator = (int) Math.ceil( (double) numberOfCellsAvailable / map.getUpperRight().getX() );
         rowsAmountEquator = min(rowsAmountEquator, map.getUpperRight().getY() );
 
         int heightEquator = rowsAmountEquator / 2;

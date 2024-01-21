@@ -27,16 +27,16 @@ class SimulationTest {
                 new GenesBasic(List.of(6,6,3,2,1)));
 
         MapParameters mapParameters = new MapParameters
-                (10,
-                        10,
+                        (20,
+                        20,
                         1,
                         1,
-                        1,
+                        3,
                         5,
                         4,
-                        10,
-                        3,
-                        6,
+                        15,
+                        5,
+                        5,
                         1,
                         2,
                         1,
@@ -63,7 +63,7 @@ class SimulationTest {
                 new GenesBasic(List.of(6,6,3,2,1)));
 
         MapParameters mapParameters = new MapParameters
-                (10,
+                        (10,
                         10,
                         1,
                         1,

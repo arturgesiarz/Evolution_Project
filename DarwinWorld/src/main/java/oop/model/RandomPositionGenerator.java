@@ -5,7 +5,7 @@ import oop.model.maps.WorldMap;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class RandomPositionGenerator implements Iterable<Vector2d> {
+public class RandomPositionGenerator{
     private final long objectsNumber;
     private final Vector2d rightBorder;
     private final Vector2d leftBorder;
@@ -55,7 +55,6 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         if(lastIndex >= 0){
             for(int i = 0; i < objectsNumber; i++){
                 if ( possiblePositions.size() == 0 ) {
-                    System.out.println("DUPA");
                     break;
                 }
                 randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
@@ -68,20 +67,5 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
 
         this.succeedGrassPlaced = puttedGrass;
         return generatedPoints;
-    }
-
-
-
-    @Override
-    public Iterator<Vector2d> iterator() {
-        return randomPoints.iterator();
-    }
-    @Override
-    public void forEach(Consumer<? super Vector2d> action) {
-        Iterable.super.forEach(action);
-    }
-    @Override
-    public Spliterator<Vector2d> spliterator() {
-        return Iterable.super.spliterator();
     }
 }
