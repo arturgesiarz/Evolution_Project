@@ -3,6 +3,7 @@ import oop.model.genes.GenesHandler;
 import oop.model.maps.MoveValidator;
 
 import java.util.Optional;
+import java.util.Random;
 
 public class Animal implements WorldElement{
     private MapDirection directionFaced;
@@ -27,8 +28,12 @@ public class Animal implements WorldElement{
     public Animal(Vector2d position, int energyAmount, GenesHandler genesHandler) {
         this.position = position;
         this.genesHandler = genesHandler;
-        this.directionFaced = MapDirection.NORTH;
+        setDirectionFaced();
         this.animalStats = new AnimalStats(this, energyAmount);
+    }
+    private void setDirectionFaced(){
+        int randomMapDirectionValue = new Random().nextInt(8);
+        this.directionFaced = MapDirection.fromValue(randomMapDirectionValue);
     }
 
     public Vector2d getPosition() {

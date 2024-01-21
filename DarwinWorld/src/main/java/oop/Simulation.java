@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Simulation{
     //
-    private final List<Animal> animalsList = new ArrayList<>();
+    private List<Animal> animalsList = new ArrayList<>();
     private final WorldMap animalsMap;
     private final List<GenesHandler> animalsGenes;
     private int evolutionTime = 1;
@@ -18,10 +18,7 @@ public class Simulation{
     public Simulation(List <Vector2d> positions, List <GenesHandler> animalsGenes, WorldMap animalsMap ){
         this.animalsMap = animalsMap;
         this.animalsGenes = animalsGenes;
-
-        // klade na mape zwierzeta oraz sadze trawe
         fillAnimalsList( positions );
-        growNewFood();
     }
 
     private void fillAnimalsList( List <Vector2d> positions ) {
@@ -29,7 +26,6 @@ public class Simulation{
         for( Vector2d position : positions ) {
             Animal newAnimal = new Animal( position,  animalsMap.getMapParameters().startEnergy(), animalsGenes.get(counter) );
             animalsMap.place( newAnimal );
-            animalsList.add(  newAnimal );
             counter++;
         }
     }
@@ -42,15 +38,18 @@ public class Simulation{
             reproductionOfAnimals();
             growNewFood();
             evolutionTime++;
+            System.out.println(animalsMap.getAnimals());
+            System.out.println("NASTAPIL RUCH WSZYSTKICH ZWIERZAT");
         }
     }
 
     private void removeDeadAnimals() {
         MapUtil.removeDeadAnimals( animalsMap, evolutionTime );
+
     }
 
     private void moveAllAnimals() {
-        animalsList.forEach(animalsMap::move);
+        MapUtil.createListAnimalFromSet(animalsMap).forEach(animalsMap::move);
     }
 
     private void eatAllAnimals(){
@@ -62,7 +61,7 @@ public class Simulation{
     }
 
     private void growNewFood() {
-        MapUtil.growNewGrass( animalsMap );
+        MapUtil.growNewGrass( animalsMap, animalsMap.getMapParameters().amountOfPlantsDaily() );
     }
 
 }

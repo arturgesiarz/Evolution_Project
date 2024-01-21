@@ -1,15 +1,13 @@
 package oop.model.maps;
 
-import oop.model.Animal;
-import oop.model.Grass;
-import oop.model.RandomPositionGenerator;
-import oop.model.Vector2d;
+import oop.model.*;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesExtended;
 import oop.model.genes.GenesHandler;
 import oop.model.util.AnimalsComparator;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.lang.Math.min;
 import static java.lang.Math.max;
@@ -70,6 +68,9 @@ public class MapUtil {
             if (animalsCompeting.size() < 2) { continue; }
 
             // wybieramy dwa zwierzeta
+            System.out.println(animalsOnCell.size() - 2);
+            System.out.println(animalsOnCell.size() - 1);
+            
             Animal leftParent  = animalsCompeting.get( animalsOnCell.size() - 2 );
             Animal rightParent = animalsCompeting.get( animalsOnCell.size() - 1 );
             Animal childAnimal = null;
@@ -94,9 +95,9 @@ public class MapUtil {
         }
     }
 
-    public static void growNewGrass(WorldMap map) {
+    public static void growNewGrass(WorldMap map, int plantsToSeed) {
         int numberOfCellsAvailable =  (int) ( (double) 0.8 * map.getUpperRight().getX() * map.getUpperRight().getY() );
-        List <Integer> probability = new ArrayList<>( Collections.nCopies( map.getMapParameters().amountOfPlantsDaily(), -1) );
+        List <Integer> probability = new ArrayList<>( Collections.nCopies( plantsToSeed, -1) );
         // tworzy listę długości n, wypełnionych daną liczbą
 
         Random random = new Random();
@@ -117,11 +118,16 @@ public class MapUtil {
         int mapHeight = map.getMapParameters().height();
         int mapWidth  = map.getMapParameters().width();
 
-        Vector2d leftBorder  = new Vector2d( 0, max(0, mapHeight / 2 - heightEquator ) ) ;
-        Vector2d rightBorder = new Vector2d( mapWidth, min( mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
+        Vector2d leftBorder  = new Vector2d
+                ( 0, max(0, mapHeight / 2 - heightEquator ) ) ;
+
+        Vector2d rightBorder = new Vector2d
+                ( mapWidth, min( mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
 
         // generowanie trawy na rowniku
-        RandomPositionGenerator generatorGrassOnEquator = new RandomPositionGenerator(howManyPutOnEquator, leftBorder, rightBorder, map);
+        RandomPositionGenerator generatorGrassOnEquator = new RandomPositionGenerator
+                (howManyPutOnEquator, leftBorder, rightBorder, map);
+
         List<Vector2d> generatedPointsOnEquator = generatorGrassOnEquator.getRandomPoints();
 
         // klade nowa wygenerwana trawe na mape
@@ -129,19 +135,29 @@ public class MapUtil {
 
 
         // generowanie trawy na pozostalych polach
-        if(generatorGrassOnEquator.getSucceedGrassPlaced() < map.getMapParameters().amountOfPlantsDaily()){
-            long restGrassToGenerate = map.getMapParameters().amountOfPlantsDaily() - generatorGrassOnEquator.getSucceedGrassPlaced();
+        if(generatorGrassOnEquator.getSucceedGrassPlaced() < plantsToSeed){
+            long restGrassToGenerate = plantsToSeed - generatorGrassOnEquator.getSucceedGrassPlaced();
 
-            RandomPositionGenerator generatorPointsOutsideEquator = new RandomPositionGenerator(restGrassToGenerate, map.getLowerLeft(), map.getUpperRight(), map);
-            List<Vector2d> generedPointsOutsideEquator = generatorPointsOutsideEquator.getRandomPoints();
+            RandomPositionGenerator generatorPointsOutsideEquator = new RandomPositionGenerator
+                    (restGrassToGenerate, map.getLowerLeft(), map.getUpperRight(), map);
+
+            List<Vector2d> generatedPointsOutsideEquator = generatorPointsOutsideEquator.getRandomPoints();
 
             // klade nowa wygenerwana trawe na mape
-            putGrass(map, generedPointsOutsideEquator);
+            putGrass(map, generatedPointsOutsideEquator);
         }
-
     }
+
     private static void putGrass(WorldMap map, List<Vector2d>  newGrassPositions) {
         newGrassPositions.forEach(newGrassPosition -> map.getFoodMap()
                 .put(newGrassPosition, new Grass(newGrassPosition, "Lolium grass")));
     }
+
+    public static List <Animal> createListAnimalFromSet(WorldMap map){
+
+        return map.getAnimals().values().stream()
+                .flatMap(List::stream)
+                .toList();
+    }
+
 }

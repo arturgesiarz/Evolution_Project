@@ -22,14 +22,18 @@ public abstract class AbstractGenesHandler implements GenesHandler {
     @Override
     public List <Integer> createGenes(Animal animalA, Animal animalB) {
         //
+
+
         int genomeLength = this.lengthOfTheAnimalGenome;
         int totalEnergy = animalA.getAnimalStats().getEnergyAmount() + animalB.getAnimalStats().getEnergyAmount();
         int whichSideStart = (int) Math.round( Math.random() ); // 0 - prawa strona, 1 - lewa strona genotypu silniejszego
+
 
         int numberAnimalA = (int) ( (double)  animalA.getAnimalStats().getEnergyAmount() / totalEnergy  * genomeLength );
         int numberAnimalB = genomeLength - numberAnimalA;
 
         int numberToSkip;
+
 
         GenesHandler genesHandlerA = animalA.getGenesHandler();
         GenesHandler genesHandlerB = animalB.getGenesHandler();
@@ -71,8 +75,6 @@ public abstract class AbstractGenesHandler implements GenesHandler {
         int toWhichGeneChange = random.nextInt( 8 ); // przedział od 0 do 7 <- bo takie są możliwe ruchy
 
         genes.set(whichGeneToChange, toWhichGeneChange);
-        System.out.println(whichGeneToChange);
-        System.out.println(toWhichGeneChange);
     }
 
     public List <Integer> getGenes() {

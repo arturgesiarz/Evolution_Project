@@ -17,6 +17,15 @@ public enum MapDirection {
         return turnNumber;
     }
 
+    public static MapDirection fromValue(int value) {
+        for (MapDirection direction : MapDirection.values()) {
+            if (direction.getValue() == value) {
+                return direction;
+            }
+        }
+        throw new IllegalArgumentException("Nieprawidłowa wartość kierunku: " + value);
+    }
+
     public Vector2d toUnitVector(){
         return switch(this){
             case NORTH      -> new Vector2d(0,1);

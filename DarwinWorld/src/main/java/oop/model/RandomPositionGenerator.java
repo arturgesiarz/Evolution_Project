@@ -64,7 +64,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             puttedGrass++;
         }
 
-        this.succeedGrassPlaced = this.objectsNumber - puttedGrass;
+        this.succeedGrassPlaced = puttedGrass;
 
         return generatedPoints;
     }

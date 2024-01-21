@@ -17,7 +17,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         lowerLeft = new Vector2d(0,0);
         upperRight = new Vector2d(width - 1,height - 1);
         this.mapParameters = mapParameters;
-
+        MapUtil.growNewGrass(this, mapParameters.amountOfPlantsBeginning());
     }
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);

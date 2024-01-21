@@ -58,6 +58,10 @@ class AbstractWorldMapTest {
 
     @Test
     void fightForReproduction() {
+        List<Vector2d> animalPositions = List.of(
+                new Vector2d(1,2),
+                new Vector2d(3,4));
+
 
     }
 }

@@ -20,17 +20,12 @@ class SimulationTest {
     @Test
     void run() {
         List<Vector2d> animalPositions = List.of(
-                new Vector2d(1,2),
-                new Vector2d(3,4),
-                new Vector2d(5,5),
-                new Vector2d(2,9));
+                new Vector2d(0,0),
+                new Vector2d(0,2));
 
         List <GenesHandler> animalGenes = List.of(
-                new GenesBasic(List.of(0,2,5,6,7)),
-                new GenesBasic(List.of(4,1,0,3,0)),
-                new GenesBasic(List.of(5,6,1,6,1)),
-                new GenesBasic(List.of(0,3,4,5,0))
-        );
+                new GenesBasic(List.of(0,1,2,3,4)),
+                new GenesBasic(List.of(4,1,2,4,3)));
 
         MapParameters mapParameters = new MapParameters
                 (10,
@@ -40,8 +35,8 @@ class SimulationTest {
                         3,
                         1,
                         4,
-                        5,
-                        6,
+                        10,
+                        2,
                         3,
                         1,
                         2,
@@ -54,4 +49,9 @@ class SimulationTest {
         Simulation simulation = new Simulation(animalPositions, animalGenes, map);
         simulation.run();
     }
+    @Test
+    void reproduce() {
+
+    }
+
 }
