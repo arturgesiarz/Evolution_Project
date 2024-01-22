@@ -21,12 +21,14 @@
 Label {
     -fx-font-size: 13;             /* Rozmiar czcionki */
     -fx-font-family: "Arial";       /* Rodzina czcionek */
-    -fx-text-fill: #ffffff;
+    /*-fx-text-fill: #ffffff;*/
+    -fx-text-fill: black;
     -fx-font-weight: bold;
 
 }
 
 .title-Label {
-    -fx-border-color: #cacaca;
+    /*-fx-border-color: #cacaca;*/
+    -fx-border-color: black;
     -fx-border-style: dotted;
 }

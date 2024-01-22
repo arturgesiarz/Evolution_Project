@@ -12,6 +12,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="720" minWidth="1024"
@@ -19,12 +20,12 @@
             stylesheets="@styles.css">
 <center>
     <StackPane>
-        <ImageView fx:id="backgroundImageView" preserveRatio="true" fitWidth="1024.0" fitHeight="811.0" />
+<!--        <ImageView fx:id="backgroundImageView" preserveRatio="true" fitWidth="1024.0" fitHeight="811.0" />-->
         <HBox alignment="TOP_LEFT" spacing="300.0" style="-fx-padding: 0 0 25 50;">
 
             <VBox spacing="25.0" style="-fx-padding: 0 0 0 0;" alignment="TOP_LEFT">
 
-                <VBox fx:id="mapProperties" spacing="5.0" alignment="CENTER" style="-fx-padding: 45 0 0 0;">
+                <VBox spacing="5.0" alignment="CENTER" style="-fx-padding: 45 0 0 0;">
                     <Label text="Map Properties" styleClass="title-Label"/>
 
                     <HBox alignment="CENTER" spacing="5.0">
@@ -47,7 +48,7 @@
                 </VBox>
 
 
-                <VBox fx:id="energyProperties" spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
                     <Label text="Energy Properties" styleClass="title-Label"/>
 
                     <HBox alignment="CENTER" spacing="5.0">
@@ -72,12 +73,12 @@
                 </VBox>
 
 
-                <VBox fx:id="spawningProperties"  spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;" >
+                <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;" >
                     <Label text="Spawning Properties" styleClass="title-Label"/>
 
                     <HBox alignment="CENTER" spacing="5.0">
                         <Label text="Start plants:" prefWidth="120.0" wrapText="true"/>
-                        <TextField  fx:id="plantsBeggining" prefWidth="165.0"/>
+                        <TextField  fx:id="plantsBeginning" prefWidth="165.0"/>
                     </HBox>
 
                     <HBox alignment="CENTER" spacing="5.0">
@@ -87,7 +88,7 @@
 
                     <HBox alignment="CENTER" spacing="5.0">
                         <Label text="Start animals:" prefWidth="120.0" wrapText="true"/>
-                        <TextField  fx:id="animalsBeggining" prefWidth="165.0"/>
+                        <TextField  fx:id="animalsBeginning" prefWidth="165.0"/>
                     </HBox>
 
                     <HBox alignment="CENTER" spacing="5.0">
@@ -118,8 +119,19 @@
             </VBox>
 
             <HBox alignment="CENTER" spacing="5.0">
+
+                <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                    <HBox spacing="5.0">
+                        <ComboBox fx:id="configurationsComboBox" managed="false" visible="false" disable="true"/>
+                        <Button text="Open file" onAction="#onOpenFileClicked"/>
+                    </HBox>
+                </VBox>
+
                 <Button text="Start" onAction="#onSimulationStartClicked" styleClass="button-styled"/>
+
             </HBox>
+
+
 
         </HBox>
     </StackPane>
