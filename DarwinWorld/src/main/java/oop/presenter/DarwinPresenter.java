@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -31,10 +33,16 @@ public class DarwinPresenter {
     public ToggleButton genesBasicToggleButton;
     @FXML
     public ToggleButton genesExtendedToggleButton;
+    @FXML
+    public ImageView backgroundImageView;
 
 
     @FXML
     private void initialize() {
+        Image backgroundImage = new Image("background.png");
+        backgroundImageView.setImage(backgroundImage);
+
+
         mapWidth.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, change -> {
             String newText = change.getControlNewText();
             if (newText.matches("\\d{0,3}")) {
@@ -42,6 +50,7 @@ public class DarwinPresenter {
             }
             return null;
         }));
+
     }
 
     @FXML

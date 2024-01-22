@@ -17,6 +17,8 @@ public class DarwinApp extends Application {
         BorderPane viewRoot = loader.load();
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
+        System.out.println(primaryStage.getHeight());
+        System.out.println(primaryStage.getWidth());
     }
     private void configureStage(Stage primaryStage, BorderPane viewRoot) {
         Scene scene = new Scene(viewRoot);
@@ -24,6 +26,7 @@ public class DarwinApp extends Application {
         primaryStage.setTitle("DarwinWorld");
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
+        primaryStage.setResizable(false);
     }
 
 }

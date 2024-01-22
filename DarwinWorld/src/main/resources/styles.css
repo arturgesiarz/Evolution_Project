@@ -1,13 +1,32 @@
-/*.props {*/
+.button-styled {
+    -fx-font-size: 25;             /* Rozmiar czcionki */
+    -fx-font-family: "Arial";       /* Rodzina czcionek */
+    -fx-background-color: #4CAF50;  /* Kolor tła */
+    -fx-text-fill: white;           /* Kolor tekstu */
+    -fx-border-color: #45a049;      /* Kolor obramowania */
+    -fx-border-width: 2;            /* Grubość obramowania */
+    -fx-padding: 20 30;             /* Odstęp wewnętrzny */
+}
 
-/*    -fx-alignment: center;*/
-/*    -fx-font-weight: bold;*/
-/*    -fx-spacing:  50.0;*/
+.button-styled:hover {
+    -fx-background-color: #4efa82;  /* Kolor podczas najechania */
+    -fx-border-color: #4efa82;    /* Kolor obramowania */
+}
 
-/*}*/
+.button-styled:pressed {
+    -fx-background-color: #0cab73;  /* Kolor podczas klikania */
+    -fx-border-color: #0cab73;
+}
 
-/*.props TextField {*/
-/*    -fx-prompt-text-fill: 30.0;*/
-/*    -fx-pref-column-count: 10.0;*/
-/*    -fx-font-weight: bold;*/
-/*}*/
+Label {
+    -fx-font-size: 13;             /* Rozmiar czcionki */
+    -fx-font-family: "Arial";       /* Rodzina czcionek */
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+
+}
+
+.title-Label {
+    -fx-border-color: #cacaca;
+    -fx-border-style: dotted;
+}
