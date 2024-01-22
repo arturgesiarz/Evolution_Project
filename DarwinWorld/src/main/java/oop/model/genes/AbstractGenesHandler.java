@@ -1,29 +1,36 @@
 package oop.model.genes;
 import oop.model.Animal;
+import oop.model.Vector2d;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static java.lang.Math.min;
 
 public abstract class AbstractGenesHandler implements GenesHandler {
     protected final int lengthOfTheAnimalGenome;  // dlugosc genomu danego zwierzaka
+    protected Vector2d mutationRange;
     protected List <Integer> genes;
 
     public AbstractGenesHandler(List <Integer> genes) {  // mam taki rozmiar genow jakiej dlugosci wprowadze ale to bedzie kontolowane w klasie Simulation, wiec ttuaj moge to przyjac :)
         this.genes  = genes;
         this.lengthOfTheAnimalGenome = genes.size();
     }
-    public AbstractGenesHandler(Animal animalA, Animal animalB){  // konstruktor umozliwiajacy odrazu stworzenie genow
+    public AbstractGenesHandler(Animal animalA, Animal animalB, Vector2d mutationRange){  // konstruktor umozliwiajacy odrazu stworzenie genow
         this.lengthOfTheAnimalGenome = animalA.getGenesHandler().getGenes().size();  // ponieaz dlugosc genomu sie nie zmieni :)
         this.genes = createGenes(animalA, animalB);
+        this.mutationRange = mutationRange;
         mutation();
     }
 
     @Override
     public List <Integer> createGenes(Animal animalA, Animal animalB) {
         //
-
-
         int genomeLength = this.lengthOfTheAnimalGenome;
         int totalEnergy = animalA.getAnimalStats().getEnergyAmount() + animalB.getAnimalStats().getEnergyAmount();
         int whichSideStart = (int) Math.round( Math.random() ); // 0 - prawa strona, 1 - lewa strona genotypu silniejszego
@@ -33,7 +40,6 @@ public abstract class AbstractGenesHandler implements GenesHandler {
         int numberAnimalB = genomeLength - numberAnimalA;
 
         int numberToSkip;
-
 
         GenesHandler genesHandlerA = animalA.getGenesHandler();
         GenesHandler genesHandlerB = animalB.getGenesHandler();
@@ -70,12 +76,23 @@ public abstract class AbstractGenesHandler implements GenesHandler {
 
     @Override
     public void mutation() {
-        Random random = new Random(); // równomiernie rozłożone losowe całkowitoliczbowe z zakresu [0, bound)
-        int whichGeneToChange = random.nextInt( lengthOfTheAnimalGenome );
-        int toWhichGeneChange = random.nextInt( 8 ); // przedział od 0 do 7 <- bo takie są możliwe ruchy
-
-        genes.set(whichGeneToChange, toWhichGeneChange);
+        //
+        Random random = new Random();
+        for ( int key : whichGenesToChange() ) {
+            genes.set( key, random.nextInt(8) );
+        }
     }
+
+    private List <Integer> whichGenesToChange() {
+        List <Integer> listToPick = new ArrayList<>(IntStream.range(0, lengthOfTheAnimalGenome).boxed().toList());
+        Random random = new Random();
+
+        Collections.shuffle(listToPick);
+        return listToPick
+                .stream()
+                .limit( min( lengthOfTheAnimalGenome, random.nextInt( mutationRange.getY() - mutationRange.getX() + 1 ) + mutationRange.getX() ) )
+                .toList();
+    } // end method whichGenesToChange()
 
     public List <Integer> getGenes() {
         return this.genes;

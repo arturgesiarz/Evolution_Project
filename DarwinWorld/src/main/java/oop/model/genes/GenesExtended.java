@@ -1,6 +1,7 @@
 package oop.model.genes;
 
 import oop.model.Animal;
+import oop.model.Vector2d;
 
 import java.util.List;
 
@@ -11,9 +12,10 @@ public class GenesExtended extends AbstractGenesHandler {
     public GenesExtended(List<Integer> genes) {
         super(genes);
     }
-    public GenesExtended(Animal animalA, Animal animalB){
-        super(animalA, animalB);
+    public GenesExtended(Animal animalA, Animal animalB, Vector2d mutationRange){
+        super(animalA, animalB, mutationRange);
     }
+
     @Override
     public int getNextMove() {
         //
