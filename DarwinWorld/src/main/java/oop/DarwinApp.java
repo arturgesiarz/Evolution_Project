@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import oop.model.genes.AbstractGenesHandler;
 
 import java.io.IOException;
 
@@ -13,7 +12,7 @@ public class DarwinApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("darwinSimulation.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("menuSimulation.fxml"));
         BorderPane viewRoot = loader.load();
         configureStage(primaryStage, viewRoot);
         primaryStage.show();

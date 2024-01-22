@@ -124,7 +124,6 @@ public class DarwinPresenter {
                 JsonNode rootNode = objectMapper.readTree(selectedFile);
                 convertFile(rootNode);
                 setText();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -133,11 +132,12 @@ public class DarwinPresenter {
             showFileReadErrorAlert();
         }
     }
+
     private void showFileReadErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Błąd");
-        alert.setHeaderText("Błąd podczas wczytywania pliku");
-        alert.setContentText("Nie udało się wczytać pliku. Sprawdź, czy wybrany plik jest poprawny.");
+        alert.setTitle("Error");
+        alert.setHeaderText("Error while loading file!");
+        alert.setContentText("Failed to load file. Check that the selected file is correct!");
         alert.showAndWait();
     }
 
