@@ -2,9 +2,9 @@ package oop.model.util;
 
 import oop.model.maps.WorldMap;
 
+import java.util.List;
 import java.util.Optional;
 
-import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
 
 public class GlobalStats {
     //
@@ -17,16 +17,31 @@ public class GlobalStats {
     private int averageChildAmount;
 
 
-    public void updateAverageChildAmount() {
+    public int findAnimalsAmount() {
+        return map.getAnimals().values()
+                .stream()
+                .mapToInt(List::size)
+                .sum();
+    } // end method findAnimalsAmount()
+
+    public int findGrassAmount() {
+        return map.getFoodMap().values().size();
+    }
+
+
+    public double updateAverageChildAmount() {
         //
         int childAmount;
-      map.getAnimals().values()
+
+        childAmount = map.getAnimals().values()
                 .stream()
                 .flatMap(List::stream)
-              .map()
+                .mapToInt( animal -> animal.getAnimalStats().getChildAmount() )
+                .sum();
+
+        return (double) childAmount / findAnimalsAmount();
+    } // end method updateAverageChildAmount()
 
 
 
-
-    }
 }
