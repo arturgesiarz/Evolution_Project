@@ -17,20 +17,21 @@ public class SimulationEngine {
         this.simulationList = simulationList;
     } // constructor
 
-    public void runAsyncInThreadPool() throws InterruptedException {
-        //
-        for (Simulation currentSimulation : simulationList ) {
-            executorService.submit( currentSimulation );
-        }
-
+    public void runAsyncInThreadPool() {
+        simulationList.forEach(executorService::submit);
         awaitSimulationsEnd();
     }
 
-    private void awaitSimulationsEnd() throws InterruptedException {
-        //
-        if ( ! executorService.awaitTermination(2, TimeUnit.SECONDS) ) {
-            executorService.shutdown();
+    private void awaitSimulationsEnd(){
+
+        //konczymy dzialanie puli watkow
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+            executorService.shutdownNow();
         }
 
-    } // end awaitSimulationsEnd() method
+    }
 }

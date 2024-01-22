@@ -15,6 +15,7 @@ import javafx.util.converter.IntegerStringConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oop.Simulation;
+import oop.model.SimulationEngine;
 import oop.model.genes.GenesHandler;
 import oop.model.maps.AbstractWorldMap;
 import oop.model.maps.MapWithHoles;
@@ -338,37 +339,79 @@ public class DarwinPresenter {
 
     @FXML
     public void onSimulationStartClicked() throws IOException {
-        //todo dadac sprawdzenie czy podane argumenty maja sens
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
-        BorderPane viewRoot = loader.load();
-        SimulationPresenter presenter = loader.getController();
-
-        WorldMap map = null;
-
-        // tworzymy odpowiednia mape w zaleznosci od wyboru
-        if (mapParameters.mapMode() == 1) {  // mapa standardowa
-            map = new RectangularMap(mapParameters);
+        if(!checkIfAllArgsSelected()){
+            showFileReadErrorAlertForNotAllArgs();
         }
-        else {  // mapa z dziurami
-            map = new MapWithHoles(mapParameters);
-        }
+        else{
+            // ustawiam paramtery
+            setMapParameters();
 
-        MapPreparator mapPreparator = new MapPreparator(map, mapParameters);
-        presenter.setWorldMap(map);
+            // inicializacja nowego okna
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
+            Stage stage = new Stage();
+            BorderPane viewRoot = loader.load();
+            configureStage(stage, viewRoot);
+            stage.show();
 
-        Simulation simulation = new Simulation(
+            // tworzenie mapy
+            WorldMap map = null;
+            if (mapParameters.mapMode() == 1) {
+                map = new RectangularMap(mapParameters);
+            }
+            else {
+                map = new MapWithHoles(mapParameters);
+            }
+
+            // stworzenie prezentera
+            SimulationPresenter presenter = loader.getController();
+            presenter.initialize();
+            presenter.setWorldMap(map);
+            map.addObserver(presenter);
+
+            // stworzenie symulacji
+            MapPreparator mapPreparator = new MapPreparator(map, mapParameters);
+            Simulation simulation = new Simulation(
                     mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
 
-        Stage primaryStage = new Stage();
-        var scene = new Scene(viewRoot);
+            // dodawanie symulacji
+            presenter.setSimulation(simulation);
+            stage.setOnCloseRequest(event -> simulation.stopSimulation());
+            SimulationEngine simulationEngine = new SimulationEngine(List.of(simulation));
 
+            // uruchamianie symulacji
+            simulationEngine.runAsyncInThreadPool();
+
+        }
+    }
+
+    private void setMapParameters(){
+        this.mapParameters = new MapParameters(
+                Integer.parseInt(mapWidth.getText()),
+                Integer.parseInt(mapHeight.getText()),
+                mapModeOn,
+                Integer.parseInt(plantsBeginning.getText()),
+                Integer.parseInt(energyOnePlant.getText()),
+                Integer.parseInt(plantsPerDay.getText()),
+                Integer.parseInt(animalsBeginning.getText()),
+                Integer.parseInt(energyAnimalBeginning.getText()),
+                Integer.parseInt(energyFullAnimal.getText()),
+                Integer.parseInt(energyLoseForBaby.getText()),
+                Integer.parseInt(minumumMutation.getText()),
+                Integer.parseInt(maximumMutation.getText()),
+                genesModeOn,
+                Integer.parseInt(genomeLength.getText())
+        );
+
+    }
+
+    private void configureStage(Stage primaryStage, BorderPane viewRoot) {
+        Scene scene = new Scene(viewRoot);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Simulation app");
+        primaryStage.setTitle("DarwinWorld");
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
-        primaryStage.show();
+        primaryStage.setResizable(false);
     }
 
 }

@@ -14,16 +14,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import oop.Simulation;
-import oop.model.Animal;
-import oop.model.Food;
-import oop.model.MapChangeListener;
+import oop.model.*;
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
+import oop.model.util.MapParameters;
 
 import java.util.List;
 
 public class SimulationPresenter implements MapChangeListener {
-    //
+    private static final double CELL_WIDTH = 50; //stala sluzaca do okreslenia szerokosci okienka
+    private static final double CELL_HEIGHT = 50; //stala sluzaca do okreslenia wysokosci okienka
+
     public VBox animalStatsBox;
     @FXML
     private Label animalsAmount;
@@ -54,13 +55,71 @@ public class SimulationPresenter implements MapChangeListener {
     @FXML
     private Button pauseSimulationButton;
 
-    Simulation simulation;
-    WorldMap map;
-    boolean simulationPaused = false;
+    private Simulation simulation;
+    private WorldMap map;
+    private boolean simulationPaused = false;
 
 
     public void initialize() {
         animalStatsBox.setVisible(false);
+    }
+
+    private void clearGrid() {
+        mapGrid.getChildren().retainAll( mapGrid.getChildren().get(0) ); // hack to retain visible grid lines
+        mapGrid.getColumnConstraints().clear();
+        mapGrid.getRowConstraints().clear();
+    }
+
+    private void createRawGrid(int noRows, int noCols){
+
+        for(int i = 0; i <= noRows; i++){
+            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT)); //ustawianie wysokosci komorki
+        }
+        for(int i = 0; i <= noCols; i++){
+            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH)); //ustawianie szeroskosci komorki
+        }
+    }
+
+    private void addAxesGrid(int noRows, int noCols){ //metoda dodaje do grida naglowki osi czyli x/y 0 1 2.. itd
+        Label labelToAdd;
+
+        labelToAdd = new Label("y\\x");
+        GridPane.setHalignment(labelToAdd, HPos.CENTER);
+        mapGrid.add(labelToAdd,0,0);
+
+        for(int i = 0; i <= noRows; i ++){ //dodaje naglowki dla kolumn
+            labelToAdd = new Label("" + (map.getLowerLeft().getX() + i));
+            GridPane.setHalignment(labelToAdd, HPos.CENTER);
+            mapGrid.add(labelToAdd,i + 1,0);
+        }
+
+        for(int i = 0; i <= noCols; i ++){ //dodaje naglowki dla wierszy
+            labelToAdd = new Label("" + (map.getLowerLeft().getY() + i));
+            GridPane.setHalignment(labelToAdd, HPos.CENTER);
+            mapGrid.add(labelToAdd,0,i + 1);
+        }
+    }
+
+    private void complementsRestGrid(int noRows, int noCols){ //metoda uzupelnia reszte calego grida -> aktualizuje przemieszczanie sie
+        VBox vBoxToAdd;
+        for(int i = 0; i <= noRows; i ++){
+            for(int j = 0; j <= noCols; j ++){
+                Vector2d actVector = new Vector2d(
+                        map.getLowerLeft().getX() + j,
+                        map.getLowerLeft().getY() + i
+                );
+                WorldElement worldElement = map.objectAt(actVector).orElse(null);
+                if (worldElement != null) {
+                    vBoxToAdd = new WorldElementBox(worldElement).getContainer();
+                } else {
+                    vBoxToAdd = new VBox(new Label(""));
+                }
+                // labelToAdd = new Label(map.objectAt(actVector).map(WorldElement::toString).orElse(""));
+
+                GridPane.setHalignment(vBoxToAdd, HPos.CENTER);
+                mapGrid.add(vBoxToAdd,j + 1,i + 1);
+            }
+        }
     }
 
     void drawMap() {
@@ -112,11 +171,7 @@ public class SimulationPresenter implements MapChangeListener {
 
     }
 
-    private void clearGrid() {
-        mapGrid.getChildren().retainAll( mapGrid.getChildren().get(0) ); // hack to retain visible grid lines
-        mapGrid.getColumnConstraints().clear();
-        mapGrid.getRowConstraints().clear();
-    }
+
 
     @FXML
     public void pauseSimulation() {

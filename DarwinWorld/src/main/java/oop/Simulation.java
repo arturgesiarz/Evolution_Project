@@ -10,6 +10,9 @@ import java.util.List;
 
 public class Simulation implements Runnable {
     //
+    private boolean isSimulationStopped;
+    private boolean isSimulationEnded;
+    private final Object pauseLock = new Object();
     private final WorldMap animalsMap;
     private final List<? extends GenesHandler> animalsGenes;
     private final GlobalStats globalStats;
@@ -20,6 +23,8 @@ public class Simulation implements Runnable {
         this.animalsGenes = animalsGenes;
         this.globalStats  = new GlobalStats(animalsMap);
         fillAnimalsList( positions );
+        isSimulationStopped = false;
+        isSimulationEnded = false;
     } // end constructor
 
     private void fillAnimalsList( List <Vector2d> positions ) {
@@ -33,7 +38,18 @@ public class Simulation implements Runnable {
 
     @Override
     public void run() {
-        while ( animalsMap.countAliveAnimals() > 0 ){
+        while ( animalsMap.countAliveAnimals() > 0 || !isSimulationEnded){
+            // uwzlgednienie oczekwiania
+            synchronized (pauseLock){
+                if (isSimulationStopped){
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException e){
+                        return;
+                    }
+                }
+            }
+
             removeDeadAnimals();
             moveAllAnimals();
             eatAllAnimals();
@@ -41,7 +57,19 @@ public class Simulation implements Runnable {
             growNewFood();
             globalStats.updateAllStats();
             evolutionTime++;
+
+            // wybudzamy wszystkie watki
+            animalsMap.mapChanged("");
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
+        // wybudzamy wszystkie watki
+        animalsMap.mapChanged("");
     } // end method run()
 
     private void removeDeadAnimals() { MapUtil.removeDeadAnimals( animalsMap, globalStats, evolutionTime ); }
@@ -64,8 +92,16 @@ public class Simulation implements Runnable {
     public GlobalStats getGlobalStats() { return globalStats; }
 
     public void unpauseSimulation() {
+        synchronized (pauseLock){
+            isSimulationStopped = false;
+            pauseLock.notify();
+        }
+    }
+    public void pauseSimulation() {
+        isSimulationStopped = true;
+    }
+    public void stopSimulation(){
+        isSimulationEnded = true;
     }
 
-    public void pauseSimulation() {
-    }
 }

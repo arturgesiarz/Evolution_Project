@@ -29,4 +29,9 @@ public class Hole implements WorldElement {
         return "O";
     }
 
+    @Override
+    public String getFileName() {
+        return null;
+    }
+
 }

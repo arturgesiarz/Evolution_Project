@@ -99,4 +99,9 @@ public class Animal implements WorldElement{
             case NORTH_WEST  -> "NW";
         };
     }
+
+    @Override
+    public String getFileName() {
+        return null;
+    }
 }

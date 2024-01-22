@@ -24,4 +24,9 @@ public class Grass extends Food {
     public String toString(){
         return GRASS_SYMBOL;
     }
+
+    @Override
+    public String getFileName() {
+        return null;
+    }
 }

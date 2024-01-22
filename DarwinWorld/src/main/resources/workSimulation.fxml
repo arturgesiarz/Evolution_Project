@@ -36,7 +36,7 @@
 
         <VBox alignment = "CENTER">
             <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true"> </GridPane>
-            <Button fx:id = "pauseSimulationButon" onAction = "#pauseSimulation" alignment = "CENTER">Zatrzymaj/Uruchom</Button>
+            <Button fx:id = "pauseSimulationButon" onAction = "#pauseSimulation" alignment = "CENTER">Pause</Button>
         </VBox>
 
 

@@ -26,5 +26,9 @@ public interface WorldMap extends MoveValidator {
 
     UUID getWorldMapID();
 
+    void addObserver(MapChangeListener observer);
+    void removeObserver(MapChangeListener observer);
+
     int countAliveAnimals();
+    void mapChanged(String message);
 }

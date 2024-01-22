@@ -29,13 +29,17 @@ public abstract class AbstractWorldMap implements WorldMap {
     public UUID getWorldMapID() {
         return worldMapID;
     }
+
+    @Override
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);
     }
+    @Override
     public void removeObserver(MapChangeListener observer) {
         observers.remove(observer);
     }
-    void mapChanged(String message){
+    @Override
+    public void mapChanged(String message){
         observers.forEach((observer) -> observer.mapChanged(this,message));
     }
     @Override
