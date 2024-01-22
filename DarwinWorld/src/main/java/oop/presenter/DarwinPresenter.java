@@ -1,6 +1,5 @@
 package oop.presenter;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,13 +15,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oop.Simulation;
 import oop.model.SimulationEngine;
-import oop.model.genes.GenesHandler;
-import oop.model.maps.AbstractWorldMap;
 import oop.model.maps.MapWithHoles;
 import oop.model.maps.RectangularMap;
 import oop.model.maps.WorldMap;
 import oop.model.util.MapParameters;
-import org.w3c.dom.css.Rect;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +75,7 @@ public class DarwinPresenter {
 
     @FXML
     private void initialize() {
-        Image backgroundImage = new Image("background.png");
+        Image backgroundImage = new Image("img/background.png");
         backgroundImageView.setImage(backgroundImage);
         setTextForFormatter(4, mapWidth);
         setTextForFormatter(4, mapHeight);
