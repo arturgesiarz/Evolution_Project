@@ -25,6 +25,12 @@ public class DarwinPresenter {
     public ToggleButton mapBasicToggleButton;
     @FXML
     public ToggleButton mapExtendedToggleButton;
+    @FXML
+    public TextField plantsBeggining;
+    @FXML
+    public ToggleButton genesBasicToggleButton;
+    @FXML
+    public ToggleButton genesExtendedToggleButton;
 
 
     @FXML
@@ -50,5 +56,18 @@ public class DarwinPresenter {
     public void onMapExtended() {
         mapBasicToggleButton.setDisable(false);
         mapExtendedToggleButton.setDisable(true);
+    }
+
+    @FXML
+    public void onGenesBasic() {
+        genesBasicToggleButton.setDisable(true);
+        genesExtendedToggleButton.setDisable(false);
+    }
+
+    @FXML
+    public void onGenesExtended() {
+        genesBasicToggleButton.setDisable(false);
+        genesExtendedToggleButton.setDisable(true);
+
     }
 }

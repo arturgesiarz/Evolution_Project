@@ -1,13 +1,13 @@
-.props {
+/*.props {*/
 
-    -fx-alignment: center;
-    -fx-font-weight: bold;
-    -fx-spacing:  50.0;
+/*    -fx-alignment: center;*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-spacing:  50.0;*/
 
-}
+/*}*/
 
-.props TextField {
-    -fx-prompt-text-fill: 30.0;
-    -fx-pref-column-count: 5.0;
-    -fx-font-weight: bold;
-}
+/*.props TextField {*/
+/*    -fx-prompt-text-fill: 30.0;*/
+/*    -fx-pref-column-count: 10.0;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
