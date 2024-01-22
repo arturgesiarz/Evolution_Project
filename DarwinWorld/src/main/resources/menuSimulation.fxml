@@ -20,12 +20,12 @@
             stylesheets="@styles.css">
 <center>
     <StackPane>
-<!--        <ImageView fx:id="backgroundImageView" preserveRatio="true" fitWidth="1024.0" fitHeight="811.0" />-->
+        <ImageView fx:id="backgroundImageView" preserveRatio="true" fitWidth="1024.0" fitHeight="811.0" />
         <HBox alignment="TOP_LEFT" spacing="300.0" style="-fx-padding: 0 0 25 50;">
 
             <VBox spacing="25.0" style="-fx-padding: 0 0 0 0;" alignment="TOP_LEFT">
 
-                <VBox spacing="5.0" alignment="CENTER" style="-fx-padding: 45 0 0 0;">
+                <VBox spacing="5.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
                     <Label text="Map Properties" styleClass="title-Label"/>
 
                     <HBox alignment="CENTER" spacing="5.0">
@@ -123,15 +123,18 @@
                 <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
                     <HBox spacing="5.0">
                         <ComboBox fx:id="configurationsComboBox" managed="false" visible="false" disable="true"/>
-                        <Button text="Open file" onAction="#onOpenFileClicked"/>
+                        <Button text="Open file" onAction="#onOpenFileClicked" id="open-button" prefWidth="100" prefHeight="25"/>
                     </HBox>
                     <HBox spacing="5.0">
                         <ComboBox fx:id="saveComboBox" managed="false" visible="false" disable="true"/>
-                        <Button text="Save" onAction="#onSaveFileClicked" />
+                        <Button text="Save" onAction="#onSaveFileClicked" id="save-button" prefWidth="100" prefHeight="25"/>
                     </HBox>
+                    <VBox alignment="CENTER" >
+                        <Button text="Start" onAction="#onSimulationStartClicked" id="start-button" prefWidth="100" prefHeight="60"/>
+                    </VBox>
                 </VBox>
 
-                <Button text="Start" onAction="#onSimulationStartClicked" styleClass="button-styled"/>
+
 
             </HBox>
 

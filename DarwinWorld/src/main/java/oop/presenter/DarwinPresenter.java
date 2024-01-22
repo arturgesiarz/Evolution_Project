@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -77,27 +78,28 @@ public class DarwinPresenter {
 
     @FXML
     private void initialize() {
-//        Image backgroundImage = new Image("background.png");
-//        backgroundImageView.setImage(backgroundImage);
+        Image backgroundImage = new Image("background.png");
+        backgroundImageView.setImage(backgroundImage);
+        setTextForFormatter(4, mapWidth);
+        setTextForFormatter(4, mapHeight);
 
-        //todo dodac zabezpiecznia na wpisanie tak jak to
-        mapWidth.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, change -> {
+        setTextForFormatter(4, energyOnePlant);
+        setTextForFormatter(4, energyAnimalBeginning);
+        setTextForFormatter(4, energyFullAnimal);
+        setTextForFormatter(4, energyLoseForBaby);
+
+        setTextForFormatter(4, plantsBeginning);
+        setTextForFormatter(4, plantsPerDay);
+        setTextForFormatter(4, animalsBeginning);
+        setTextForFormatter(4, minumumMutation);
+        setTextForFormatter(4, maximumMutation);
+        setTextForFormatter(4, genomeLength);
+
+    }
+    private void setTextForFormatter(int maxInt, TextField atribute){
+        atribute.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d{0,3}")) {
-                return change;
-            }
-            return null;
-        }));
-        mapHeight.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d{0,3}")) {
-                return change;
-            }
-            return null;
-        }));
-        energyOnePlant.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d{0,2}")) {
+            if (newText.matches("\\d{0," + maxInt +"}")) {
                 return change;
             }
             return null;
@@ -163,23 +165,90 @@ public class DarwinPresenter {
 
     @FXML
     public void onSaveFileClicked() {
+        if(!checkIfAllArgsSelected()){
+            showFileReadErrorAlertForNotAllArgs();
+        }
+        else{
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+            fileChooser.getExtensionFilters().add(extFilter);
 
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
+            File file = fileChooser.showSaveDialog(null);
 
-        File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    Map<String, Object> dataToSave = saveData();
+                    objectMapper.writeValue(file, dataToSave);
 
-        if (file != null) {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, Object> dataToSave = saveData();
-                objectMapper.writeValue(file, dataToSave);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                showFileReadErrorAlertForNotSelected();
             }
         }
+    }
+    private boolean checkIfAllArgsSelected(){
+        int selector = 0;
+        if (!mapWidth.getText().isEmpty() ){
+            selector += 1;
+        }
+        if (!mapHeight.getText().isEmpty() ){
+            selector += 1;
+        }
+        if (!energyOnePlant.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!energyAnimalBeginning.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!energyFullAnimal.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!energyLoseForBaby.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!plantsBeginning.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!plantsPerDay.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!animalsBeginning.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!minumumMutation.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!maximumMutation.getText().isEmpty()){
+            selector += 1;
+        }
+        if (!genomeLength.getText().isEmpty()){
+            selector += 1;
+        }
+        selector += genesModeOn;
+        selector += mapModeOn;
+
+        if(selector >= 12) return true;
+        return false;
+    }
+
+    private void showFileReadErrorAlertForNotAllArgs() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Not All Args");
+        alert.setHeaderText("Error");
+        alert.setContentText("Not all arguments have been selected!. Please introduce them!");
+        alert.showAndWait();
+    }
+
+    private void showFileReadErrorAlertForNotSelected() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Select");
+        alert.setHeaderText("Error while select place!");
+        alert.setContentText("Filed to select where to save the file! Check that you have selected the correct path!");
+        alert.showAndWait();
     }
 
     private Map<String, Object> saveData(){
@@ -269,7 +338,8 @@ public class DarwinPresenter {
 
     @FXML
     public void onSimulationStartClicked() throws IOException {
-        //
+        //todo dadac sprawdzenie czy podane argumenty maja sens
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
         BorderPane viewRoot = loader.load();
