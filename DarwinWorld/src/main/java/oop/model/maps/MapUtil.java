@@ -5,6 +5,7 @@ import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesExtended;
 import oop.model.genes.GenesHandler;
 import oop.model.util.AnimalsComparator;
+import oop.model.util.GlobalStats;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -34,7 +35,7 @@ public class MapUtil {
         foodMap.remove(grassPosition);
     }
 
-    public static void removeDeadAnimals(WorldMap map, int time) {
+    public static void removeDeadAnimals(WorldMap map, GlobalStats globalStats, int time) {
         //
         List<Animal> toRemove = map.getAnimals()
                 .values()
@@ -46,8 +47,10 @@ public class MapUtil {
         toRemove.forEach( animal -> {
             map.getAnimals().get( animal.getPosition() ).remove(animal);
             animal.getAnimalStats().setDeathTime(time);
+            globalStats.animalDiedStats(animal);
 
-            if (map.getAnimals().get( animal.getPosition() ).size() == 0) {
+            // if (map.getAnimals().get( animal.getPosition() ).size() == 0) {
+            if ( map.getAnimals().get(animal.getPosition()).isEmpty() ) {
                 map.getAnimals().remove(animal.getPosition());
             }
         });
