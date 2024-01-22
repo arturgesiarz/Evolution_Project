@@ -9,7 +9,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="720" minWidth="1024"
-            fx:controller="oop.presenter.DarwinPresenter">
+            fx:controller="oop.presenter.SimulationPresenter">
 <!--            stylesheets="workSimulationStyle.css">-->
 
     <HBox alignment = "CENTER" spacing = "10">
@@ -22,25 +22,22 @@
             <Label fx:id = "averageEnergyAmount"/>
             <Label fx:id = "averageDeadLifeSpan"/>
             <Label fx:id = "averageChildAmount"/>
-            <Label fx:id = "numberOfDaedAnimals"/>
+            <Label fx:id = "numberOfDeadAnimals"/>
         </VBox>
 
         <VBox fx:id = "animalStatsBox">
             <Label text="Statystyki zwierzaka"/>
             <Label fx:id = "animalGenome"/>
             <Label fx:id = "animalPosition"/>
-            <Label fx:id = ""
-
-
+            <Label fx:id = "childAmount"/>
+            <Label fx:id = "lifeTime"/>
+            <Label fx:id = "energyAmount"/>
         </VBox>
 
-
-
-
-
-
-
-
+        <VBox alignment = "CENTER">
+            <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true"> </GridPane>
+            <Button fx:id = "pauseSimulationButon" onAction = "#pauseSimulation" alignment = "CENTER">Zatrzymaj/Uruchom</Button>
+        </VBox>
 
 
     </HBox>

@@ -15,7 +15,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected Map <Vector2d, Grass> foodMap = new HashMap<>();
     protected Vector2d lowerLeft;
     protected Vector2d upperRight;
-    protected final List<MapChangeListener> observers = new ArrayList<>();
+    protected final List <MapChangeListener> observers = new ArrayList<>();
     protected final UUID worldMapID;
 
     public AbstractWorldMap(MapParameters mapParameters){
@@ -97,7 +97,6 @@ public abstract class AbstractWorldMap implements WorldMap {
             Vector2d newPosition = animal.getPosition();
             updateNewPositionList(animal, newPosition);
         }
-
 
         mapChanged("Object in position " + oldPosition +
                 " moved to " + animal.getPosition());

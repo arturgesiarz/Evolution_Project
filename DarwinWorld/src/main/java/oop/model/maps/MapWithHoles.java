@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Optional;
 
 public class MapWithHoles extends AbstractWorldMap {
-    private Map <Vector2d, Hole> holes = new HashMap<>();
+    private final Map <Vector2d, Hole> holes = new HashMap<>();
 
-    public MapWithHoles(MapParameters mapParameters, int numberOfHoles) {
+    public MapWithHoles(MapParameters mapParameters) {
         super(mapParameters);
-        generateHoles(numberOfHoles);
+        generateHoles(0);
     }
 
     public void generateHoles(int numberOfHoles) {

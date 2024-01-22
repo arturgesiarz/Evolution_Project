@@ -2,18 +2,22 @@ package oop.presenter;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import oop.Simulation;
+import oop.model.maps.AbstractWorldMap;
 import oop.model.util.MapParameters;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,10 +98,10 @@ public class DarwinPresenter {
         }));
     }
 
-    @FXML
-    public void onSimulationStartClicked(ActionEvent actionEvent) {
-
-    }
+//    @FXML
+//    public void onSimulationStartClicked(ActionEvent actionEvent) {
+//
+//    }
     @FXML
     public void onMapBasic() {
         mapBasicToggleButton.setDisable(true);
@@ -257,5 +261,37 @@ public class DarwinPresenter {
 
     }
 
+    @FXML
+    public void onSimulationStartClicked() throws IOException {
+        //
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
+        BorderPane viewRoot = loader.load();
+
+        SimulationPresenter presenter = loader.getController();
+
+        if (mapParameters.mapMode() == 1) {
+            MapPreparatorExtended mapPreparator = new MapPreparatorExtended(mapParameters);
+            mapPreparator.getMap().addObserver(presenter);
+            presenter.setWorldMap(mapPreparator.getMap());
+            Simulation simulation = new Simulation(mapPreparator.generateRandomPositions(mapPreparator.getMap()), mapPreparator.getBasicGenesList(), mapPreparator.getMap());
+
+        }
+        else {
+            MapPreparatorBasic mapPreparator = new MapPreparatorBasic(mapParameters);
+            mapPreparator.getMap().addObserver(presenter);
+            presenter.setWorldMap(mapPreparator.getMap());
+        }
+
+        Simulation simulation = new Simulation(map)
+        Stage primaryStage = new Stage();
+        var scene = new Scene(viewRoot);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Simulation app");
+        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
+        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
+        primaryStage.show();
+    }
 
 }

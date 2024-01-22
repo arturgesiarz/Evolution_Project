@@ -8,7 +8,7 @@ import oop.model.util.GlobalStats;
 
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable {
     //
     private final WorldMap animalsMap;
     private final List<GenesHandler> animalsGenes;
@@ -31,6 +31,7 @@ public class Simulation {
         }
     }
 
+    @Override
     public void run() {
         while ( animalsMap.countAliveAnimals() > 0 ){
             removeDeadAnimals();
@@ -61,4 +62,13 @@ public class Simulation {
     private void growNewFood() { MapUtil.growNewGrass( animalsMap, animalsMap.getMapParameters().amountOfPlantsDaily() );
     }
 
+    public GlobalStats getGlobalStats() { return globalStats; }
+
+    public void unpauseSimulation() {
+
+    }
+
+
+    public void pauseSimulation() {
+    }
 }
