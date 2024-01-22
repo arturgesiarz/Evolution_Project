@@ -112,7 +112,7 @@ public class DarwinPresenter {
     public void onOpenFileClicked() {
 
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("*.json");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
         fileChooser.getExtensionFilters().add(extFilter);
 
         Stage stage = (Stage) configurationsComboBox.getScene().getWindow();
@@ -120,13 +120,25 @@ public class DarwinPresenter {
 
         if (selectedFile != null) {
             try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode rootNode = objectMapper.readTree(selectedFile);
+                convertFile(rootNode);
+                setText();
 
-                ObjectMapper objMapper = new ObjectMapper();
-                convertFile(objMapper.readTree(selectedFile));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        else{
+            showFileReadErrorAlert();
+        }
+    }
+    private void showFileReadErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd");
+        alert.setHeaderText("Błąd podczas wczytywania pliku");
+        alert.setContentText("Nie udało się wczytać pliku. Sprawdź, czy wybrany plik jest poprawny.");
+        alert.showAndWait();
     }
 
     private void convertFile(JsonNode node){
@@ -176,8 +188,12 @@ public class DarwinPresenter {
         maximumMutation.setText(String.valueOf(mapParameters.maximumNumberOfMutation()));
         genomeLength.setText(String.valueOf(mapParameters.genomeLength()));
 
-
-
+        if(mapParameters.genesMode() == 0){ // extened genes
+            onGenesExtended();
+        }
+        else{  // basic genes
+            onGenesBasic();
+        }
 
     }
 
