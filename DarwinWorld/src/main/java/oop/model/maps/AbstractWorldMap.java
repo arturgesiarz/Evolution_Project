@@ -102,7 +102,7 @@ public abstract class AbstractWorldMap implements WorldMap {
                 " moved to " + animal.getPosition());
 
     }
-
+    @Override
     public int countAliveAnimals(){
         int aliveAnimal = 0;
         for(Vector2d square : animals.keySet()){

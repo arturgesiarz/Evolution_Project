@@ -11,8 +11,8 @@ public record MapParameters(
         int startEnergy,
         int minimumEnergyRequiredForCopulation,
         int energyLostInCopulation,
-        int minimumNumberOfMutation, //TODO UWZGLEDNIC
-        int maximumNumberOfMutation, //TODO UWZGLEDNIC
+        int minimumNumberOfMutation,
+        int maximumNumberOfMutation,
         int genesMode, // 1 - BASIC, 0 - EXTENDED
         int genomeLength) {
 }

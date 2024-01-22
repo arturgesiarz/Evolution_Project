@@ -11,11 +11,11 @@ import java.util.List;
 public class Simulation implements Runnable {
     //
     private final WorldMap animalsMap;
-    private final List<GenesHandler> animalsGenes;
+    private final List<? extends GenesHandler> animalsGenes;
     private final GlobalStats globalStats;
     private int evolutionTime = 1;
 
-    public Simulation(List <Vector2d> positions, List <GenesHandler> animalsGenes, WorldMap animalsMap ){
+    public Simulation(List <Vector2d> positions, List <? extends GenesHandler> animalsGenes, WorldMap animalsMap ){
         this.animalsMap = animalsMap;
         this.animalsGenes = animalsGenes;
         this.globalStats  = new GlobalStats(animalsMap);
@@ -39,7 +39,6 @@ public class Simulation implements Runnable {
             eatAllAnimals();
             reproductionOfAnimals();
             growNewFood();
-
             globalStats.updateAllStats();
             evolutionTime++;
         }
@@ -65,9 +64,7 @@ public class Simulation implements Runnable {
     public GlobalStats getGlobalStats() { return globalStats; }
 
     public void unpauseSimulation() {
-
     }
-
 
     public void pauseSimulation() {
     }

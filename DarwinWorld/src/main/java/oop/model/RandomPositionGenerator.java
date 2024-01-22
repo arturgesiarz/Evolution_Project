@@ -35,7 +35,6 @@ public class RandomPositionGenerator{
             for(int j = leftBorder.getY(); j <= rightBorder.getY(); j++){
                 Vector2d newPosition = new Vector2d(i,j);
 
-                // okreslamy dostepne miejsca dla trawy tam gdzie jej nie ma
                 if(!map.getFoodMap().containsKey(newPosition)){
                     possiblePositions.add(newPosition);
                 }

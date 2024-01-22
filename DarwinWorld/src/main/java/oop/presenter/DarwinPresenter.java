@@ -14,12 +14,18 @@ import javafx.util.converter.IntegerStringConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oop.Simulation;
+import oop.model.genes.GenesHandler;
 import oop.model.maps.AbstractWorldMap;
+import oop.model.maps.MapWithHoles;
+import oop.model.maps.RectangularMap;
+import oop.model.maps.WorldMap;
 import oop.model.util.MapParameters;
+import org.w3c.dom.css.Rect;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DarwinPresenter {
@@ -267,23 +273,24 @@ public class DarwinPresenter {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
         BorderPane viewRoot = loader.load();
-
         SimulationPresenter presenter = loader.getController();
 
-        if (mapParameters.mapMode() == 1) {
-            MapPreparatorExtended mapPreparator = new MapPreparatorExtended(mapParameters);
-            mapPreparator.getMap().addObserver(presenter);
-            presenter.setWorldMap(mapPreparator.getMap());
-            Simulation simulation = new Simulation(mapPreparator.generateRandomPositions(mapPreparator.getMap()), mapPreparator.getBasicGenesList(), mapPreparator.getMap());
+        WorldMap map = null;
 
+        // tworzymy odpowiednia mape w zaleznosci od wyboru
+        if (mapParameters.mapMode() == 1) {  // mapa standardowa
+            map = new RectangularMap(mapParameters);
         }
-        else {
-            MapPreparatorBasic mapPreparator = new MapPreparatorBasic(mapParameters);
-            mapPreparator.getMap().addObserver(presenter);
-            presenter.setWorldMap(mapPreparator.getMap());
+        else {  // mapa z dziurami
+            map = new MapWithHoles(mapParameters);
         }
 
-        Simulation simulation = new Simulation(map)
+        MapPreparator mapPreparator = new MapPreparator(map, mapParameters);
+        presenter.setWorldMap(map);
+
+        Simulation simulation = new Simulation(
+                    mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
+
         Stage primaryStage = new Stage();
         var scene = new Scene(viewRoot);
 

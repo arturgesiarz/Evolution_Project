@@ -1,9 +1,10 @@
 package oop.presenter;
 
-import oop.model.Grass;
+import oop.model.RandomPositionGenerator;
 import oop.model.Vector2d;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesExtended;
+import oop.model.genes.GenesHandler;
 import oop.model.maps.WorldMap;
 import oop.model.util.MapParameters;
 
@@ -12,19 +13,39 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public abstract class MapPreparatorAbstract {
-    //
-    MapParameters mapParameters;
+public class MapPreparator {
+    private final WorldMap map;
+    private final MapParameters mapParameters;
+    private final List<? extends GenesHandler> genes;
+    private final List<Vector2d> animalPositions;
 
-    public MapPreparatorAbstract(MapParameters mapParameters) {
+    public MapPreparator(WorldMap map, MapParameters mapParameters) {
+        this.map = map;
         this.mapParameters = mapParameters;
+
+        if(mapParameters.genesMode() == 1){ // geny basic
+            this.genes = calculateBasicGenesList();
+        }
+        else{ // geny rozszerzone
+            this.genes = calculateExtendedGenesList();
+        }
+
+        this.animalPositions = generateRandomPositions();
     }
 
-    public List<GenesBasic> getBasicGenesList() {
+    public List<? extends GenesHandler> getGenes() {
+        return genes;
+    }
+
+    public List<Vector2d> getAnimalPositions() {
+        return animalPositions;
+    }
+
+    private List<GenesBasic> calculateBasicGenesList() {
         return randomGenesList().stream().map( GenesBasic :: new ).toList();
     }
 
-    public List <GenesExtended> getExtendedGenesList() {
+    private List <GenesExtended> calculateExtendedGenesList() {
         return randomGenesList().stream().map( GenesExtended :: new ).toList();
     }
 
@@ -40,26 +61,8 @@ public abstract class MapPreparatorAbstract {
                 .toList();
     }
 
-    protected void putRandomGrass(WorldMap map) {
-        Random random = new Random();
-        int mapWidth  = map.getMapParameters().width();
-        int mapHeight = map.getMapParameters().height();
-        int counter = 0;
+    private List <Vector2d> generateRandomPositions() {
 
-        while ( counter < mapParameters.amountOfPlantsBeginning() ) {
-            //
-            int x = random.nextInt(mapWidth + 1);
-            int y = random.nextInt(mapHeight + 1);
-            Vector2d position = new Vector2d(x, y);
-
-            if (map.getFoodMap().containsKey(position)) { continue; }
-
-            map.getFoodMap().put(position, new Grass( position, "Trawka") );
-            counter++;
-        }
-    }
-
-    public List <Vector2d> generateRandomPositions(WorldMap map) {
         List <Vector2d> randomPositions = new ArrayList<>();
         int mapWidth  = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();

@@ -15,7 +15,8 @@ public class MapWithHoles extends AbstractWorldMap {
 
     public MapWithHoles(MapParameters mapParameters) {
         super(mapParameters);
-        generateHoles(0);
+        int holesToGenerate = (int) (mapParameters.width() * mapParameters.height() / 2 * 0.4);
+        generateHoles(holesToGenerate);
     }
 
     public void generateHoles(int numberOfHoles) {
