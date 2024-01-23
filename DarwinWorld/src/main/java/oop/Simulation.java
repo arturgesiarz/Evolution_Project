@@ -38,7 +38,7 @@ public class Simulation implements Runnable {
 
     @Override
     public void run() {
-        while ( animalsMap.countAliveAnimals() > 0 || !isSimulationEnded){
+        while ( !isSimulationEnded){
             // uwzlgednienie oczekwiania
             synchronized (pauseLock){
                 if (isSimulationStopped){

@@ -69,6 +69,7 @@ public class SimulationPresenter implements MapChangeListener {
 
     public void initialize() {
         animalStatsBox.setVisible(false);
+
     }
 
     private void clearGrid() {
@@ -215,12 +216,9 @@ public class SimulationPresenter implements MapChangeListener {
         animalsAmount.setText("Liczba zwierząt: " + globalStats.getAnimalsAmount() );
         grassAmount.setText("Liczba pól trawy: " + globalStats.getGrassAmount() );
         emptyCells.setText("Pustych pól: " + globalStats.getEmptyCells() );
-        averageChildAmount.setText("Średnia energia: " +
-                BigDecimal.valueOf(globalStats.getAverageEnergyAmount() ).setScale(2, RoundingMode.HALF_UP));
-        averageDeadLifeSpan.setText("Średnia życia martwych: " +
-                BigDecimal.valueOf(globalStats.getAverageDeadLifeSpan()).setScale(2, RoundingMode.HALF_UP));
-        averageChildAmount.setText("Średnia ilość dzieci: " +
-                BigDecimal.valueOf(globalStats.getAverageChildAmount()).setScale(2, RoundingMode.HALF_UP));
+        averageChildAmount.setText("Średnia energia: " + globalStats.getAverageEnergyAmount());
+        averageDeadLifeSpan.setText("Średnia życia martwych: " + globalStats.getAverageDeadLifeSpan());
+        averageChildAmount.setText("Średnia ilość dzieci: " + globalStats.getAverageChildAmount());
         numberOfDeadAnimals.setText("Martwych zwierząt: " + globalStats.getNumberOfDeadAnimals() );
     }
 

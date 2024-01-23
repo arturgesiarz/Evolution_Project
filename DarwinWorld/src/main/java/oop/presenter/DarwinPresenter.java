@@ -352,7 +352,7 @@ public class DarwinPresenter {
             BorderPane viewRoot = loader.load();
             configureStage(stage, viewRoot);
             stage.show();
-
+ 
             // tworzenie mapy
             WorldMap map = null;
             if (mapParameters.mapMode() == 1) {

@@ -16,7 +16,7 @@ public class MapWithHoles extends AbstractWorldMap {
         generateHoles(holesToGenerate);
     }
 
-    public void generateHoles(int numberOfHoles) {
+    public synchronized void generateHoles(int numberOfHoles) {
         RandomHolesGenerator random = new RandomHolesGenerator(numberOfHoles, this.getLowerLeft(), this.getUpperRight(), this);
         List <Hole> holesList = random.getRandomHoles();
         holesList.forEach( hole -> holes.put(hole.getEntrance(), hole) );

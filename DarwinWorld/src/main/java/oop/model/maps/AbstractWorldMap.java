@@ -161,7 +161,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         return visualizer.draw(lowerLeft,upperRight);
     }
     @Override
-    public Map<Vector2d,List<WorldElement>> createElements(){
+    public synchronized Map<Vector2d,List<WorldElement>> createElements(){
         Map<Vector2d,List<WorldElement>> elements = new HashMap<>();
 
         for(Vector2d position : animals.keySet()){
