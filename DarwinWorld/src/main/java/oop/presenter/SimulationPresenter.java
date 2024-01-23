@@ -19,12 +19,15 @@ import oop.model.maps.Hole;
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
 
+import javax.swing.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
 public class SimulationPresenter implements MapChangeListener {
-    private static final double CELL_WIDTH = 50; //stala sluzaca do okreslenia szerokosci okienka
-    private static final double CELL_HEIGHT = 50; //stala sluzaca do okreslenia wysokosci okienka
+    private double CELL_WIDTH = 50; //stala sluzaca do okreslenia szerokosci okienka
+    private double CELL_HEIGHT = 50; //stala sluzaca do okreslenia wysokosci okienka
     @FXML
     public VBox animalStatsBox;
     @FXML
@@ -65,7 +68,6 @@ public class SimulationPresenter implements MapChangeListener {
     private GlobalStats animalStatistics = null;
 
     public void initialize() {
-
         animalStatsBox.setVisible(false);
     }
 
@@ -78,6 +80,16 @@ public class SimulationPresenter implements MapChangeListener {
     private void createMapGridWithAxes(){
         int mapWith = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();
+
+        if(mapWith  * mapHeight <= 100){
+            CELL_WIDTH = 50;
+            CELL_HEIGHT = 50;
+        }
+        else{
+            CELL_WIDTH = (int) Math.sqrt((650 * 650) / (mapWith  * mapHeight));
+            CELL_HEIGHT = (int)  Math.sqrt((650 * 650) / (mapWith  * mapHeight));
+        }
+
 
         for (int i = 0; i <= mapWith + 1; i++) {
             mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
@@ -118,7 +130,16 @@ public class SimulationPresenter implements MapChangeListener {
             for(WorldElement object : map.createElements().get(entry.getKey())){
                 if(object instanceof Animal){
                     Node objectLook;
-                    objectLook = new Circle(20, Color.BLACK);
+                    objectLook = new Circle((int) (CELL_WIDTH / 2), Color.BLACK);
+
+                    if (object.equals(animalToFollow)){
+                        objectLook = new Circle((int) (CELL_WIDTH / 2), Color.BLUE);
+                        animalStatistics.updateAllStats();
+                        updateOneAnimalStats((Animal) object);
+                    }
+                    objectLook.setMouseTransparent(false);
+                    objectLook.setOnMouseClicked(event -> animalClicked(object));
+
 
                     GridPane.setHalignment(objectLook, HPos.CENTER);
 
@@ -134,7 +155,7 @@ public class SimulationPresenter implements MapChangeListener {
                 for(WorldElement object : map.createElements().get(entry.getKey())){
                     if(object instanceof Hole){
                         Node objectLook;
-                        objectLook = new Rectangle(50, 50, Color.BLUEVIOLET);
+                        objectLook = new Rectangle(CELL_WIDTH, CELL_HEIGHT, Color.BLUEVIOLET);
 
                         GridPane.setHalignment(objectLook, HPos.CENTER);
 
@@ -151,7 +172,7 @@ public class SimulationPresenter implements MapChangeListener {
                 for(WorldElement object : map.createElements().get(entry.getKey())){
                     if(object instanceof Grass){
                         Node objectLook;
-                        objectLook = new Rectangle(50, 50, Color.GREEN);
+                        objectLook = new Rectangle(CELL_WIDTH, CELL_HEIGHT, Color.GREEN);
                         GridPane.setHalignment(objectLook, HPos.CENTER);
 
                         int x = object.getPosition().getX();
@@ -166,8 +187,6 @@ public class SimulationPresenter implements MapChangeListener {
         updateAllStats();
     }
 
-
-
     @FXML
     public void pauseSimulation() {
         //
@@ -179,7 +198,7 @@ public class SimulationPresenter implements MapChangeListener {
         } else {
             simulationPaused = true;
             simulation.pauseSimulation();
-            pauseSimulationButton.setText("Unpause");
+            pauseSimulationButton.setText("Continue");
         }
     }
 
@@ -187,10 +206,6 @@ public class SimulationPresenter implements MapChangeListener {
 
         animalToFollow = animal;
         animalStatsBox.setVisible(true);
-
-        //animalStatistics.setCurrent_animal((Animal) animal);
-        //animalStatistics.updateStats((Animal) animal);
-
         updateOneAnimalStats((Animal) animal);
         drawMap();
     }
@@ -200,9 +215,12 @@ public class SimulationPresenter implements MapChangeListener {
         animalsAmount.setText("Liczba zwierząt: " + globalStats.getAnimalsAmount() );
         grassAmount.setText("Liczba pól trawy: " + globalStats.getGrassAmount() );
         emptyCells.setText("Pustych pól: " + globalStats.getEmptyCells() );
-        averageChildAmount.setText("Średnia energia: " + globalStats.getAverageEnergyAmount() );
-        averageDeadLifeSpan.setText("Średnia życia martwych: " + globalStats.getAverageDeadLifeSpan() );
-        averageChildAmount.setText("Średnia ilość dzieci: " + globalStats.getAverageChildAmount() );
+        averageChildAmount.setText("Średnia energia: " +
+                BigDecimal.valueOf(globalStats.getAverageEnergyAmount() ).setScale(2, RoundingMode.HALF_UP));
+        averageDeadLifeSpan.setText("Średnia życia martwych: " +
+                BigDecimal.valueOf(globalStats.getAverageDeadLifeSpan()).setScale(2, RoundingMode.HALF_UP));
+        averageChildAmount.setText("Średnia ilość dzieci: " +
+                BigDecimal.valueOf(globalStats.getAverageChildAmount()).setScale(2, RoundingMode.HALF_UP));
         numberOfDeadAnimals.setText("Martwych zwierząt: " + globalStats.getNumberOfDeadAnimals() );
     }
 

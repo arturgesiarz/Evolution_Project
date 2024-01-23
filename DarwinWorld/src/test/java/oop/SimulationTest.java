@@ -76,7 +76,7 @@ class SimulationTest {
                         0,
                         5);
 
-        MapWithHoles map = new MapWithHoles(mapParameters, 3);
+        MapWithHoles map = new MapWithHoles(mapParameters);
         map.addObserver(new ConsoleMapDisplay());
         map.addObserver(new FileMapDisplay());
 

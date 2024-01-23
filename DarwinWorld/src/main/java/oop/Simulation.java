@@ -102,6 +102,7 @@ public class Simulation implements Runnable {
     }
     public void stopSimulation(){
         isSimulationEnded = true;
+
     }
 
 }
