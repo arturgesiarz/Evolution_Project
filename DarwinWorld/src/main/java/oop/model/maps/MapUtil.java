@@ -46,9 +46,9 @@ public class MapUtil {
         toRemove.forEach( animal -> {
             map.getAnimals().get( animal.getPosition() ).remove(animal);
             animal.getAnimalStats().setDeathTime(time);
+
             globalStats.animalDiedStats(animal);
 
-            // if (map.getAnimals().get( animal.getPosition() ).size() == 0) {
             if ( map.getAnimals().get(animal.getPosition()).isEmpty() ) {
                 map.getAnimals().remove(animal.getPosition());
             }
@@ -114,13 +114,11 @@ public class MapUtil {
         int mapHeight = map.getMapParameters().height();
         int mapWidth  = map.getMapParameters().width();
         int rowsAmountEquator = (int) Math.ceil( (double) numberOfCellsAvailable / mapWidth );
-        rowsAmountEquator = min(rowsAmountEquator, map.getUpperRight().getY() );
 
+        rowsAmountEquator = min(rowsAmountEquator, map.getUpperRight().getY() );
         howManyPutOnEquator = min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
 
-
         int heightEquator = rowsAmountEquator / 2;
-
 
         Vector2d leftBorder  = new Vector2d
                 ( 0, max(0, mapHeight / 2 - heightEquator ) ) ;
@@ -141,7 +139,8 @@ public class MapUtil {
         if(generatorGrassOnEquator.getSucceedGrassPlaced() < plantsToSeed){
             long restGrassToGenerate = plantsToSeed - generatorGrassOnEquator.getSucceedGrassPlaced();
 
-            RandomPositionGenerator generatorPointsOutsideEquator = new RandomPositionGenerator(restGrassToGenerate, map.getLowerLeft(), map.getUpperRight(), map);
+            Vector2d newRightBorder = new Vector2d( map.getUpperRight().getX() + 1, map.getUpperRight().getY() );
+            RandomPositionGenerator generatorPointsOutsideEquator = new RandomPositionGenerator(restGrassToGenerate, map.getLowerLeft(), newRightBorder, map);
             List<Vector2d> generatedPointsOutsideEquator = generatorPointsOutsideEquator.getRandomPoints();
 
             putGrass(map, generatedPointsOutsideEquator);

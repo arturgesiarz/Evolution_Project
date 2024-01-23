@@ -19,9 +19,11 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final UUID worldMapID;
 
     public AbstractWorldMap(MapParameters mapParameters){
-        lowerLeft = new Vector2d(0,0);
-        upperRight = new Vector2d(mapParameters.width() - 1,mapParameters.height() - 1);
+        //
+        lowerLeft  = new Vector2d(0,0);
+        upperRight = new Vector2d(mapParameters.width() - 1, mapParameters.height() - 1);
         this.mapParameters = mapParameters;
+
         MapUtil.growNewGrass(this, mapParameters.amountOfPlantsBeginning());
         worldMapID = UUID.randomUUID();
     }
@@ -81,7 +83,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
     @Override
     public void move(Animal animal) {
+        //
         animal.getAnimalStats().decreaseEnergyAmount(1);
+        animal.getAnimalStats().updateLifeTime();
+
         Vector2d oldPosition = animal.getPosition();
         List<Animal> oldAnimalsList = animals.get(oldPosition);  // pozyskuje liste zwierzat bedacych na tej samej pozycji
 

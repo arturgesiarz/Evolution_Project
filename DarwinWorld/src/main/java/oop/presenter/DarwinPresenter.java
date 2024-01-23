@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DarwinPresenter {
     private static final double CELL_WIDTH = 30;
@@ -75,6 +77,9 @@ public class DarwinPresenter {
     private MapParameters mapParameters;
     private int mapModeOn = -1;
     private int genesModeOn = -1;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(4);
+
 
     @FXML
     private void initialize() {
@@ -372,18 +377,19 @@ public class DarwinPresenter {
 
             // stworzenie symulacji
             MapPreparator mapPreparator = new MapPreparator(map, mapParameters);
-            Simulation simulation = new Simulation(
-                    mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
+            Simulation simulation = new Simulation(mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
 
             // dodawanie symulacji
             presenter.setSimulation(simulation);
             stage.setOnCloseRequest(event -> simulation.stopSimulation());
-            SimulationEngine simulationEngine = new SimulationEngine(List.of(simulation));
 
-            // uruchamianie symulacji
-            simulationEngine.runAsyncInThreadPool();
+            addSimulationAndRun(simulation);
 
         }
+    }
+
+    private void addSimulationAndRun(Simulation simulation) {
+        executorService.submit(simulation);
     }
 
     private void setMapParameters(){

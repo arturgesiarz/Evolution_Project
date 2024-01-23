@@ -57,6 +57,8 @@ public class SimulationPresenter implements MapChangeListener {
     @FXML
     private Label energyAmount;
     @FXML
+    private Label evolutionTime;
+    @FXML
     private GridPane mapGrid;
     @FXML
     private Button pauseSimulationButton;
@@ -79,35 +81,35 @@ public class SimulationPresenter implements MapChangeListener {
     }
 
     private void createMapGridWithAxes(){
-        int mapWith = map.getMapParameters().width();
+        int mapWidth = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();
 
-        if(mapWith  * mapHeight <= 100){
+        if(mapWidth  * mapHeight <= 100){
             CELL_WIDTH = 50;
             CELL_HEIGHT = 50;
         }
         else{
-            CELL_WIDTH = (int) Math.sqrt((650 * 650) / (mapWith  * mapHeight));
-            CELL_HEIGHT = (int)  Math.sqrt((650 * 650) / (mapWith  * mapHeight));
+            CELL_WIDTH = (int) Math.sqrt( (double) (650 * 650) / (mapWidth  * mapHeight));
+            CELL_HEIGHT = (int)  Math.sqrt( (double) (650 * 650) / (mapWidth  * mapHeight));
         }
 
 
-        for (int i = 0; i <= mapWith + 1; i++) {
+        for (int i = 0; i <= mapWidth; i++) {
             mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
         }
 
-        for (int i = 0; i <= mapHeight + 1; i++) {
+        for (int i = 0; i <= mapHeight; i++) {
             mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
         }
 
         Label label;
-        for (int i = 0; i < mapWith + 1; i++){
+        for (int i = 0; i < mapWidth; i++){
             label = new Label(String.valueOf(i));
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.add(label, i + 1, 0);
         }
-        for (int i = 0; i < mapHeight + 1; i++){
-            label = new Label(String.valueOf(mapHeight - i));
+        for (int i = 0; i < mapHeight; i++){
+            label = new Label(String.valueOf(mapHeight - i - 1));
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.add(label, 0, i + 1);
         }
@@ -119,7 +121,7 @@ public class SimulationPresenter implements MapChangeListener {
     }
 
     void drawMap(){
-        int mapWith = map.getMapParameters().width();
+        int mapWith   = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();
 
         clearGrid();
@@ -147,7 +149,7 @@ public class SimulationPresenter implements MapChangeListener {
                     int x = object.getPosition().getX();
                     int y = object.getPosition().getY();
 
-                    mapGrid.add(objectLook, x + 1, mapHeight - y + 1);
+                    mapGrid.add(objectLook, x + 1, mapHeight - y);
 
                     test = 1;
                 }
@@ -163,7 +165,7 @@ public class SimulationPresenter implements MapChangeListener {
                         int x = object.getPosition().getX();
                         int y = object.getPosition().getY();
 
-                        mapGrid.add(objectLook, x + 1, mapHeight - y + 1);
+                        mapGrid.add(objectLook, x + 1, mapHeight - y);
 
                         test = 1;
                     }
@@ -179,7 +181,7 @@ public class SimulationPresenter implements MapChangeListener {
                         int x = object.getPosition().getX();
                         int y = object.getPosition().getY();
 
-                        mapGrid.add(objectLook, x + 1, mapHeight - y + 1);
+                        mapGrid.add(objectLook, x + 1, mapHeight - y);
                     }
                 }
             }
@@ -213,13 +215,18 @@ public class SimulationPresenter implements MapChangeListener {
 
     private void updateAllStats() {
         GlobalStats globalStats = simulation.getGlobalStats();
-        animalsAmount.setText("Liczba zwierząt: " + globalStats.getAnimalsAmount() );
-        grassAmount.setText("Liczba pól trawy: " + globalStats.getGrassAmount() );
-        emptyCells.setText("Pustych pól: " + globalStats.getEmptyCells() );
-        averageChildAmount.setText("Średnia energia: " + globalStats.getAverageEnergyAmount());
-        averageDeadLifeSpan.setText("Średnia życia martwych: " + globalStats.getAverageDeadLifeSpan());
-        averageChildAmount.setText("Średnia ilość dzieci: " + globalStats.getAverageChildAmount());
-        numberOfDeadAnimals.setText("Martwych zwierząt: " + globalStats.getNumberOfDeadAnimals() );
+        globalStats.updateAllStats();
+
+        animalsAmount.setText("Liczba zwierzat: " + globalStats.getAnimalsAmount() );
+        evolutionTime.setText("Czas ewolucji: " + simulation.getEvolutionTime() );
+        grassAmount.setText("Liczba pol trawy: " + globalStats.getGrassAmount() );
+        emptyCells.setText("Pola bez zwierzat: " + globalStats.getEmptyCells() );
+        averageChildAmount.setText("Srednia energia: " + globalStats.getAverageEnergyAmount());
+        averageDeadLifeSpan.setText("Srednia zycia martwych: " + globalStats.getAverageDeadLifeSpan());
+        averageChildAmount.setText("Srednia ilosc dzieci: " + globalStats.getAverageChildAmount());
+        numberOfDeadAnimals.setText("Martwych zwierzat: " + globalStats.getNumberOfDeadAnimals() );
+
+        if (globalStats.getAnimalsAmount() == 0) { simulation.pauseSimulation(); }
     }
 
     private void updateOneAnimalStats(Animal animal) {

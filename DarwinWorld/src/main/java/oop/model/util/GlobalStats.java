@@ -98,7 +98,7 @@ public class GlobalStats {
 
     public void animalDiedStats(Animal animal) {
         numberOfDeadAnimals++;
-        sumLifeSpanDeadAnimals += animal.getAnimalStats().getLifeTime();
+        sumLifeSpanDeadAnimals += animal.getAnimalStats().getDeathTime();
     }
 
     public void updateAllStats() {

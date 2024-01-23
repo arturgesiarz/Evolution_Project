@@ -38,7 +38,8 @@ public class Simulation implements Runnable {
 
     @Override
     public void run() {
-        while ( !isSimulationEnded){
+        //
+        while ( !isSimulationEnded ){
             // uwzlgednienie oczekwiania
             synchronized (pauseLock){
                 if (isSimulationStopped){
@@ -103,6 +104,10 @@ public class Simulation implements Runnable {
     public void stopSimulation(){
         isSimulationEnded = true;
 
+    }
+
+    public int getEvolutionTime() {
+        return evolutionTime;
     }
 
 }

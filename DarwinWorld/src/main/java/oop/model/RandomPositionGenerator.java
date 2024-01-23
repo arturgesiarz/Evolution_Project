@@ -23,18 +23,19 @@ public class RandomPositionGenerator{
 
     public RandomPositionGenerator(long objectsNumber, Vector2d leftBorder, Vector2d rightBorder, WorldMap map){
         this.objectsNumber = objectsNumber;
-        this.rightBorder = rightBorder;
-        this.leftBorder = leftBorder;
+        this.rightBorder   = rightBorder;
+        this.leftBorder    = leftBorder;
         this.map = map;
         this.randomPoints = generateObjectsRandomPosition( createPossiblePositions() );
     }
 
     public List<Vector2d> createPossiblePositions(){
         List<Vector2d> possiblePositions = new ArrayList<>();
-        for(int i = 0; i <= rightBorder.getX(); i++){
-            for(int j = leftBorder.getY(); j <= rightBorder.getY(); j++){
-                Vector2d newPosition = new Vector2d(i,j);
 
+        for(int i = 0; i < rightBorder.getX(); i++){
+            for(int j = leftBorder.getY(); j <= rightBorder.getY(); j++){
+
+                Vector2d newPosition = new Vector2d(i,j);
                 if(!map.getFoodMap().containsKey(newPosition)){
                     possiblePositions.add(newPosition);
                 }
@@ -53,11 +54,11 @@ public class RandomPositionGenerator{
         Random random = new Random();
         if(lastIndex >= 0){
             for(int i = 0; i < objectsNumber; i++){
-                if ( possiblePositions.size() == 0 ) {
+                if (possiblePositions.isEmpty()) {
                     break;
                 }
-//                randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
-                randomSelect = random.nextInt( possiblePositions.size() );
+                randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
+//                randomSelect = random.nextInt( possiblePositions.size() );
                 generatedPoints.add(possiblePositions.get(randomSelect));
                 possiblePositions.remove(randomSelect);
                 lastIndex--;

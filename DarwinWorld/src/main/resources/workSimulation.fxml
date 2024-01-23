@@ -16,6 +16,7 @@
             <VBox fx:id = "globalStatsBox" spacing = "5" alignment = "CENTER" prefWidth="200" >
                 <Label text="Statystyki globalne" style = "-fx-font-weight: bold;"/>
                 <Label fx:id = "animalsAmount" wrapText="true"/>
+                <Label fx:id = "evolutionTime" wrapText="true"/>
                 <Label fx:id = "grassAmount" wrapText="true"/>
                 <Label fx:id = "emptyCells" wrapText="true"/>
                 <Label fx:id = "averageEnergyAmount" wrapText="true"/>

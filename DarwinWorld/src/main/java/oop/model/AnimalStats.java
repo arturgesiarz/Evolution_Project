@@ -53,4 +53,5 @@ public class AnimalStats {
 
     public int getDescendantsAmount() { return this.descendantsAmount; }
 
+    public int getDeathTime() { return this.deathTime; }
 }
