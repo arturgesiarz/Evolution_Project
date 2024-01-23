@@ -5,10 +5,7 @@ import oop.model.Vector2d;
 import oop.model.WorldElement;
 import oop.model.util.MapParameters;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MapWithHoles extends AbstractWorldMap {
     private final Map <Vector2d, Hole> holes = new HashMap<>();
@@ -48,6 +45,24 @@ public class MapWithHoles extends AbstractWorldMap {
         }
 
         return Optional.ofNullable( holes.get(position) );
+    }
+
+    @Override
+    public Map<Vector2d,List<WorldElement>> createElements(){
+        Map<Vector2d, List<WorldElement>> elements = super.createElements();
+
+        for(Vector2d position : holes.keySet()){
+            if(!elements.containsKey(position)){
+                elements.put(position, new ArrayList<>());
+                elements.get(position).add(holes.get(position));
+            }
+            else{
+                elements.get(position).add(holes.get(position));
+            }
+
+        }
+        return elements;
+
     }
 }
 

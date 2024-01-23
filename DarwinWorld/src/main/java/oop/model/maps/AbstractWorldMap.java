@@ -128,7 +128,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
-
     public boolean isOccupied(Vector2d position) { return this.animals.containsKey(position); }
 
     @Override
@@ -160,6 +159,35 @@ public abstract class AbstractWorldMap implements WorldMap {
     public String toString() {
         MapVisualizer visualizer = new MapVisualizer(this);
         return visualizer.draw(lowerLeft,upperRight);
+    }
+    @Override
+    public Map<Vector2d,List<WorldElement>> createElements(){
+        Map<Vector2d,List<WorldElement>> elements = new HashMap<>();
+
+        for(Vector2d position : animals.keySet()){
+            for(Animal animal : animals.get(position)){
+                if(!elements.containsKey(position)){
+                    elements.put(position, new ArrayList<>());
+                    elements.get(position).add(animal);
+                }
+                else{
+                    elements.get(position).add(animal);
+                }
+            }
+        }
+
+        for(Vector2d position : foodMap.keySet()){
+            if(!elements.containsKey(position)){
+                elements.put(position, new ArrayList<>());
+                elements.get(position).add(foodMap.get(position));
+            }
+            else{
+                elements.get(position).add(foodMap.get(position));
+            }
+
+        }
+
+        return elements;
     }
 
 }

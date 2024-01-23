@@ -15,17 +15,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import oop.Simulation;
 import oop.model.*;
+import oop.model.maps.Hole;
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
-import oop.model.util.MapParameters;
 
 import java.util.List;
+import java.util.Map;
 
 public class SimulationPresenter implements MapChangeListener {
     private static final double CELL_WIDTH = 50; //stala sluzaca do okreslenia szerokosci okienka
     private static final double CELL_HEIGHT = 50; //stala sluzaca do okreslenia wysokosci okienka
-
+    @FXML
     public VBox animalStatsBox;
+    @FXML
+    public VBox globalStatsBox;
     @FXML
     private Label animalsAmount;
     @FXML
@@ -56,11 +59,13 @@ public class SimulationPresenter implements MapChangeListener {
     private Button pauseSimulationButton;
 
     private Simulation simulation;
-    private WorldMap map;
+    private WorldMap map = null;
     private boolean simulationPaused = false;
-
+    private WorldElement animalToFollow = null;
+    private GlobalStats animalStatistics = null;
 
     public void initialize() {
+
         animalStatsBox.setVisible(false);
     }
 
@@ -70,105 +75,95 @@ public class SimulationPresenter implements MapChangeListener {
         mapGrid.getRowConstraints().clear();
     }
 
-    private void createRawGrid(int noRows, int noCols){
-
-        for(int i = 0; i <= noRows; i++){
-            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT)); //ustawianie wysokosci komorki
-        }
-        for(int i = 0; i <= noCols; i++){
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH)); //ustawianie szeroskosci komorki
-        }
-    }
-
-    private void addAxesGrid(int noRows, int noCols){ //metoda dodaje do grida naglowki osi czyli x/y 0 1 2.. itd
-        Label labelToAdd;
-
-        labelToAdd = new Label("y\\x");
-        GridPane.setHalignment(labelToAdd, HPos.CENTER);
-        mapGrid.add(labelToAdd,0,0);
-
-        for(int i = 0; i <= noRows; i ++){ //dodaje naglowki dla kolumn
-            labelToAdd = new Label("" + (map.getLowerLeft().getX() + i));
-            GridPane.setHalignment(labelToAdd, HPos.CENTER);
-            mapGrid.add(labelToAdd,i + 1,0);
-        }
-
-        for(int i = 0; i <= noCols; i ++){ //dodaje naglowki dla wierszy
-            labelToAdd = new Label("" + (map.getLowerLeft().getY() + i));
-            GridPane.setHalignment(labelToAdd, HPos.CENTER);
-            mapGrid.add(labelToAdd,0,i + 1);
-        }
-    }
-
-    private void complementsRestGrid(int noRows, int noCols){ //metoda uzupelnia reszte calego grida -> aktualizuje przemieszczanie sie
-        VBox vBoxToAdd;
-        for(int i = 0; i <= noRows; i ++){
-            for(int j = 0; j <= noCols; j ++){
-                Vector2d actVector = new Vector2d(
-                        map.getLowerLeft().getX() + j,
-                        map.getLowerLeft().getY() + i
-                );
-                WorldElement worldElement = map.objectAt(actVector).orElse(null);
-                if (worldElement != null) {
-                    vBoxToAdd = new WorldElementBox(worldElement).getContainer();
-                } else {
-                    vBoxToAdd = new VBox(new Label(""));
-                }
-                // labelToAdd = new Label(map.objectAt(actVector).map(WorldElement::toString).orElse(""));
-
-                GridPane.setHalignment(vBoxToAdd, HPos.CENTER);
-                mapGrid.add(vBoxToAdd,j + 1,i + 1);
-            }
-        }
-    }
-
-    void drawMap() {
-        //
-        clearGrid();
-        int mapWidth  = map.getMapParameters().width();
+    private void createMapGridWithAxes(){
+        int mapWith = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();
 
-        for (int i = 0 ; i < mapWidth  ; i++) { mapGrid.getColumnConstraints().add( new ColumnConstraints(50) ); }
-        for (int i = 0 ; i < mapHeight ; i++) { mapGrid.getRowConstraints().add( new RowConstraints(50) ); }
+        for (int i = 0; i <= mapWith + 1; i++) {
+            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+        }
 
+        for (int i = 0; i <= mapHeight + 1; i++) {
+            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+        }
 
         Label label;
-
+        for (int i = 0; i < mapWith + 1; i++){
+            label = new Label(String.valueOf(i));
+            GridPane.setHalignment(label, HPos.CENTER);
+            mapGrid.add(label, i + 1, 0);
+        }
+        for (int i = 0; i < mapHeight + 1; i++){
+            label = new Label(String.valueOf(mapHeight - i));
+            GridPane.setHalignment(label, HPos.CENTER);
+            mapGrid.add(label, 0, i + 1);
+        }
         label = new Label("y\\x");
         GridPane.setHalignment(label, HPos.CENTER);
         mapGrid.add(label, 0, 0);
 
-        for (int i = 0 ; i <= mapWidth ; i++) {
-            label = new Label(String.valueOf(i));
-            GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.add(label, 0, i + 1);
+
+    }
+
+    void drawMap(){
+        int mapWith = map.getMapParameters().width();
+        int mapHeight = map.getMapParameters().height();
+
+        clearGrid();
+        createMapGridWithAxes();
+
+        for(Map.Entry<Vector2d, List<WorldElement>> entry : map.createElements().entrySet()){
+            int test = 0;
+
+            for(WorldElement object : map.createElements().get(entry.getKey())){
+                if(object instanceof Animal){
+                    Node objectLook;
+                    objectLook = new Circle(20, Color.BLACK);
+
+                    GridPane.setHalignment(objectLook, HPos.CENTER);
+
+                    int x = object.getPosition().getX();
+                    int y = object.getPosition().getY();
+
+                    mapGrid.add(objectLook, x + 1, mapHeight - y + 1);
+
+                    test = 1;
+                }
+            }
+            if(test == 0){
+                for(WorldElement object : map.createElements().get(entry.getKey())){
+                    if(object instanceof Hole){
+                        Node objectLook;
+                        objectLook = new Rectangle(50, 50, Color.BLUEVIOLET);
+
+                        GridPane.setHalignment(objectLook, HPos.CENTER);
+
+                        int x = object.getPosition().getX();
+                        int y = object.getPosition().getY();
+
+                        mapGrid.add(objectLook, x + 1, mapHeight - y + 1);
+
+                        test = 1;
+                    }
+                }
+            }
+            if(test == 0){
+                for(WorldElement object : map.createElements().get(entry.getKey())){
+                    if(object instanceof Grass){
+                        Node objectLook;
+                        objectLook = new Rectangle(50, 50, Color.GREEN);
+                        GridPane.setHalignment(objectLook, HPos.CENTER);
+
+                        int x = object.getPosition().getX();
+                        int y = object.getPosition().getY();
+
+                        mapGrid.add(objectLook, x + 1, mapHeight - y + 1);
+                    }
+                }
+            }
         }
 
-        for (int i = 0 ; i <= mapHeight ; i++) {
-            label = new Label( String.valueOf(mapHeight - i) );
-            GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.add(label, 0, i + 1);
-        }
-
-        fillPaneAnimals();
-        updateStats();
-    } // end method drawMap()
-
-    private void fillPaneAnimals() {
-        //
-        Node objectLook;
-
-        for ( Food food : map.getFoodMap().values() ) {
-            objectLook = new Rectangle(50, 50, Color.GREEN);
-            GridPane.setHalignment( objectLook, HPos.CENTER );
-            mapGrid.add(objectLook, food.getPosition().getX() + 1, map.getMapParameters().height() - food.getPosition().getY() + 1);
-        }
-
-        for ( Animal animal : map.getAnimals().values().stream().flatMap(List::stream).toList() ) {
-            objectLook = new Circle(20, Color.BLACK);
-            // TODO
-        }
-
+        updateAllStats();
     }
 
 
@@ -188,7 +183,19 @@ public class SimulationPresenter implements MapChangeListener {
         }
     }
 
-    private void updateStats() {
+    void animalClicked(WorldElement animal){
+
+        animalToFollow = animal;
+        animalStatsBox.setVisible(true);
+
+        //animalStatistics.setCurrent_animal((Animal) animal);
+        //animalStatistics.updateStats((Animal) animal);
+
+        updateOneAnimalStats((Animal) animal);
+        drawMap();
+    }
+
+    private void updateAllStats() {
         GlobalStats globalStats = simulation.getGlobalStats();
         animalsAmount.setText("Liczba zwierząt: " + globalStats.getAnimalsAmount() );
         grassAmount.setText("Liczba pól trawy: " + globalStats.getGrassAmount() );
@@ -199,8 +206,20 @@ public class SimulationPresenter implements MapChangeListener {
         numberOfDeadAnimals.setText("Martwych zwierząt: " + globalStats.getNumberOfDeadAnimals() );
     }
 
+    private void updateOneAnimalStats(Animal animal) {
+        animalGenome.setText("Genom zwierzaka: " + animal.getGenesHandler().getGenes());
+        animalPosition.setText("Aktualna pozycja zwierzaka: " + animal.getPosition());
+        childAmount.setText("Liczba dzieci zwierzaka: " + animal.getAnimalStats().getChildAmount());
+        lifeTime.setText("Czas zycia zwierzaka: " + animal.getAnimalStats().getLifeTime());
+        energyAmount.setText("Energia zwierzaka: " + animal.getAnimalStats().getEnergyAmount());
+    }
+
     public void setWorldMap(WorldMap map) {
         this.map = map;
+    }
+
+    public void setGlobalStats(GlobalStats globalStats) {
+        this.animalStatistics = globalStats;
     }
 
     public void setSimulation(Simulation simulation) {

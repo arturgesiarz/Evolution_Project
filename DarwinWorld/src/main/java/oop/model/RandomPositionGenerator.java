@@ -50,13 +50,14 @@ public class RandomPositionGenerator{
         int lastIndex = possiblePositions.size() - 1;
         int randomSelect;
         long puttedGrass = 0;
-
+        Random random = new Random();
         if(lastIndex >= 0){
             for(int i = 0; i < objectsNumber; i++){
                 if ( possiblePositions.size() == 0 ) {
                     break;
                 }
-                randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
+//                randomSelect = (int)Math.floor(Math.random() * (lastIndex + 1) );
+                randomSelect = random.nextInt( possiblePositions.size() );
                 generatedPoints.add(possiblePositions.get(randomSelect));
                 possiblePositions.remove(randomSelect);
                 lastIndex--;

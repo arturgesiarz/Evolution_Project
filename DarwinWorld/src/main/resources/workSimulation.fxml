@@ -10,40 +10,36 @@
             xmlns:fx="http://javafx.com/fxml"
             minHeight="720" minWidth="1024"
             fx:controller="oop.presenter.SimulationPresenter">
-<!--            stylesheets="workSimulationStyle.css">-->
+    <center>
+        <HBox alignment = "CENTER" spacing = "10" >
 
-    <HBox alignment = "CENTER" spacing = "10">
+            <VBox fx:id = "globalStatsBox" spacing = "5" alignment = "CENTER_LEFT" >
+                <Label text="Statystyki globalne" style = "-fx-font-weight: bold;"/>
+                <Label fx:id = "animalsAmount"/>
+                <Label fx:id = "grassAmount"/>
+                <Label fx:id = "emptyCells"/>
+                <Label fx:id = "averageEnergyAmount"/>
+                <Label fx:id = "averageDeadLifeSpan"/>
+                <Label fx:id = "averageChildAmount"/>
+                <Label fx:id = "numberOfDeadAnimals"/>
+            </VBox>
 
-        <VBox fx:id = "globalStatsBox" spacing = "5" alignment = "CENTER_LEFT" >
-            <Label text="Statystyki globalne" style = "-fx-font-weight: bold;"/>
-            <Label fx:id = "animalsAmount"/>
-            <Label fx:id = "grassAmount"/>
-            <Label fx:id = "emptyCells"/>
-            <Label fx:id = "averageEnergyAmount"/>
-            <Label fx:id = "averageDeadLifeSpan"/>
-            <Label fx:id = "averageChildAmount"/>
-            <Label fx:id = "numberOfDeadAnimals"/>
-        </VBox>
+            <VBox alignment = "CENTER">
+                <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true"> </GridPane>
+                <Button fx:id = "pauseSimulationButton" onAction = "#pauseSimulation" alignment = "CENTER">Pause</Button>
+            </VBox>
 
-        <VBox fx:id = "animalStatsBox">
-            <Label text="Statystyki zwierzaka"/>
-            <Label fx:id = "animalGenome"/>
-            <Label fx:id = "animalPosition"/>
-            <Label fx:id = "childAmount"/>
-            <Label fx:id = "lifeTime"/>
-            <Label fx:id = "energyAmount"/>
-        </VBox>
+            <VBox fx:id = "animalStatsBox" alignment="CENTER_RIGHT">
+                <Label text="Statystyki zwierzaka"/>
+                <Label fx:id = "animalGenome"/>
+                <Label fx:id = "animalPosition"/>
+                <Label fx:id = "childAmount"/>
+                <Label fx:id = "lifeTime"/>
+                <Label fx:id = "energyAmount"/>
+            </VBox>
 
-        <VBox alignment = "CENTER">
-            <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true"> </GridPane>
-            <Button fx:id = "pauseSimulationButon" onAction = "#pauseSimulation" alignment = "CENTER">Pause</Button>
-        </VBox>
-
-
-    </HBox>
-
-
-
-
+        </HBox>
+    </center>
 
 </BorderPane>
+

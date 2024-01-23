@@ -27,6 +27,6 @@ public class Grass extends Food {
 
     @Override
     public String getFileName() {
-        return null;
+        return "img/grass.jpeg";
     }
 }

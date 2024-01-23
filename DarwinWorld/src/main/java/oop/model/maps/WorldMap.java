@@ -29,6 +29,8 @@ public interface WorldMap extends MoveValidator {
     void addObserver(MapChangeListener observer);
     void removeObserver(MapChangeListener observer);
 
+    Map<Vector2d,List<WorldElement>> createElements();
+
     int countAliveAnimals();
     void mapChanged(String message);
 }

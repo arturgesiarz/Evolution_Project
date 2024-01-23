@@ -14,10 +14,13 @@ import javafx.util.converter.IntegerStringConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oop.Simulation;
+import oop.model.ConsoleMapDisplay;
+import oop.model.FileMapDisplay;
 import oop.model.SimulationEngine;
 import oop.model.maps.MapWithHoles;
 import oop.model.maps.RectangularMap;
 import oop.model.maps.WorldMap;
+import oop.model.util.GlobalStats;
 import oop.model.util.MapParameters;
 
 import java.io.File;
@@ -363,6 +366,8 @@ public class DarwinPresenter {
             SimulationPresenter presenter = loader.getController();
             presenter.initialize();
             presenter.setWorldMap(map);
+            presenter.setGlobalStats(new GlobalStats(map));
+
             map.addObserver(presenter);
 
             // stworzenie symulacji
