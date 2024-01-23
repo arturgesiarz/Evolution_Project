@@ -12,7 +12,7 @@ public class MapWithHoles extends AbstractWorldMap {
 
     public MapWithHoles(MapParameters mapParameters) {
         super(mapParameters);
-        int holesToGenerate = (int) (mapParameters.width() * mapParameters.height() / 2 * 0.4);
+        int holesToGenerate = (int) (mapParameters.width() * mapParameters.height() / 2 * 0.1);
         generateHoles(holesToGenerate);
     }
 

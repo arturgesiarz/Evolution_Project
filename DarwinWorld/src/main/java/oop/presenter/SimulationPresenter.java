@@ -12,8 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import oop.Simulation;
 import oop.model.*;
 import oop.model.maps.Hole;
@@ -21,9 +20,6 @@ import oop.model.maps.MapUtil;
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
 
-import javax.swing.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -126,8 +122,18 @@ public class SimulationPresenter implements MapChangeListener {
 
     }
 
+    private Shape createRing(double outerRadius, double innerRadius) {
+        Arc outerArc = new Arc(0, 0, outerRadius, outerRadius, 0, 360);
+        outerArc.setType(ArcType.ROUND);
+
+        Arc innerArc = new Arc(0, 0, innerRadius, innerRadius, 0, 360);
+        innerArc.setType(ArcType.ROUND);
+
+        return Shape.subtract(outerArc, innerArc);
+    }
+
     void drawMap(){
-        int mapWith   = map.getMapParameters().width();
+        int mapWidth   = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();
 
         clearGrid();
@@ -138,8 +144,10 @@ public class SimulationPresenter implements MapChangeListener {
 
             for(WorldElement object : map.createElements().get(entry.getKey())){
                 if(object instanceof Animal){
+
                     Node objectLook;
-                    objectLook = new Circle((int) (CELL_WIDTH / 2), Color.BLACK);
+                    int ratio = determineColor( (Animal) object);
+                    objectLook = new Circle((int) (CELL_WIDTH / 2), Color.rgb(ratio, ratio, ratio));
 
                     if (object.equals(animalToFollow)){
                         objectLook = new Circle((int) (CELL_WIDTH / 2), Color.BLUE);
@@ -148,7 +156,6 @@ public class SimulationPresenter implements MapChangeListener {
                     }
                     objectLook.setMouseTransparent(false);
                     objectLook.setOnMouseClicked(event -> animalClicked(object));
-
 
                     GridPane.setHalignment(objectLook, HPos.CENTER);
 
@@ -164,7 +171,13 @@ public class SimulationPresenter implements MapChangeListener {
                 for(WorldElement object : map.createElements().get(entry.getKey())){
                     if(object instanceof Hole){
                         Node objectLook;
-                        objectLook = new Rectangle(CELL_WIDTH, CELL_HEIGHT, Color.BLUEVIOLET);
+
+                        Shape ring = createRing(CELL_HEIGHT / 2, CELL_WIDTH / 2 - CELL_WIDTH / 4);
+                        ring.setFill(Color.VIOLET);
+                        ring.setStroke(Color.RED);
+                        objectLook = ring;
+
+//                        objectLook = new Rectangle(CELL_WIDTH, CELL_HEIGHT, Color.BLUEVIOLET);
 
                         GridPane.setHalignment(objectLook, HPos.CENTER);
 
@@ -194,6 +207,17 @@ public class SimulationPresenter implements MapChangeListener {
         }
 
         updateAllStats();
+    }
+
+    private int determineColor(Animal animal) {
+        int animalEnergy = animal.getAnimalStats().getEnergyAmount();
+
+        if (animalEnergy < 10) { return 0; }
+        if (animalEnergy < 20) { return 32; }
+        if (animalEnergy < 30) { return 64; }
+        if (animalEnergy < 40) { return 96; }
+        if (animalEnergy < 50) { return 128;  }
+        return 160;
     }
 
     @FXML

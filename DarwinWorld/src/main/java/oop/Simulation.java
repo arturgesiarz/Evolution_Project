@@ -63,7 +63,7 @@ public class Simulation implements Runnable {
             animalsMap.mapChanged("");
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
