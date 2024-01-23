@@ -120,13 +120,32 @@ public class MapUtil {
 
         int heightEquator = rowsAmountEquator / 2;
 
-        Vector2d leftBorder  = new Vector2d
-                ( 0, max(0, mapHeight / 2 - heightEquator ) ) ;
 
-        Vector2d rightBorder = new Vector2d
-                ( mapWidth, min( mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
+        Vector2d leftBorder = new Vector2d(mapWidth, min(mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
+        Vector2d rightBorder = new Vector2d( 0, max(0, mapHeight / 2 - heightEquator) );
 
         putRandomGrass(map, plantsToSeed, howManyPutOnEquator, leftBorder, rightBorder);
+    }
+
+
+    public static Vector2d getRightEquatorBorder(WorldMap map) {
+        int mapHeight = map.getMapParameters().height();
+        int mapWidth  = map.getMapParameters().width();
+        int numberOfCellsAvailable =  (int) ( (double) 0.2 * map.getUpperRight().getX() * map.getUpperRight().getY() );
+        int rowsAmountEquator = (int) Math.ceil( (double) numberOfCellsAvailable / mapWidth );
+        int heightEquator = rowsAmountEquator / 2;
+
+        return new Vector2d(mapWidth, min(mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
+    }
+
+    public static Vector2d getLeftEquatorBorder(WorldMap map) {
+        int mapHeight = map.getMapParameters().height();
+        int mapWidth  = map.getMapParameters().width();
+        int numberOfCellsAvailable =  (int) ( (double) 0.2 * map.getUpperRight().getX() * map.getUpperRight().getY() );
+        int rowsAmountEquator = (int) Math.ceil( (double) numberOfCellsAvailable / mapWidth );
+        int heightEquator = rowsAmountEquator / 2;
+
+        return new Vector2d( 0, max(0, mapHeight / 2 - heightEquator) );
     }
 
     private static void putRandomGrass(WorldMap map, int plantsToSeed, long howManyPutOnEquator, Vector2d leftBorder, Vector2d rightBorder) {

@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class DarwinPresenter {
     private static final double CELL_WIDTH = 30;
@@ -111,10 +112,6 @@ public class DarwinPresenter {
         }));
     }
 
-//    @FXML
-//    public void onSimulationStartClicked(ActionEvent actionEvent) {
-//
-//    }
     @FXML
     public void onMapBasic() {
         mapBasicToggleButton.setDisable(true);
@@ -354,6 +351,7 @@ public class DarwinPresenter {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
             Stage stage = new Stage();
+            stage.setOnCloseRequest( event -> executorService.shutdownNow() );
             BorderPane viewRoot = loader.load();
             configureStage(stage, viewRoot);
             stage.show();
@@ -381,8 +379,8 @@ public class DarwinPresenter {
 
             // dodawanie symulacji
             presenter.setSimulation(simulation);
-            stage.setOnCloseRequest(event -> simulation.stopSimulation());
 
+            stage.setOnCloseRequest(event -> simulation.stopSimulation());
             addSimulationAndRun(simulation);
 
         }
@@ -390,6 +388,7 @@ public class DarwinPresenter {
 
     private void addSimulationAndRun(Simulation simulation) {
         executorService.submit(simulation);
+
     }
 
     private void setMapParameters(){
@@ -419,6 +418,8 @@ public class DarwinPresenter {
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
         primaryStage.setResizable(false);
+
+
     }
 
 }

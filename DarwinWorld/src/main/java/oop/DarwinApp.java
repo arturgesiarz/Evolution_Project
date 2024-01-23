@@ -27,6 +27,8 @@ public class DarwinApp extends Application {
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
         primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest( event -> System.exit(0) );
+
     }
 
 }

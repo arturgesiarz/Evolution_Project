@@ -6,6 +6,7 @@ import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import oop.Simulation;
 import oop.model.*;
 import oop.model.maps.Hole;
+import oop.model.maps.MapUtil;
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
 
@@ -63,11 +65,15 @@ public class SimulationPresenter implements MapChangeListener {
     @FXML
     private Button pauseSimulationButton;
 
+    @FXML
+    private ToggleButton equatorShowing;
     private Simulation simulation;
     private WorldMap map = null;
     private boolean simulationPaused = false;
+    private boolean shouldShowEquator = false;
     private WorldElement animalToFollow = null;
     private GlobalStats animalStatistics = null;
+
 
     public void initialize() {
         animalStatsBox.setVisible(false);
@@ -197,11 +203,13 @@ public class SimulationPresenter implements MapChangeListener {
             simulationPaused = false;
             simulation.unpauseSimulation();
             pauseSimulationButton.setText("Pause");
+            equatorShowing.setDisable(true);
 
         } else {
             simulationPaused = true;
             simulation.pauseSimulation();
             pauseSimulationButton.setText("Continue");
+            equatorShowing.setDisable(false);
         }
     }
 
@@ -210,7 +218,7 @@ public class SimulationPresenter implements MapChangeListener {
         animalToFollow = animal;
         animalStatsBox.setVisible(true);
         updateOneAnimalStats((Animal) animal);
-        drawMap();
+        Platform.runLater(this::drawMap);
     }
 
     private void updateAllStats() {
@@ -226,7 +234,8 @@ public class SimulationPresenter implements MapChangeListener {
         averageChildAmount.setText("Srednia ilosc dzieci: " + globalStats.getAverageChildAmount());
         numberOfDeadAnimals.setText("Martwych zwierzat: " + globalStats.getNumberOfDeadAnimals() );
 
-        if (globalStats.getAnimalsAmount() == 0) { simulation.pauseSimulation(); }
+        if (globalStats.getAnimalsAmount() == 0) {
+            simulation.pauseSimulation(); }
     }
 
     private void updateOneAnimalStats(Animal animal) {
@@ -252,5 +261,36 @@ public class SimulationPresenter implements MapChangeListener {
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(this::drawMap);
+    }
+
+    @FXML
+    public void showEquator() {
+        if (shouldShowEquator) {
+            clearGrid();
+            Platform.runLater(this::drawMap);
+            shouldShowEquator = false;
+        }
+        else {
+            Platform.runLater(this::drawEquator);
+            shouldShowEquator = true;
+        }
+
+    }
+
+    private void drawEquator() {
+        //
+        int mapHeight = map.getMapParameters().height();
+
+        Vector2d leftEquatorBorder = MapUtil.getLeftEquatorBorder(map);
+        Vector2d rightEquatorBorder = MapUtil.getRightEquatorBorder(map);
+
+        for (int x = 0 ; x < rightEquatorBorder.getX() ; x++)
+            for(int y = leftEquatorBorder.getY(); y < rightEquatorBorder.getY() ; y++) {
+
+                Node objectLook;
+                objectLook = new Rectangle(CELL_WIDTH, CELL_HEIGHT, Color.LIGHTBLUE);
+                GridPane.setHalignment(objectLook, HPos.CENTER);
+                mapGrid.add(objectLook, x + 1, mapHeight - y);
+            }
     }
 }

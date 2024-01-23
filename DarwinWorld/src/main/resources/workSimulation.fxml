@@ -28,6 +28,7 @@
             <VBox alignment = "CENTER">
                 <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true" prefWidth="800" prefHeight="800"> </GridPane>
                 <Button fx:id = "pauseSimulationButton" onAction = "#pauseSimulation" alignment = "CENTER">Pause</Button>
+                <ToggleButton fx:id="equatorShowing" text="Preferowany obszar" disable="true" onAction="#showEquator" prefWidth="150.0"/>
             </VBox>
 
             <VBox fx:id = "animalStatsBox" alignment="CENTER">

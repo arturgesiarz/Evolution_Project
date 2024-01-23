@@ -40,7 +40,7 @@ public class Simulation implements Runnable {
     public void run() {
         //
         while ( !isSimulationEnded ){
-            // uwzlgednienie oczekwiania
+
             synchronized (pauseLock){
                 if (isSimulationStopped){
                     try {
@@ -63,13 +63,13 @@ public class Simulation implements Runnable {
             animalsMap.mapChanged("");
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
         }
-        // wybudzamy wszystkie watki
+
         animalsMap.mapChanged("");
     } // end method run()
 
@@ -103,7 +103,6 @@ public class Simulation implements Runnable {
     }
     public void stopSimulation(){
         isSimulationEnded = true;
-
     }
 
     public int getEvolutionTime() {
