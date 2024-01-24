@@ -7,21 +7,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GenesExtendedTest {
+class GenesBasicTest {
 
     @Test
     void getNextMove() {
         // given
-        List <Integer> genes = List.of(2, 3, 4, 5, 6);
-        GenesExtended genesHandler = new GenesExtended(genes);
+        List<Integer> genes = List.of(2, 3, 4, 5, 6);
+        GenesBasic genesHandler = new GenesBasic(genes);
 
         // when
-        List <Integer> properMoves = List.of(2,3,4,5,6,5,4,3,2);
+        List <Integer> properMoves = List.of(2, 3, 4, 5, 6, 2, 3, 4, 5);
         List <Integer> calculatedMoves = new ArrayList<>();
         for (int i = 0 ; i < 9 ; i++) { calculatedMoves.add( genesHandler.getNextMove()); }
 
         // then
-        assertEquals( properMoves, calculatedMoves );
+        assertEquals(properMoves, calculatedMoves);
     }
-
 }
