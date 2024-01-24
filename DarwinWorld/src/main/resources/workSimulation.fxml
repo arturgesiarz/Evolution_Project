@@ -37,7 +37,7 @@
                 </VBox>
             </VBox>
 
-            <VBox fx:id = "animalStatsBox" alignment="CENTER" style="-fx-padding: 0 50 0 0;">
+            <VBox fx:id = "animalStatsBox" alignment="CENTER">
                 <Label text="Statystyki zwierzaka"/>
                 <Label fx:id = "animalGenome" wrapText="true"/>
                 <Label fx:id = "animalPosition" wrapText="true"/>
