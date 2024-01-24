@@ -31,7 +31,7 @@
 
             <VBox alignment = "CENTER">
                 <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true" prefWidth="800" prefHeight="800"> </GridPane>
-                <VBox  alignment = "CENTER" style="-fx-padding: 5 0 15 0;">
+                <VBox  alignment = "CENTER" >
                     <Button fx:id = "pauseSimulationButton" onAction = "#pauseSimulation" alignment = "CENTER" prefWidth="150.0">Pause</Button>
                     <ToggleButton fx:id="equatorShowing" text="Prefer fields" disable="true" onAction="#showEquator" prefWidth="150.0"/>
                 </VBox>
