@@ -121,7 +121,7 @@ public class MapUtil {
         int heightEquator = rowsAmountEquator / 2;
 
         Vector2d leftBorder = new Vector2d(0, min(mapHeight, mapHeight / 2 - heightEquator) );
-        Vector2d rightBorder = new Vector2d( mapWidth + 1, max(0, mapHeight / 2 + (rowsAmountEquator - heightEquator)) );
+        Vector2d rightBorder = new Vector2d( mapWidth, max(0, mapHeight / 2 + (rowsAmountEquator - heightEquator)) );
 
         putRandomGrass(map, plantsToSeed, howManyPutOnEquator, leftBorder, rightBorder);
     }

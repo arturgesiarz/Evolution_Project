@@ -78,7 +78,7 @@ public class SimulationPresenter implements MapChangeListener {
     private boolean shouldShowEquator = false;
     private WorldElement animalToFollow = null;
     private GlobalStats animalStatistics = null;
-    private ColorDisplay colorD = new ColorDisplay();
+    private final ColorDisplay colorD = new ColorDisplay();
 
     public void initialize() {
         animalStatsBox.setVisible(false);
@@ -238,7 +238,7 @@ public class SimulationPresenter implements MapChangeListener {
         }
     }
 
-    void animalClicked(WorldElement animal){
+    synchronized void animalClicked(WorldElement animal){
         animalToFollow = animal;
         animalStatsBox.setVisible(true);
         updateOneAnimalStats((Animal) animal);
@@ -247,7 +247,7 @@ public class SimulationPresenter implements MapChangeListener {
 
     private void updateAllStats() {
         GlobalStats globalStats = simulation.getGlobalStats();
-        globalStats.updateAllStats();
+//        globalStats.updateAllStats();
 
         animalsAmount.setText("Liczba zwierzat: " + globalStats.getAnimalsAmount() );
         evolutionTime.setText("Czas ewolucji: " + simulation.getEvolutionTime() );
