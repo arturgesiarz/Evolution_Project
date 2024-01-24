@@ -1,0 +1,16 @@
+{
+  "width": 20,
+  "height": 20,
+  "mapMode": 0,
+  "amountOfPlantsBeginning": 30,
+  "grassEnergy": 5,
+  "amountOfPlantsDaily": 15,
+  "initialNumberOfAnimals": 10,
+  "startEnergy": 15,
+  "minimumEnergyRequiredForCopulation": 5,
+  "energyLostInCopulation": 3,
+  "minimumNumberOfMutation": 1,
+  "maximumNumberOfMutation": 5,
+  "genesMode": 0,
+  "genomeLength": 8
+}

@@ -31,11 +31,13 @@
 
             <VBox alignment = "CENTER">
                 <GridPane fx:id = "mapGrid" alignment = "CENTER" gridLinesVisible = "true" prefWidth="800" prefHeight="800"> </GridPane>
-                <Button fx:id = "pauseSimulationButton" onAction = "#pauseSimulation" alignment = "CENTER">Pause</Button>
-                <ToggleButton fx:id="equatorShowing" text="Preferowany obszar" disable="true" onAction="#showEquator" prefWidth="150.0"/>
+                <VBox  alignment = "CENTER" style="-fx-padding: 5 0 15 0;">
+                    <Button fx:id = "pauseSimulationButton" onAction = "#pauseSimulation" alignment = "CENTER" prefWidth="150.0">Pause</Button>
+                    <ToggleButton fx:id="equatorShowing" text="Prefer fields" disable="true" onAction="#showEquator" prefWidth="150.0"/>
+                </VBox>
             </VBox>
 
-            <VBox fx:id = "animalStatsBox" alignment="CENTER">
+            <VBox fx:id = "animalStatsBox" alignment="CENTER" style="-fx-padding: 0 50 0 0;">
                 <Label text="Statystyki zwierzaka"/>
                 <Label fx:id = "animalGenome" wrapText="true"/>
                 <Label fx:id = "animalPosition" wrapText="true"/>
