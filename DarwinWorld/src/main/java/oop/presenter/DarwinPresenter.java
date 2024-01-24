@@ -376,6 +376,7 @@ public class DarwinPresenter {
 
             presenter.setSimulation(simulation);
             stage.setOnCloseRequest(event ->  simulation.stopSimulation() ) ;
+            stage.setResizable(true);
 
             addSimulationAndRun(simulation);
         }

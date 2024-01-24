@@ -301,7 +301,6 @@ public class SimulationPresenter implements MapChangeListener {
     }
 
     private void drawEquator() {
-        //
         int mapHeight = map.getMapParameters().height();
 
         Vector2d leftEquatorBorder = MapUtil.getLeftEquatorBorder(map);
