@@ -98,7 +98,7 @@ public class MapUtil {
     }
 
     public static void growNewGrass(WorldMap map, int plantsToSeed) {
-        int numberOfCellsAvailable =  (int) ( (double) 0.2 * map.getUpperRight().getX() * map.getUpperRight().getY() );
+        int numberOfCellsAvailable =  (int) ( (double) 0.2 * ( map.getUpperRight().getX() + 1 ) * ( map.getUpperRight().getY() + 1 ) );
         List <Integer> probability = new ArrayList<>( Collections.nCopies( plantsToSeed, -1) );
 
         Random random = new Random();
@@ -115,18 +115,16 @@ public class MapUtil {
         int mapWidth  = map.getMapParameters().width();
         int rowsAmountEquator = (int) Math.ceil( (double) numberOfCellsAvailable / mapWidth );
 
-        rowsAmountEquator = min(rowsAmountEquator, map.getUpperRight().getY() );
+        rowsAmountEquator = min(rowsAmountEquator, mapHeight );
         howManyPutOnEquator = min( howManyPutOnEquator, numberOfCellsAvailable ); // w przypadku, gdy dziennie może rosnąć więcej trawy niż dostępnych pól
 
         int heightEquator = rowsAmountEquator / 2;
 
-
-        Vector2d leftBorder = new Vector2d(mapWidth, min(mapHeight, mapHeight / 2 + (rowsAmountEquator - heightEquator) ) );
-        Vector2d rightBorder = new Vector2d( 0, max(0, mapHeight / 2 - heightEquator) );
+        Vector2d leftBorder = new Vector2d(0, min(mapHeight, mapHeight / 2 - heightEquator) );
+        Vector2d rightBorder = new Vector2d( mapWidth + 1, max(0, mapHeight / 2 + (rowsAmountEquator - heightEquator)) );
 
         putRandomGrass(map, plantsToSeed, howManyPutOnEquator, leftBorder, rightBorder);
     }
-
 
     public static Vector2d getRightEquatorBorder(WorldMap map) {
         int mapHeight = map.getMapParameters().height();
