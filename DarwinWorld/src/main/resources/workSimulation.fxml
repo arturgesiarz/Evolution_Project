@@ -43,5 +43,13 @@
         </HBox>
     </center>
 
+    <right>
+        <VBox alignment = "BOTTOM_RIGHT">
+            <ToggleButton fx:id="plotA" text="Wykres liczba zwierzat" disable="true" onAction="#plotAnimalsAmount" prefWidth="150.0"/>
+            <ToggleButton fx:id="plotB" text="Wykres srednia energia" disable="true" onAction="#plotAverageEnergyAmount" prefWidth="150.0"/>
+            <ToggleButton fx:id="plotC" text="Wykres srednia ilosc dzieci" disable="true" onAction="#plotAverageChildAmount" prefWidth="150.0"/>
+            <ToggleButton fx:id="plotD" text="Wykres liczba martwych" disable="true" onAction="#plotNumberOfDeadAnimals" prefWidth="150.0"/>
+        </VBox>
+    </right>
 </BorderPane>
 

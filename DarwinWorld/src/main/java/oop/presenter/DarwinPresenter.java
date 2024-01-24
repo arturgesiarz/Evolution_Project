@@ -14,6 +14,7 @@ import javafx.util.converter.IntegerStringConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oop.Simulation;
+import oop.model.CSVMapDisplay;
 import oop.model.ConsoleMapDisplay;
 import oop.model.FileMapDisplay;
 import oop.model.SimulationEngine;
@@ -233,8 +234,7 @@ public class DarwinPresenter {
         selector += genesModeOn;
         selector += mapModeOn;
 
-        if(selector >= 12) return true;
-        return false;
+        return selector >= 12;
     }
 
     private void showFileReadErrorAlertForNotAllArgs() {
@@ -351,7 +351,7 @@ public class DarwinPresenter {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("workSimulation.fxml"));
             Stage stage = new Stage();
-            stage.setOnCloseRequest( event -> executorService.shutdownNow() );
+
             BorderPane viewRoot = loader.load();
             configureStage(stage, viewRoot);
             stage.show();
@@ -376,11 +376,11 @@ public class DarwinPresenter {
             // stworzenie symulacji
             MapPreparator mapPreparator = new MapPreparator(map, mapParameters);
             Simulation simulation = new Simulation(mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
-
+            map.addObserver(new CSVMapDisplay(simulation.getGlobalStats()));
             // dodawanie symulacji
             presenter.setSimulation(simulation);
-
             stage.setOnCloseRequest(event -> simulation.stopSimulation());
+
             addSimulationAndRun(simulation);
 
         }

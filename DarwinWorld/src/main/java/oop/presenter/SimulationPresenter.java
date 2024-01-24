@@ -1,5 +1,6 @@
 package oop.presenter;
 
+import com.github.sh0nk.matplotlib4j.PythonExecutionException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -20,6 +21,7 @@ import oop.model.maps.MapUtil;
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +72,16 @@ public class SimulationPresenter implements MapChangeListener {
     private WorldElement animalToFollow = null;
     private GlobalStats animalStatistics = null;
 
+    @FXML
+    private ToggleButton plotA;
+    @FXML
+    private ToggleButton plotB;
+    @FXML
+    private ToggleButton plotC;
+    @FXML
+    private ToggleButton plotD;
+
+    private PlotGraph plotGraph;
 
     public void initialize() {
         animalStatsBox.setVisible(false);
@@ -227,13 +239,23 @@ public class SimulationPresenter implements MapChangeListener {
             simulationPaused = false;
             simulation.unpauseSimulation();
             pauseSimulationButton.setText("Pause");
+
             equatorShowing.setDisable(true);
+            plotA.setDisable(true);
+            plotB.setDisable(true);
+            plotC.setDisable(true);
+            plotD.setDisable(true);
 
         } else {
             simulationPaused = true;
             simulation.pauseSimulation();
             pauseSimulationButton.setText("Continue");
+
             equatorShowing.setDisable(false);
+            plotA.setDisable(false);
+            plotB.setDisable(false);
+            plotC.setDisable(false);
+            plotD.setDisable(false);
         }
     }
 
@@ -272,6 +294,7 @@ public class SimulationPresenter implements MapChangeListener {
 
     public void setWorldMap(WorldMap map) {
         this.map = map;
+        this.plotGraph = new PlotGraph(map.getWorldMapID());
     }
 
     public void setGlobalStats(GlobalStats globalStats) {
@@ -290,7 +313,7 @@ public class SimulationPresenter implements MapChangeListener {
     @FXML
     public void showEquator() {
         if (shouldShowEquator) {
-            clearGrid();
+            Platform.runLater(this::clearGrid);
             Platform.runLater(this::drawMap);
             shouldShowEquator = false;
         }
@@ -317,4 +340,25 @@ public class SimulationPresenter implements MapChangeListener {
                 mapGrid.add(objectLook, x + 1, mapHeight - y);
             }
     }
+
+    @FXML
+    public void plotAnimalsAmount() throws PythonExecutionException, IOException {
+        plotGraph.plotAnimalsAmount();
+    }
+
+    @FXML
+    public void plotAverageEnergyAmount() throws PythonExecutionException, IOException {
+        plotGraph.plotAverageEnergyAmount();
+    }
+
+    @FXML
+    public void plotAverageChildAmount() throws PythonExecutionException, IOException {
+        plotGraph.plotAverageChildAmount();
+    }
+
+    @FXML
+    public void plotNumberOfDeadAnimals() throws PythonExecutionException, IOException {
+        plotGraph.plotNumberOfDeadAnimals();
+    }
+
 }

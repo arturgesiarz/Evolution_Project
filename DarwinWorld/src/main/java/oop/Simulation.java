@@ -57,9 +57,11 @@ public class Simulation implements Runnable {
             reproductionOfAnimals();
             growNewFood();
             globalStats.updateAllStats();
-            evolutionTime++;
 
-            // wybudzamy wszystkie watki
+            evolutionTime++;
+            globalStats.increaseEvolutionTime();
+
+
             animalsMap.mapChanged("");
 
             try {

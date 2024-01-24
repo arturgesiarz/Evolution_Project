@@ -22,7 +22,7 @@ public class GlobalStats {
     private double averageEnergyAmount;
     private double averageDeadLifeSpan;
     private double averageChildAmount;
-
+    private int evolutionTime;
     private int numberOfDeadAnimals;
     private int sumLifeSpanDeadAnimals;
 
@@ -146,5 +146,13 @@ public class GlobalStats {
 
     public int getSumLifeSpanDeadAnimals() {
         return sumLifeSpanDeadAnimals;
+    }
+
+    public int getEvolutionTime() {
+        return evolutionTime;
+    }
+
+    public void increaseEvolutionTime() {
+        evolutionTime++;
     }
 }
