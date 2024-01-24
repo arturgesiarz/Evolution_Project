@@ -1,5 +1,5 @@
 package oop.model.util;
-import oop.model.Animal;
+import oop.model.animal.Animal;
 import java.util.Comparator;
 import java.util.Random;
 

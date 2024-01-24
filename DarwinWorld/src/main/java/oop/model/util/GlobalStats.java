@@ -1,12 +1,10 @@
 package oop.model.util;
 
-import oop.model.Animal;
+import oop.model.animal.Animal;
 import oop.model.maps.WorldMap;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 public class GlobalStats {

@@ -1,6 +1,6 @@
 package oop.model.maps;
 
-import oop.model.Animal;
+import oop.model.animal.Animal;
 import oop.model.Grass;
 import oop.model.Vector2d;
 import oop.model.genes.GenesBasic;

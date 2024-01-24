@@ -1,12 +1,14 @@
-package oop.model;
+package oop.model.animal;
+import oop.model.MapDirection;
+import oop.model.Vector2d;
+import oop.model.WorldElement;
 import oop.model.genes.GenesHandler;
 import oop.model.maps.MoveValidator;
-import oop.model.util.MapParameters;
 
 import java.util.Optional;
 import java.util.Random;
 
-public class Animal implements WorldElement{
+public class Animal implements WorldElement {
     private MapDirection directionFaced;
     private Vector2d position;
     private final GenesHandler genesHandler;

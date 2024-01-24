@@ -1,9 +1,8 @@
-package oop.model;
+package oop.model.displayers;
 
 import oop.model.maps.WorldMap;
 import oop.model.util.GlobalStats;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 

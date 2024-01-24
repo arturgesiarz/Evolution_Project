@@ -13,11 +13,8 @@ import javafx.util.converter.IntegerStringConverter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import oop.Simulation;
-import oop.model.CSVMapDisplay;
-import oop.model.ConsoleMapDisplay;
-import oop.model.FileMapDisplay;
-import oop.model.SimulationEngine;
+import oop.model.simulation.Simulation;
+import oop.model.displayers.CSVMapDisplay;
 import oop.model.maps.MapWithHoles;
 import oop.model.maps.RectangularMap;
 import oop.model.maps.WorldMap;
@@ -27,11 +24,9 @@ import oop.model.util.MapParameters;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class DarwinPresenter {
     private static final double CELL_WIDTH = 30;
@@ -340,11 +335,11 @@ public class DarwinPresenter {
 
     @FXML
     public void onSimulationStartClicked() throws IOException {
-        if(!checkIfAllArgsSelected()){
+        if( !checkIfAllArgsSelected() ){
             showFileReadErrorAlertForNotAllArgs();
         }
         else{
-            // ustawiam paramtery
+
             setMapParameters();
 
             // inicializacja nowego okna
@@ -378,13 +373,14 @@ public class DarwinPresenter {
             Simulation simulation = new Simulation(mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
             map.addObserver(new CSVMapDisplay(simulation.getGlobalStats()));
             // dodawanie symulacji
+
             presenter.setSimulation(simulation);
-            stage.setOnCloseRequest(event -> simulation.stopSimulation());
+            stage.setOnCloseRequest(event ->  simulation.stopSimulation() ) ;
 
             addSimulationAndRun(simulation);
-
         }
     }
+
 
     private void addSimulationAndRun(Simulation simulation) {
         executorService.submit(simulation);

@@ -1,6 +1,7 @@
 package oop.model.maps;
 
 import oop.model.*;
+import oop.model.animal.Animal;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesExtended;
 import oop.model.genes.GenesHandler;
@@ -8,7 +9,6 @@ import oop.model.util.AnimalsComparator;
 import oop.model.util.GlobalStats;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static java.lang.Math.min;
 import static java.lang.Math.max;

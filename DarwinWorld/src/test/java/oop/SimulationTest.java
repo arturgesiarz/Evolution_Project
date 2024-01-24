@@ -1,18 +1,17 @@
 package oop;
 
 import oop.model.*;
+import oop.model.displayers.ConsoleMapDisplay;
+import oop.model.displayers.FileMapDisplay;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesHandler;
 import oop.model.maps.MapWithHoles;
 import oop.model.maps.RectangularMap;
-import oop.model.maps.WorldMap;
+import oop.model.simulation.Simulation;
 import oop.model.util.MapParameters;
-import oop.model.util.MapVisualizer;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationTest {
 

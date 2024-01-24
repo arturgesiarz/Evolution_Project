@@ -1,5 +1,5 @@
-package oop;
-import oop.model.Animal;
+package oop.model.simulation;
+import oop.model.animal.Animal;
 import oop.model.Vector2d;
 import oop.model.genes.GenesHandler;
 import oop.model.maps.MapUtil;
@@ -65,7 +65,7 @@ public class Simulation implements Runnable {
             animalsMap.mapChanged("");
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

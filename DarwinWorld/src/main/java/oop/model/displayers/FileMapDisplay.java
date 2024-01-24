@@ -1,4 +1,4 @@
-package oop.model;
+package oop.model.displayers;
 import oop.model.maps.WorldMap;
 
 import java.io.BufferedWriter;

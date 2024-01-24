@@ -1,4 +1,4 @@
-package oop.model;
+package oop.model.animal;
 
 import java.util.Optional;
 

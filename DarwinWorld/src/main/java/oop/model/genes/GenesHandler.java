@@ -1,7 +1,6 @@
 package oop.model.genes;
-import oop.model.Animal;
+import oop.model.animal.Animal;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface GenesHandler {

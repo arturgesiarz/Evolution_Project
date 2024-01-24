@@ -1,5 +1,5 @@
 package oop.model.genes;
-import oop.model.Animal;
+import oop.model.animal.Animal;
 import oop.model.Vector2d;
 
 import java.util.List;

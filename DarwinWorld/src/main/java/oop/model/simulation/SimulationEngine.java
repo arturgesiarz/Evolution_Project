@@ -1,8 +1,5 @@
-package oop.model;
+package oop.model.simulation;
 
-import oop.Simulation;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

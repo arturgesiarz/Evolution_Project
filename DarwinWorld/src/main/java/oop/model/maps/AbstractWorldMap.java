@@ -1,5 +1,7 @@
 package oop.model.maps;
 import oop.model.*;
+import oop.model.animal.Animal;
+import oop.model.displayers.MapChangeListener;
 import oop.model.util.MapParameters;
 import oop.model.util.MapVisualizer;
 

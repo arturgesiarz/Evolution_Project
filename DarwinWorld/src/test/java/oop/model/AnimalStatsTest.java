@@ -1,9 +1,8 @@
 package oop.model;
 
+import oop.model.animal.Animal;
 import oop.model.genes.GenesBasic;
 import oop.model.genes.GenesHandler;
-import oop.model.maps.RectangularMap;
-import oop.model.util.MapParameters;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

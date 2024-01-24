@@ -1,4 +1,4 @@
-package oop.model;
+package oop.model.displayers;
 
 import java.io.*;
 import java.util.ArrayList;

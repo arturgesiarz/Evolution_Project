@@ -1,6 +1,5 @@
 package oop.model.maps;
 
-import oop.model.Animal;
 import oop.model.Vector2d;
 import oop.model.WorldElement;
 import oop.model.util.MapParameters;
