@@ -48,7 +48,7 @@ public class MapWithHoles extends AbstractWorldMap {
     }
 
     @Override
-    public Map<Vector2d,List<WorldElement>> createElements(){
+    synchronized public Map<Vector2d,List<WorldElement>> createElements(){
         Map<Vector2d, List<WorldElement>> elements = super.createElements();
 
         for(Vector2d position : holes.keySet()){

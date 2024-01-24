@@ -3,7 +3,10 @@ package oop.presenter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -13,6 +16,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import oop.model.simulation.Simulation;
 import oop.model.*;
 import oop.model.animal.Animal;
@@ -71,11 +76,10 @@ public class SimulationPresenter implements MapChangeListener {
     private boolean shouldShowEquator = false;
     private WorldElement animalToFollow = null;
     private GlobalStats animalStatistics = null;
-
+    private ColorDisplay colorD = new ColorDisplay();
 
     public void initialize() {
         animalStatsBox.setVisible(false);
-
     }
 
     private void clearGrid() {
@@ -149,8 +153,8 @@ public class SimulationPresenter implements MapChangeListener {
                 if(object instanceof Animal){
 
                     Node objectLook;
-                    int ratio = determineColor( (Animal) object);
-                    objectLook = new Circle((int) (CELL_WIDTH / 2), Color.rgb(ratio, ratio, ratio));
+                    colorD.determineColor( ((Animal) object).getAnimalStats().getEnergyAmount() );
+                    objectLook = new Circle((int) (CELL_WIDTH / 2), Color.rgb(colorD.getX(), colorD.getY(), colorD.getZ()));
 
                     if (object.equals(animalToFollow)){
                         objectLook = new Circle((int) (CELL_WIDTH / 2), Color.BLUE);
@@ -193,6 +197,7 @@ public class SimulationPresenter implements MapChangeListener {
                     }
                 }
             }
+
             if(test == 0){
                 for(WorldElement object : map.createElements().get(entry.getKey())){
                     if(object instanceof Grass){
@@ -210,17 +215,6 @@ public class SimulationPresenter implements MapChangeListener {
         }
 
         updateAllStats();
-    }
-
-    private int determineColor(Animal animal) {
-        int animalEnergy = animal.getAnimalStats().getEnergyAmount();
-
-        if (animalEnergy < 10) { return 0; }
-        if (animalEnergy < 20) { return 32; }
-        if (animalEnergy < 30) { return 64; }
-        if (animalEnergy < 40) { return 96; }
-        if (animalEnergy < 50) { return 128;  }
-        return 160;
     }
 
     @FXML
@@ -295,7 +289,7 @@ public class SimulationPresenter implements MapChangeListener {
     public void showEquator() {
         if (shouldShowEquator) {
             clearGrid();
-            Platform.runLater(this::drawMap);
+            //Platform.runLater(this::drawMap);
             shouldShowEquator = false;
         }
         else {

@@ -371,7 +371,7 @@ public class DarwinPresenter {
             // stworzenie symulacji
             MapPreparator mapPreparator = new MapPreparator(map, mapParameters);
             Simulation simulation = new Simulation(mapPreparator.getAnimalPositions(), mapPreparator.getGenes(), map);
-            map.addObserver(new CSVMapDisplay(simulation.getGlobalStats()));
+            // map.addObserver(new CSVMapDisplay(simulation.getGlobalStats()));
             // dodawanie symulacji
 
             presenter.setSimulation(simulation);
