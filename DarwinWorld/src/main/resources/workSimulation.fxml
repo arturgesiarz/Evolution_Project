@@ -40,6 +40,7 @@
                 <Label fx:id = "animalGenome" wrapText="true"/>
                 <Label fx:id = "animalPosition" wrapText="true"/>
                 <Label fx:id = "childAmount" wrapText="true"/>
+                <Label fx:id = "decendantsAmount" wrapText="true"/>
                 <Label fx:id = "lifeTime" wrapText="true"/>
                 <Label fx:id = "energyAmount" wrapText="true"/>
             </VBox>

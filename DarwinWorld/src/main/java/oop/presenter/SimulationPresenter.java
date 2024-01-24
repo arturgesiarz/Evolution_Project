@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SimulationPresenter implements MapChangeListener {
+    @FXML
+    public Label decendantsAmount;
     private double CELL_WIDTH = 50; //stala sluzaca do okreslenia szerokosci okienka
     private double CELL_HEIGHT = 50; //stala sluzaca do okreslenia wysokosci okienka
     @FXML
@@ -264,6 +266,7 @@ public class SimulationPresenter implements MapChangeListener {
         animalGenome.setText("Genom zwierzaka: " + animal.getGenesHandler().getGenes());
         animalPosition.setText("Aktualna pozycja zwierzaka: " + animal.getPosition());
         childAmount.setText("Liczba dzieci zwierzaka: " + animal.getAnimalStats().getChildAmount());
+        decendantsAmount.setText("Liczba potomkow zwierzaka: " + animal.getAnimalStats().getDescendantsAmount());
         lifeTime.setText("Czas zycia zwierzaka: " + animal.getAnimalStats().getLifeTime());
         energyAmount.setText("Energia zwierzaka: " + animal.getAnimalStats().getEnergyAmount());
     }
@@ -281,15 +284,13 @@ public class SimulationPresenter implements MapChangeListener {
     }
 
     @Override
-    public void mapChanged(WorldMap worldMap, String message) {
-        Platform.runLater(this::drawMap);
-    }
+    public void mapChanged(WorldMap worldMap, String message) { Platform.runLater(this::drawMap); }
 
     @FXML
     public void showEquator() {
         if (shouldShowEquator) {
             clearGrid();
-            //Platform.runLater(this::drawMap);
+            Platform.runLater(this::drawMap);
             shouldShowEquator = false;
         }
         else {

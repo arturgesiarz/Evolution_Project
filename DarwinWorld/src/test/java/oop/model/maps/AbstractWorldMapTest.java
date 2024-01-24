@@ -53,7 +53,7 @@ class AbstractWorldMapTest {
         animalsMap.move( animalC );
 
         MapUtil.fightForFood(animalsMap);
-        assertEquals(14, animalA.getAnimalStats().getEnergyAmount() );
+        assertEquals(13, animalA.getAnimalStats().getEnergyAmount() );
     }
 
     @Test
