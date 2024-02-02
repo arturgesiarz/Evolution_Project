@@ -140,7 +140,7 @@ public class SimulationPresenter implements MapChangeListener {
         return Shape.subtract(outerArc, innerArc);
     }
 
-    void drawMap(){
+    synchronized void drawMap(){
         int mapWidth   = map.getMapParameters().width();
         int mapHeight = map.getMapParameters().height();
 
