@@ -1,0 +1,73 @@
+#start-button {
+    -fx-font-size: 25;             /* Rozmiar czcionki */
+    -fx-font-family: "Arial";       /* Rodzina czcionek */
+    -fx-background-color: #4CAF50;  /* Kolor tła */
+    -fx-text-fill: white;           /* Kolor tekstu */
+    -fx-border-color: #45a049;      /* Kolor obramowania */
+    -fx-border-width: 2;            /* Grubość obramowania */
+    -fx-padding: 10 20;             /* Odstęp wewnętrzny */
+}
+
+#start-button:hover {
+    -fx-background-color: #4efa82;  /* Kolor podczas najechania */
+    -fx-border-color: #4efa82;    /* Kolor obramowania */
+}
+
+#start-button:pressed {
+    -fx-background-color: #0cab73;  /* Kolor podczas klikania */
+    -fx-border-color: #0cab73;
+}
+
+#open-button {
+    -fx-font-size: 15;             /* Rozmiar czcionki */
+    -fx-font-family: "Arial";       /* Rodzina czcionek */
+    -fx-background-color: #3fb0cc;  /* Kolor tła */
+    -fx-text-fill: white;           /* Kolor tekstu */
+    -fx-border-color: #3fb0cc;      /* Kolor obramowania */
+    -fx-border-width: 2;            /* Grubość obramowania */
+    -fx-padding: 3 3;             /* Odstęp wewnętrzny */
+}
+
+#open-button:hover {
+    -fx-background-color: #7cd0e8;  /* Kolor podczas najechania */
+    -fx-border-color: #7cd0e8;    /* Kolor obramowania */
+}
+
+#open-button:pressed {
+    -fx-background-color: #0c6582;  /* Kolor podczas klikania */
+    -fx-border-color: #0c6582;
+}
+
+
+#save-button {
+    -fx-font-size: 15;             /* Rozmiar czcionki */
+    -fx-font-family: "Arial";       /* Rodzina czcionek */
+    -fx-background-color: #848217;  /* Kolor tła */
+    -fx-text-fill: white;           /* Kolor tekstu */
+    -fx-border-color: #848217;       /* Kolor obramowania */
+    -fx-border-width: 2;            /* Grubość obramowania */
+    -fx-padding: 3 3;             /* Odstęp wewnętrzny */
+}
+
+#save-button:hover {
+    -fx-background-color: rgba(204, 218, 50, 0.92);  /* Kolor podczas najechania */
+    -fx-border-color: rgba(204, 218, 50, 0.92);    /* Kolor obramowania */
+}
+
+#save-button:pressed {
+    -fx-background-color: #e0e50e;  /* Kolor podczas klikania */
+    -fx-border-color: #e0e50e;
+}
+
+Label {
+    -fx-font-size: 13;             /* Rozmiar czcionki */
+    -fx-font-family: "Arial";       /* Rodzina czcionek */
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+
+}
+
+.title-Label {
+    -fx-border-color: #cacaca;
+    -fx-border-style: dotted;
+}

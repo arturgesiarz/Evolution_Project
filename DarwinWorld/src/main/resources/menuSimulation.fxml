@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            minHeight="720" minWidth="1024"
+            fx:controller="oop.presenter.DarwinPresenter"
+            stylesheets="@styles.css">
+<center>
+    <StackPane>
+        <ImageView fx:id="backgroundImageView" preserveRatio="true" fitWidth="1024.0" fitHeight="811.0" />
+        <HBox alignment="TOP_LEFT" spacing="300.0" style="-fx-padding: 0 0 25 50;">
+
+            <VBox spacing="25.0" style="-fx-padding: 0 0 0 0;" alignment="TOP_LEFT">
+
+                <VBox spacing="5.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                    <Label text="Map Properties" styleClass="title-Label"/>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Map width: " prefWidth="120.0"/>
+                        <TextField  fx:id="mapWidth" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Map height: " prefWidth="120.0"/>
+                        <TextField  fx:id="mapHeight" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Map mode: " prefWidth="120.0"/>
+                        <HBox maxWidth="250.0" spacing="5.0">
+                            <ToggleButton fx:id="mapBasicToggleButton" text="Basic" onAction="#onMapBasic" prefWidth="80.0"/>
+                            <ToggleButton fx:id="mapExtendedToggleButton" text="Extended" onAction="#onMapExtended" prefWidth="80.0"/>
+                        </HBox>
+                    </HBox>
+                </VBox>
+
+
+                <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                    <Label text="Energy Properties" styleClass="title-Label"/>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Grass energy profit: " prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="energyOnePlant" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Start animal energy:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="energyAnimalBeginning" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Minimum energy for copulation:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="energyFullAnimal" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Copulation cost:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="energyLoseForBaby" prefWidth="165.0"/>
+                    </HBox>
+                </VBox>
+
+
+                <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;" >
+                    <Label text="Spawning Properties" styleClass="title-Label"/>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Start plants:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="plantsBeginning" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="New plants per day:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="plantsPerDay" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Start animals:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="animalsBeginning" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Minimum mutations change:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="minumumMutation" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Maximum mutations changes:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="maximumMutation" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Length genome:" prefWidth="120.0" wrapText="true"/>
+                        <TextField  fx:id="genomeLength" prefWidth="165.0"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <Label text="Mutation mode: " prefWidth="120.0"/>
+                        <HBox maxWidth="250.0" spacing="5.0">
+                            <ToggleButton fx:id="genesBasicToggleButton" text="Basic" onAction="#onGenesBasic" prefWidth="80.0"/>
+                            <ToggleButton fx:id="genesExtendedToggleButton" text="Extended" onAction="#onGenesExtended" prefWidth="80.0" wrapText="true" />
+                        </HBox>
+                    </HBox>
+
+                </VBox>
+
+            </VBox>
+
+            <HBox alignment="CENTER" spacing="5.0">
+
+                <VBox spacing="10.0" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                    <HBox spacing="5.0">
+                        <ComboBox fx:id="configurationsComboBox" managed="false" visible="false" disable="true"/>
+                        <Button text="Open file" onAction="#onOpenFileClicked" id="open-button" prefWidth="100" prefHeight="25"/>
+                    </HBox>
+                    <HBox spacing="5.0">
+                        <ComboBox fx:id="saveComboBox" managed="false" visible="false" disable="true"/>
+                        <Button text="Save" onAction="#onSaveFileClicked" id="save-button" prefWidth="100" prefHeight="25"/>
+                    </HBox>
+                    <VBox alignment="CENTER" >
+                        <Button text="Start" onAction="#onSimulationStartClicked" id="start-button" prefWidth="100" prefHeight="60"/>
+                    </VBox>
+                </VBox>
+
+
+
+            </HBox>
+
+
+
+        </HBox>
+    </StackPane>
+</center>
+</BorderPane>
