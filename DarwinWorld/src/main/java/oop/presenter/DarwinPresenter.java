@@ -190,46 +190,47 @@ public class DarwinPresenter {
     }
     private boolean checkIfAllArgsSelected(){
         int selector = 0;
-        if (!mapWidth.getText().isEmpty() ){
-            selector += 1;
+        if (mapWidth.getText().isEmpty() ){
+            return false;
         }
-        if (!mapHeight.getText().isEmpty() ){
-            selector += 1;
+        if (mapHeight.getText().isEmpty() ){
+            return false;
         }
-        if (!energyOnePlant.getText().isEmpty()){
-            selector += 1;
+        if (energyOnePlant.getText().isEmpty()){
+            return false;
         }
-        if (!energyAnimalBeginning.getText().isEmpty()){
-            selector += 1;
+        if (energyAnimalBeginning.getText().isEmpty()){
+            return false;
         }
-        if (!energyFullAnimal.getText().isEmpty()){
-            selector += 1;
+        if (energyFullAnimal.getText().isEmpty()){
+            return false;
         }
-        if (!energyLoseForBaby.getText().isEmpty()){
-            selector += 1;
+        if (energyLoseForBaby.getText().isEmpty()){
+            return false;
         }
-        if (!plantsBeginning.getText().isEmpty()){
-            selector += 1;
+        if (plantsBeginning.getText().isEmpty()){
+            return false;
         }
-        if (!plantsPerDay.getText().isEmpty()){
-            selector += 1;
+        if (plantsPerDay.getText().isEmpty()){
+            return false;
         }
-        if (!animalsBeginning.getText().isEmpty()){
-            selector += 1;
+        if (animalsBeginning.getText().isEmpty()){
+            return false;
         }
-        if (!minumumMutation.getText().isEmpty()){
-            selector += 1;
+        if (minumumMutation.getText().isEmpty()){
+            return false;
         }
-        if (!maximumMutation.getText().isEmpty()){
-            selector += 1;
+        if (maximumMutation.getText().isEmpty()){
+            return false;
         }
-        if (!genomeLength.getText().isEmpty()){
-            selector += 1;
+        if (genomeLength.getText().isEmpty()){
+            return false;
         }
-        selector += genesModeOn;
-        selector += mapModeOn;
+        if (genesModeOn < 0 || mapModeOn < 0 ){
+            return false;
+        }
 
-        return selector >= 12;
+        return true;
     }
 
     private void showFileReadErrorAlertForNotAllArgs() {

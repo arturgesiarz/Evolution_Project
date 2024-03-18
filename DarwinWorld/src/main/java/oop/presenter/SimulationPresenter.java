@@ -253,9 +253,9 @@ public class SimulationPresenter implements MapChangeListener {
         evolutionTime.setText("Czas ewolucji: " + simulation.getEvolutionTime() );
         grassAmount.setText("Liczba pol trawy: " + globalStats.getGrassAmount() );
         emptyCells.setText("Pola bez zwierzat: " + globalStats.getEmptyCells() );
-        averageChildAmount.setText("Srednia energia: " + globalStats.getAverageEnergyAmount());
-        averageDeadLifeSpan.setText("Srednia zycia martwych: " + globalStats.getAverageDeadLifeSpan());
-        averageChildAmount.setText("Srednia ilosc dzieci: " + globalStats.getAverageChildAmount());
+        averageChildAmount.setText("Srednia energia: " + String.format("%.2f", globalStats.getAverageEnergyAmount()));
+        averageDeadLifeSpan.setText("Srednia zycia martwych: " + String.format("%.2f",globalStats.getAverageDeadLifeSpan()));
+        averageChildAmount.setText("Srednia ilosc dzieci: " + String.format("%.2f",globalStats.getAverageChildAmount()));
         numberOfDeadAnimals.setText("Martwych zwierzat: " + globalStats.getNumberOfDeadAnimals() );
 
         if (globalStats.getAnimalsAmount() == 0) {
