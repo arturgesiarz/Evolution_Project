@@ -21,6 +21,7 @@ To run the Evolution Project, follow these steps:
 2. **Go to directory**:
     ```bash
     cd Evolution_Project
+    cd DarwinWorld
 
 3. **Run Application**:
    ```bash
